@@ -1,0 +1,114 @@
+.generalContainer {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(188, 246, 246);
+  padding-top: 200px;
+}
+
+.containerHero {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 1500px;
+  padding-bottom: 300px;
+}
+
+.containerText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.containerText h3 {
+  font-size: 2.5rem;
+}
+
+.containerText p {
+  font-size: 1.5rem;
+  font-weight: 450;
+}
+
+.containerText button {
+  margin-top: 50px;
+  width: 200px;
+  height: 50px;
+  font-size: 1.5rem;
+  background-color: rgb(41, 135, 99);
+  color: white;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: scale(1.1);
+    background-color: rgb(1, 61, 41);
+  }
+}
+
+.containerImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerImg img {
+  width: 400px;
+  margin-left: 50px;
+}
+
+.fork {
+  width: 400px;
+}
+
+.containerAbout {
+  padding-top: 100px;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+.containerSection {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1500px;
+}
+
+.containerSection h2{
+  font-size: 2.5rem;
+}
+
+.containerSteps {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  width: 1500px;
+}
+
+.containerSteps div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+.containerSteps img {
+  width: 300px;
+}
+
+.step h3 {
+  background-color: rgb(222, 255, 244);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 10px 10px 10px rgba(64, 64, 64, 0.106);
+}
