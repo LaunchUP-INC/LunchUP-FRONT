@@ -21,7 +21,7 @@ const Landing = () => {
 
       <section className={styles.containerAbout}>
         <div className={styles.containerSection}>
-          <h2>De qué trata</h2>
+          <h2>¿Cómo funciona?</h2>
           <div className={styles.containerSteps}>
             <div className={styles.step}>
               <h3>Paso 1: Ingresá tus datos y los de tu hijo.</h3>
