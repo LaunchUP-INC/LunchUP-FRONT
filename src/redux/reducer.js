@@ -10,8 +10,8 @@ const rootReducer = (state = initialState, action) => {
     case FETCH_PRODUCTS:
       return {
         ...state,
-        allProducts: [action.payload],
-        filteredProducts: [action.payload],
+        allProducts: action.payload,
+        filteredProducts: action.payload,
       };
 
     default:
