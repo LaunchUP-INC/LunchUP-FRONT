@@ -1,8 +1,9 @@
+
 .generalContainer {
   margin: 0 auto;
   width: 100%;
-  height: 100%;
-  background-color: rgb(188, 246, 246);
+  height: 100vh;
+  background-color: #ADD8E6;
 }
 
 .containerHero {
@@ -69,7 +70,6 @@
   padding-top: 100px;
   width: 100%;
   height: 100%;
-  background-color: rgb(255, 255, 255);
 }
 
 .containerSection {
@@ -109,7 +109,7 @@
 }
 
 .step h3 {
-  background-color: rgb(222, 255, 244);
+  background-color:#ADD8E6;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.281);
@@ -127,7 +127,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgb(255, 255, 255);
+  background-color: #ADD8E6;
   padding-top: 200px;
   padding-bottom: 200px;
 }
@@ -203,7 +203,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgb(255, 255, 255);
+  background-color: #ADD8E6;
   padding-bottom: 100px;
   box-shadow: 0px -10px 10px rgba(64, 64, 64, 0.106);
 }
