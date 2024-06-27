@@ -6,6 +6,8 @@ import HomeView from "./Views/HomeView";
 import Nav from "./components/Nav/Nav";
 import ProductDetailView from "./Views/ProductDetailView";
 import ProductFormView from "./Views/ProductFormView";
+import LoginView from "./Views/LoginView";
+import SignupView from "./Views/SignupView";
 
 function App() {
   return (
@@ -13,6 +15,8 @@ function App() {
       <Nav />
       <Routes>
         <Route path="/" element={<LandingView />} />
+        <Route path="/login" element={<LoginView />} />
+        <Route path="/signup" element={<SignupView />} />
         <Route path="/home" element={<HomeView />} />
         <Route path="/products" element={<ProductView />} />
         <Route path="/products/add" element={<ProductFormView />} />

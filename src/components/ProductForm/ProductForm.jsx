@@ -4,7 +4,7 @@ const ProductForm = () =>{
 
     return(
         <>
-            <h2>Añadir un producto</h2>
+            <h2>Añadir un nuevo producto</h2>
 
             <form action="">
                 <label htmlFor="">Nombre del producto</label>
@@ -19,6 +19,15 @@ const ProductForm = () =>{
                 <label htmlFor="">Descripcion</label>
                 <textarea name="" id="" cols="30" rows="10"></textarea>
                 
+                <label htmlFor="">Tipo de comida</label>
+                <select name="" id="">
+                    <option value="">Convencional</option>
+                    <option value="">Vegano</option>
+                    <option value="">Vegetariano</option>
+                    <option value="">Libre de gluten</option>
+                </select>
+
+                <button type="submit">Añadir producto</button>
             </form>
         </>
     )

@@ -6,7 +6,7 @@ const Nav = () =>{
     const navigate = useNavigate();
     const location = useLocation();
 
-    const pathToHideNav = ["/"];
+    const pathToHideNav = ["/", "/login", "/signup"];
     const shouldHideNav = pathToHideNav.includes(location.pathname);
 
 
