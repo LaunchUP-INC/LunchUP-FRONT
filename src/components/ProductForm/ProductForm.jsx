@@ -13,7 +13,12 @@ const ProductForm = () =>{
                 <label htmlFor="">Agregar imagen</label>
                 <input type="file" />
 
-                <label htmlFor=""></label>
+                <label htmlFor="">Precio</label>
+                <input type="number" />
+
+                <label htmlFor="">Descripcion</label>
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+                
             </form>
         </>
     )
