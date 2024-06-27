@@ -4,6 +4,7 @@ const ProductDetail = (props) =>{
 
     const {id, title, image, extendedIngredients, summary} = props.product;
 
+    console.log("hola");
 
     return(
         <div>
