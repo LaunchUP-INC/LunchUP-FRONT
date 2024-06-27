@@ -4,6 +4,7 @@ import LandingView from "./Views/LandingView";
 import ProductView from "./Views/ProductsView";
 import HomeView from "./Views/HomeView";
 import Nav from "./components/Nav/Nav";
+import ProductDetailView from "./Views/ProductDetailView";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<LandingView />} />
         <Route path="/home" element={<HomeView />} />
         <Route path="/products" element={<ProductView />} />
+        <Route path="/products/detail/:id" element={<ProductDetailView />} />
       </Routes>
     </>
   );

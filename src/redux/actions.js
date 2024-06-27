@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
+export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
 
 const productIds = [716429, 716430, 716431, 716432, 716433]; // Ejemplo de IDs de productos
 
@@ -24,3 +25,21 @@ export const fetchProducts = () => {
     }
   };
 };
+
+
+export const getProductDetail = (id) =>{
+  return async (dispatch) =>{
+    try {
+
+      const productDetail = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=a6f334a017464603b4e57639f6b52b1b&includeNutrition=true`)
+      
+      console.log(productDetail.data);
+      dispatch({
+        type: GET_PRODUCT_DETAIL,
+        payload: productDetail.data,
+      })
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+}

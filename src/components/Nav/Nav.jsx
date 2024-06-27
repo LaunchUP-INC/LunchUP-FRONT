@@ -15,7 +15,7 @@ const Nav = () =>{
     return shouldHideNav ? null :(
         <div className={styles.navContainer} >
             <div className={styles.nav}>
-                <h2 className={styles.logo}>LunchUP <BagIcon className={styles.icon} /></h2>
+                <h2 className={styles.logo} onClick={() => navigate("/home")} >LunchUP <BagIcon className={styles.icon} /></h2>
                 <div className={styles.navLinks}>                   
                     <ul className={styles.navLinks} >
                         <li><a onClick={() => navigate("/home")} >Inicio</a></li>
