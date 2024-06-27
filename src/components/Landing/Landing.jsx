@@ -1,4 +1,5 @@
 import LandingHeader from "../LandingHeader/LandingHeader";
+import AboutSection from "./AboutSection";
 import styles from "./Landing.module.css";
 const Landing = () => {
   return (
@@ -23,6 +24,14 @@ const Landing = () => {
             <img src="/heroImage-fork2.png" alt="img" />
           </div>
         </section>
+
+        <AboutSection />
+
+        <div className={styles.separator}>
+          <img src="/separator.png" alt="fork" />
+          <img src="/separator.png" alt="fork" />
+          <img src="/separator.png" alt="fork" />
+        </div>
 
         <section className={styles.containerAbout}>
           <div className={styles.containerSection}>
