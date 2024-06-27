@@ -2,6 +2,7 @@
 import { useDispatch } from "react-redux";
 import { getProductDetail } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
+import styles from "./Card.module.css";
 
 const Card = ({ id, title, image }) => {
   const dispatch = useDispatch();
@@ -13,10 +14,10 @@ const Card = ({ id, title, image }) => {
   }
 
   return (
-    <div onClick={handleOnClick}>
-      <label>ID: {id}</label>
-      <h3>{title}</h3>
-      <img src={image} alt={title} />
+    <div onClick={handleOnClick} className={styles.container}>
+      <label className={styles.label}>ID: {id}</label>
+      <h3 className={styles.title}>{title}</h3>
+      <img src={image} alt={title}  className={styles.image}/>
     </div>
   );
 };
