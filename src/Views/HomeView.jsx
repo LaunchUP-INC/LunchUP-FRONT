@@ -8,7 +8,6 @@ const HomeView = () => {
     return (
         <div>
             <div>
-                <Nav />
                 <SearchBar />
             </div>
             <div>
