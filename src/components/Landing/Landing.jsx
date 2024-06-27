@@ -1,6 +1,8 @@
 import LandingHeader from "../LandingHeader/LandingHeader";
 import AboutSection from "./AboutSection";
 import styles from "./Landing.module.css";
+
+
 const Landing = () => {
   return (
     <>
