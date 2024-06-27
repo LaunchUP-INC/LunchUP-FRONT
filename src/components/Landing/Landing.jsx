@@ -1,7 +1,7 @@
 import LandingHeader from "../LandingHeader/LandingHeader";
 import AboutSection from "./AboutSection";
 import styles from "./Landing.module.css";
-
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
@@ -19,8 +19,9 @@ const Landing = () => {
               cantinas escolares, haciendo que la elección de comidas nutritivas
               y deliciosas sea más fácil y accesible para todos.
             </p>
-
-            <button>Comenzar</button>
+            <Link to="/home">
+              <button>Comenzar</button>
+            </Link>
           </div>
           <div className={styles.containerImg}>
             <img src="/heroImage-fork2.png" alt="img" />
