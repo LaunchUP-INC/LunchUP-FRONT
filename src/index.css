@@ -1,7 +1,13 @@
+@font-face {
+  font-family: Monsterra;
+  src: url("..//src/assets/Fonts/Monsterra.ttf");
+}
 * {
   box-sizing: border-box;
   color: var(--color-font);
   background-color: var(--color-Body);
+  font-family: "Monsterra";
+
 }
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

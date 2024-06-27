@@ -6,3 +6,41 @@
     --color-secundary: #000080;
     --color-white: #ffffff;
   }
+
+  .container {
+    font-weight: bold;
+    width: 450px;
+    height: 450px;
+    border: var(--color-secundary) 1px solid;
+    margin: 25px;
+    border-radius:25px ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+      transition: all 0.2s ease-in;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+      border-radius: 25px;
+    }
+  }
+
+  .image {
+    width: 350px;
+    height: 250px;
+    border-radius: 25px;
+    border: var(--color-border) 1px solid;
+  }
+
+  .label {
+    color: var(--color-font);
+    font-size: 1rem;
+  }
+  .title {
+    color: var(--color-font);
+    font-size: 1.2rem;
+    font-weight: 900;
+  }
