@@ -27,7 +27,7 @@ const ProductForm = () =>{
                     <option value="">Libre de gluten</option>
                 </select>
 
-                <button type="submit">Añadir producto</button>
+                <button type="submit" >Añadir producto</button>
             </form>
         </>
     )
