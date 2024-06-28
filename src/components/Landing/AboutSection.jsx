@@ -3,16 +3,19 @@ import BenefitIcon from "../Icons/BenefitIcon";
 import StoreIcon from "../Icons/StoreIcon";
 import styles from "./Landing.module.css";
 import { useState } from "react";
+import { Element } from "react-scroll";
 
 const AboutSection = () => {
   const [show, setShow] = useState(false);
   const handleShow = () => {
     setShow(!show);
-  }
+  };
   return (
-    <section className={styles.aboutSection}>
-      <button className={styles.accordion} onClick={handleShow}>¿Que es LunchUP?</button>
-      <div className={`${styles.containerSobre} ${show ? styles.open : ''}`}>
+    <Element name="about" className={styles.aboutSection}>
+      <button className={styles.accordion} onClick={handleShow}>
+        ¿Qué es LunchUP?
+      </button>
+      <div className={`${styles.containerSobre} ${show ? styles.open : ""}`}>
         <div className={styles.intro}>
           <p>
             Bienvenidos a LunchUP, la solución ideal para asegurar que tus hijos
@@ -26,7 +29,7 @@ const AboutSection = () => {
           <div className={styles.audience}>
             <h3>
               {" "}
-              <PersonIcon className={styles.icon}/> Para padres
+              <PersonIcon className={styles.icon} /> Para padres
             </h3>
 
             <p>
@@ -98,7 +101,7 @@ const AboutSection = () => {
           </div>
         </div>
       </div>
-    </section>
+    </Element>
   );
 };
 
