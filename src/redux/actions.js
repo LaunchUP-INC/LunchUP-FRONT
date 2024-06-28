@@ -44,7 +44,7 @@ export const getProductDetail = (id) =>{
 
       dispatch({
         type: GET_PRODUCT_DETAIL,
-        payload: productDetail.data,
+        payload: productDetail,
       })
     } catch (error) {
       console.error('Error fetching data:', error);
