@@ -13,8 +13,6 @@ const HomeView = () => {
 
     const dishes = useSelector((state) => state.allProducts);
 
-    // console.log(dishes);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [cardsPerPage] = useState(3);
 
