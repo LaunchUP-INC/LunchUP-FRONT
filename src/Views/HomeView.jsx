@@ -1,6 +1,6 @@
 import Cards from "../components/Cards/Cards";
 import SearchBar from "../components/SearchBar/SearchBar";
-
+import Filters from "../components/Filters/Filters";
 
 
 
@@ -9,6 +9,7 @@ const HomeView = () => {
         <div>
             <div>
                 <SearchBar />
+                <Filters />
             </div>
             <div>
                 <Cards />

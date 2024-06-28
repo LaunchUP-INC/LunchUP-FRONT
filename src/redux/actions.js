@@ -3,6 +3,7 @@ import { dishes } from '../utils/db';
 
 export const FETCH_PRODUCTS = 'FETCH_PRODUCTS';
 export const GET_PRODUCT_DETAIL = 'GET_PRODUCT_DETAIL';
+export const FILTERS = 'FILTERS';
 
 // const productIds = [716429, 716430, 716431, 716432, 716433, 1000, 1, 7, 10, 14, 500, 5000]; // Ejemplo de IDs de productos
 
@@ -50,3 +51,12 @@ export const getProductDetail = (id) =>{
     }
   }
 }
+
+/* export default fetchProducts=(filter)=>{
+  return async (dispatch)=>{
+    dispatch({
+      type: filter,
+      payload: filter
+    })
+  }
+} */

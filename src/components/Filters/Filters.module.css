@@ -1,0 +1,60 @@
+:root {
+    --color-Body: #ADD8E6;
+    --color-font: #333333;
+    --color-border: #FFB6C1;
+    --color-input: #90EE90;
+    --color-secundary: #000080;
+    --color-white: #ffffff;
+  }
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 60px;
+}
+.filter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.label {
+    font-size: 1.5rem;
+    color: var(--color-font);
+}
+.select {
+    font-size: 1.2rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    color: var(--color-font);
+    background-color: var(--color-input);
+}
+.select:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    background-color: var(--color-border);
+    color: var(--color-secundary);
+    border: 1px solid var(--color-input);
+}
+.radioContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.radio {
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+}
+
+.radioInput {
+    font-size: 1.5rem;
+    color: var(--color-input);
+    background-color: aqua;
+}
