@@ -1,0 +1,79 @@
+:root {
+    --color-Body: #ADD8E6;
+    --color-font: #333333;
+    --color-border: #FFB6C1;
+    --color-input: #90EE90;
+    --color-secundary: #000080;
+    --color-white: #ffffff;
+}
+
+.container {
+    position: sticky;
+    display: flex;
+}
+
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    z-index: 2;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.pageItem {
+    margin: 0 4px;
+}
+
+.pageLink {
+    padding: 2px 6px; /* Reducido el padding para hacer los recuadros más pequeños */
+    border: 1px solid var(--color-font);
+    border-radius: 5px;
+    background-color: var(--color-input);
+    color: var(--color-font);
+    cursor: pointer;
+    font-size: 0.9em; /* Reducir tamaño de la fuente */
+}
+
+.pageLink:hover {
+    background-color: var(--color-border);
+}
+
+.active {
+    background-color: var(--color-secundary);
+    color: var(--color-white);
+    border-color: var(--color-secundary);
+}
+
+/* Media Queries */
+@media (min-width: 1201px) {
+    .pageLink {
+        padding: 4px 8px;
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 1200px) {
+    .pageLink {
+        padding: 3px 6px;
+        font-size: 0.7em;
+    }
+}
+
+@media (max-width: 768px) {
+    .pageLink {
+        padding: 5px 8px;
+        font-size: 0.8em;
+    }
+}
+
+@media (max-width: 480px) {
+    .pageLink {
+        padding: 4px 6px;
+        font-size: 0.7em;
+    }
+}
