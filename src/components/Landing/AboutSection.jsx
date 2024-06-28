@@ -2,13 +2,18 @@ import PersonIcon from "../Icons/PersonIcon";
 import BenefitIcon from "../Icons/BenefitIcon";
 import StoreIcon from "../Icons/StoreIcon";
 import styles from "./Landing.module.css";
+import { useState } from "react";
 
 const AboutSection = () => {
+  const [show, setShow] = useState(false);
+  const handleShow = () => {
+    setShow(!show);
+  }
   return (
     <section className={styles.aboutSection}>
-      <div className={styles.containerSobre}>
+      <button className={styles.accordion} onClick={handleShow}>¿Que es LunchUP?</button>
+      <div className={`${styles.containerSobre} ${show ? styles.open : ''}`}>
         <div className={styles.intro}>
-          <h2>¿Qué es LunchUP?</h2>
           <p>
             Bienvenidos a LunchUP, la solución ideal para asegurar que tus hijos
             reciban sus alimentos de manera fácil y segura en sus colegios.

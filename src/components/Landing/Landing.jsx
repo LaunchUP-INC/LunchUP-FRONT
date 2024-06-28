@@ -2,8 +2,14 @@ import LandingHeader from "../LandingHeader/LandingHeader";
 import AboutSection from "./AboutSection";
 import styles from "./Landing.module.css";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Landing = () => {
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => {
+    setShow(!show);
+  };  
   return (
     <>
       <div className={styles.generalContainer}>
@@ -40,9 +46,9 @@ const Landing = () => {
 
         <section className={styles.containerAbout}>
           <div className={styles.containerSection}>
-            <h2>¿Cómo funciona?</h2>
-            <div className={styles.containerSteps}>
-              <div className={styles.step}>
+            <button onClick={handleShow} className={styles.accordion}>¿Como funciona?</button>
+            <div className={`${styles.containerSteps} ${show ? styles.open : ''}`}>
+            <div className={styles.step}>
                 <h3>Paso 1: Ingresá tus datos y los de tu hijo.</h3>
                 <img src="/concept.png" alt="img" />
               </div>
