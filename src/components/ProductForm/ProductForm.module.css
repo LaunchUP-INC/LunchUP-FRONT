@@ -1,8 +1,103 @@
 :root {
-    --color-Body: #ADD8E6;
-    --color-font: #333333;
-    --color-border: #FFB6C1;
-    --color-input: #90EE90;
-    --color-secundary: #000080;
-    --color-white: #ffffff;
+  --color-Body: #add8e6;
+  --color-font: #333333;
+  --color-border: #ffb6c1;
+  --color-input: #90ee90;
+  --color-secundary: #000080;
+  --color-white: #ffffff;
+}
+
+/* Estilos para el container */
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding-top: 60px;
+}
+
+/* Estilos generales para el formulario */
+form {
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-size: 1.1rem;
+}
+
+/* Estilos para los elementos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #909090;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+
+
+/* Estilos para los botones */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* Estilos para etiquetas */
+label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+
+/* Estilos para el contenedor de campo de formulario */
+.formGroup {
+  margin-bottom: 15px;
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+  color: red;
+  font-size: 14px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+  form {
+    padding: 15px;
   }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  button {
+    padding: 8px;
+    font-size: 14px;
+  }
+}

@@ -13,7 +13,7 @@ const AboutSection = () => {
   return (
     <Element name="about" className={styles.aboutSection}>
       <button className={styles.accordion} onClick={handleShow}>
-        ¿Que es LunchUP?
+        ¿Qué es LunchUP?
       </button>
       <div className={`${styles.containerSobre} ${show ? styles.open : ""}`}>
         <div className={styles.intro}>
