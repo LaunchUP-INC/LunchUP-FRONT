@@ -4,8 +4,6 @@
 }
 * {
   box-sizing: border-box;
-  color: var(--color-font);
-  background-color: var(--color-Body);
   font-family: "Monsterra";
 
 }
@@ -24,7 +22,7 @@
   --color-font: #333333;
   --color-border: #FFB6C1;
   --color-input: #90EE90;
-  --color-secundary: #000080;
+  --color-secundary: #3333e5;
   --color-white: #ffffff;
 }
 

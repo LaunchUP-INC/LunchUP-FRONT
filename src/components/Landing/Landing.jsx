@@ -9,6 +9,7 @@ const Landing = () => {
       <div className={styles.generalContainer}>
         <LandingHeader />
         <section className={styles.containerHero}>
+        <div className={styles.hero}>
           <img className={styles.fork} src="/heroImage-fork1.png" alt="fork" />
           <div className={styles.containerText}>
             <h3>
@@ -26,6 +27,7 @@ const Landing = () => {
           <div className={styles.containerImg}>
             <img src="/heroImage-fork2.png" alt="img" />
           </div>
+        </div>
         </section>
 
         <AboutSection />
