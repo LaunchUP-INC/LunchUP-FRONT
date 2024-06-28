@@ -18,9 +18,11 @@ const Cards = () => {
           {filteredProducts &&
             filteredProducts.map((product) => (
                 <Card
+                  key= {product.id}
                   id={product.id}
-                  title={product.title}
+                  name={product.name}
                   image={product.image}
+                  description = {product.description}
                 />
             ))}
       </div>
