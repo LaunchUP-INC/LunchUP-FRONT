@@ -1,4 +1,4 @@
-import { FETCH_PRODUCTS, GET_PRODUCT_DETAIL } from "./actions";
+import { FETCH_PRODUCTS, FILTERS, GET_PRODUCT_DETAIL } from "./actions";
 
 const initialState = {
   allProducts: [],
@@ -19,6 +19,10 @@ const rootReducer = (state = initialState, action) => {
         return {
             ...state,
             productDetail: action.payload,
+        };
+      case FILTERS:
+        return {
+        
         }  
 
     default:
