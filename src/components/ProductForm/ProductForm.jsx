@@ -5,29 +5,29 @@ const ProductForm = () => {
     <div className={styles.container}>
       <h2>Añadir un nuevo producto</h2>
 
-      <form>
+      <form className={styles.form}>
         <div className={styles.formGroup}>
-          <label>Nombre del producto</label>
-          <input type="text" />
+          <label className={styles.labelForm}>Nombre del producto</label>
+          <input type="text" className={styles.inputForm} />
         </div>
 
         <div className={styles.formGroup}>
-          <label>Agregar imágen</label>
-          <input type="file" />
+          <label className={styles.labelForm}>Agregar imágen</label>
+          <input type="file" className={styles.inputForm}/>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Precio</label>
-          <input type="number" />
+          <label className={styles.labelForm}>Precio</label>
+          <input type="number" className={styles.inputForm}/>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Descripción</label>
-          <textarea cols="30" rows="10"></textarea>
+          <label className={styles.labelForm}>Descripción</label>
+          <textarea cols="30" rows="10" className={styles.inputForm}></textarea>
         </div>
 
         <div className={styles.formGroup}>
-          <label>Tipo de comida</label>
+          <label className={styles.labelForm}>Tipo de comida</label>
           <select>
             <option value="Convencional">Convencional</option>
             <option value="Vegano">Vegano</option>
@@ -36,7 +36,7 @@ const ProductForm = () => {
           </select>
         </div>
 
-        <button type="submit">Añadir producto</button>
+        <button type="submit" className={styles.button}>Añadir producto</button>
       </form>
     </div>
   );

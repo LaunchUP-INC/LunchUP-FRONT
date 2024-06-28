@@ -9,7 +9,7 @@ export const fetchProducts = () => {
   return async (dispatch) => {
     try {
       const requests = productIds.map(id =>
-        axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=6afebc2cf75b47ffa18e47b13b1a2885&includeNutrition=true`)
+        axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=5c8d4df2c99a46b5bcdf4a9d604bc6d9&includeNutrition=true`)
       );
       const responses = await Promise.all(requests);
       const products = responses.map(response => response.data);
