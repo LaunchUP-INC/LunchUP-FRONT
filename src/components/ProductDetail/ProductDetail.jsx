@@ -1,8 +1,8 @@
 import styles from "./ProductDetail.module.css";
-import veganIcon from "./foodTypesIcons/vegan-icon.png";
-import vegetarianIcon from "./foodTypesIcons/vegetarian-icon.png";
-import glutenFreeIcon from "./foodTypesIcons/gluten-free.png";
-import dairyFreeIcon from "./foodTypesIcons/dairy-free.png";
+import veganIcon from "../../utils/foodTypesIcons/vegan-icon.png";
+import vegetarianIcon from "../../utils/foodTypesIcons/vegetarian-icon.png";
+import glutenFreeIcon from "../../utils/foodTypesIcons/gluten-free.png";
+import dairyFreeIcon from "../../utils/foodTypesIcons/dairy-free.png";
 
 
 const ProductDetail = (props) => {

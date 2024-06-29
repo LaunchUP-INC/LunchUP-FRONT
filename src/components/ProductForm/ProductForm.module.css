@@ -87,6 +87,34 @@
   font-size: 14px;
 }
 
+
+/* Estilos en iconos de los tipos de comida  */
+.iconsContainer{
+  display: flex;
+  margin-top: 10px;
+  gap: 20px;
+}
+
+.mealTypeContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;  
+  font-size: 0.7em;
+  text-align: center;
+  color: var(--color-font);
+
+  input{
+    cursor: pointer;
+  }
+}
+
+.foodTypeIcon{
+  width: 50px;
+}
+
+
 /* Estilos responsivos */
 @media (max-width: 600px) {
   .form {
