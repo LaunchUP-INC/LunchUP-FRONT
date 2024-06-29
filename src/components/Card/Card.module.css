@@ -9,8 +9,8 @@
 
   .container {
     font-weight: bold;
-    width: 450px;
-    height: 450px;
+    width: 500px;
+    height: 500px;
     border: var(--color-secundary) 1px solid;
     margin: 25px;
     border-radius:25px ;
@@ -43,4 +43,11 @@
     color: var(--color-font);
     font-size: 1.2rem;
     font-weight: 900;
+  }
+  .price {
+    color: var(--color-font);
+    font-size: 1.2rem;
+    font-weight: 900;
+    margin-top: 10px;
+    
   }
