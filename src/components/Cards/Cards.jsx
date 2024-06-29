@@ -13,6 +13,7 @@ const Cards = ({ dishes }) => {
                   name={dish.name}
                   image={dish.image}
                   description={dish.description}
+                  price={dish.price}
               />
           ))) : (
             <p>No dishes available</p>

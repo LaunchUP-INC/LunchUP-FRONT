@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import Cards from "../components/Cards/Cards";
 import SearchBar from "../components/SearchBar/SearchBar";
 import Pagination from "../components/Pagination/Pagination";
+import Filters from "../components/Filters/Filters";
 
 
 const HomeView = () => {
@@ -34,11 +35,12 @@ const HomeView = () => {
         <div>
             <div>
                 <SearchBar />
+                <Filters />
             </div>
             <div>
                 <Cards dishes={currentCards}/>
             </div>
-            <div>
+            <div className="pagination">
             <Pagination
                     currentPage={currentPage}
                     totalPages={Math.ceil(dishes.length / cardsPerPage)}
