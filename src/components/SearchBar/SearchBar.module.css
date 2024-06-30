@@ -1,53 +1,62 @@
 :root {
-    --color-Body: #ADD8E6;
-    --color-font: #333333;
-    --color-border: #FFB6C1;
-    --color-input: #90EE90;
-    --color-secundary: #000080;
-    --color-white: #ffffff;
-  }
+  --color-Body: #add8e6;
+  --color-font: #333333;
+  --color-border: #ffb6c1;
+  --color-input: #90ee90;
+  --color-secundary: #000080;
+  --color-white: #ffffff;
+}
 
-  .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-  }
+.container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 400px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(3, 73, 51);
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 1px rgb(3, 73, 51);
+  position: relative;
+}
 
-  .inputForm {
-    font-size: 25px;
-    border-radius: 5px;
-    border: 1px solid var(--color-border);
-    color: var(--color-font);
-    background-color: var(--color-Body);
-    color: var(--color-font);
-  }
-  .inputForm:focus {
-    outline: none;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-    background-color: var(--color-input);
-  }
-  .label {
-    font-size: 30px;
-    font-weight: bold;
-    width: 200px;
-    color: var(--color-font);
-  }
-  .button {
-    font-size: 16px;
-    border-radius: 5px;
-    width: 150px;
-    border: 1px solid var(--color-secundary);
-    color: var(--color-font);
-    background-color: var(--color-input);
-  }
-  .button:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    transition: all 0.2s ease-in;
-    background-color: #4ef94e;
-    color: var(--color-white);
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-  }
+.inputForm {
+  font-size: 1.3rem;
+  height: 35px;
+  width: 300px;
+  border-radius: 5px;
+  border: none;
+  color: var(--color-font);
+  background-color: rgb(255, 255, 255);
+}
+.inputForm:focus {
+  outline: none;
+}
+.label {
+  font-size: 30px;
+  font-weight: bold;
+  width: 200px;
+  color: var(--color-font);
+}
+.button {
+  border-radius: 5px;
+  width: auto;
+  border: none;
+  background-color: white;
+  transition: all 0.2s ease-in;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: scale(1.2);
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  color: rgb(0, 89, 92);
+  margin-top: 2px;
+}

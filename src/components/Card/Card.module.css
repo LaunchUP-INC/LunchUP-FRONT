@@ -1,53 +1,56 @@
 :root {
-    --color-Body: #ADD8E6;
-    --color-font: #333333;
-    --color-border: #FFB6C1;
-    --color-input: #90EE90;
-    --color-secundary: #000080;
-    --color-white: #ffffff;
-  }
+  --color-Body: #add8e6;
+  --color-font: #333333;
+  --color-border: #ffb6c1;
+  --color-input: #90ee90;
+  --color-secundary: #000080;
+  --color-white: #ffffff;
+}
 
-  .container {
-    font-weight: bold;
-    width: 500px;
-    height: 500px;
-    border: var(--color-secundary) 1px solid;
-    margin: 25px;
-    border-radius:25px ;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-    &:hover {
-      cursor: pointer;
-      transform: scale(1.05);
-      transition: all 0.2s ease-in;
-      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-      border-radius: 25px;
-    }
+.container {
+  font-weight: bold;
+  width: 450px;
+  height: 500px;
+  margin: 25px;
+  border: rgb(0, 107, 57) 1px solid;
+  box-shadow: 7px 7px 1px rgb(9, 98, 70);
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(199, 239, 215);
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 0px rgb(9, 98, 70);
   }
+}
 
-  .image {
-    width: 350px;
-    height: 250px;
-    border-radius: 25px;
-    border: var(--color-border) 1px solid;
-  }
+.image {
+  width: 340px;
+  height: 290px;
+  border-radius: 25px;
+  border: rgb(9, 98, 70) .5px solid;
+}
 
-  .label {
-    color: var(--color-font);
-    font-size: 1rem;
-  }
-  .title {
-    color: var(--color-font);
-    font-size: 1.2rem;
-    font-weight: 900;
-  }
-  .price {
-    color: var(--color-font);
-    font-size: 1.2rem;
-    font-weight: 900;
-    margin-top: 10px;
-    
-  }
+.label {
+  color: var(--color-font);
+  font-size: 1rem;
+}
+.title {
+  color: var(--color-font);
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.price {
+  color: var(--color-font);
+  font-weight: bolder;
+  margin-top: 20px;
+  margin-left: 30px;
+  font-size: 1.8rem;
+  align-self: start;
+}

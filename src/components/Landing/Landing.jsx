@@ -44,11 +44,13 @@ const Landing = () => {
         <AboutSection />
 
         <div className={styles.separator}>
-          <img src="/separator.png" alt="fork" />
           <img src="/divider.png" alt="burguer" />
           <img src="/separator.png" alt="fork" />
           <img src="/divider.png" alt="burguer" />
           <img src="/separator.png" alt="fork" />
+          <img src="/divider.png" alt="burguer" />
+          <img src="/separator.png" alt="fork" />
+          <img src="/divider.png" alt="burguer" />
         </div>
 
         <Element name="function" className={styles.containerAbout}>

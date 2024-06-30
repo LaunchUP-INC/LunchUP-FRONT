@@ -23,55 +23,33 @@ const Filters = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.filter}>
-        <span className={styles.label}>Filtrar por tipo de comida</span>
-        <select name="type" className={styles.select} onChange={handleFilter}>
-          <option value="allTypes">Todos los tipos</option>
-          <option value="convencional">Convencional</option>
-          <option value="vegan">Vegano</option>
-          <option value="vegetarian">Vegetariano</option>
-          <option value="freeGluten">Libre de gluten</option>
-        </select>
-      </div>
-      <div className={styles.filter}>
-        <span className={styles.label}>Filtrar por precio</span>
-        <div className={styles.radioContainer}>
-          <label className={styles.radio}>
-            <input
-              type="radio"
-              name="price"
-              value="mayor"
-              className={styles.radioInput}
-              onChange={handleFilter}
-            />
-            <span className={styles.label}>Mayor Precio</span>
-          </label>
-          <label className={styles.radio}>
-            <input
-              type="radio"
-              name="price"
-              value="minor"
-              className={styles.radioInput}
-              defaultChecked
-              onChange={handleFilter}
-            />
-            <span className={styles.label}>Menor Precio</span>
-          </label>
-          <label className={styles.radio}>
-            <input
-              type="radio"
-              name="price"
-              value="all"
-              className={styles.radioInput}
-              onChange={handleFilter}
-            />
-            <span className={styles.label}>Todos los precios</span>
-          </label>
+    <>
+      <div className={styles.container}>
+        <div className={styles.filter}>
+          <span className={styles.label}>Tipo de comida</span>
+          <select name="type" className={styles.select} onChange={handleFilter}>
+            <option value="allTypes">Todos los tipos</option>
+            <option value="convencional">Convencional</option>
+            <option value="vegan">Vegano</option>
+            <option value="vegetarian">Vegetariano</option>
+            <option value="freeGluten">Libre de gluten</option>
+          </select>
         </div>
+        <div className={styles.filter}>
+          <span className={styles.label}>Precio</span>
+          <select
+            name="price"
+            className={styles.select}
+            onChange={handleFilter}
+          >
+            <option value="all">Todos los precios</option>
+            <option value="mayor">Mayor precio</option>
+            <option value="minor">Menor precio</option>
+          </select>
+        </div>
+        <button className={styles.apply} onClick={applyFilters}>Aplicar Filtros</button>
       </div>
-      <button onClick={applyFilters}>Aplicar Filtros</button>
-    </div>
+    </>
   );
 };
 
