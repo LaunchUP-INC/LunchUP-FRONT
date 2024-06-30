@@ -45,6 +45,7 @@ export const getProductDetail = (id) => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
   };
 };
 
@@ -54,3 +55,15 @@ export const filterProducts = (type, price) => {
     payload: { type, price },
   };
 };
+
+
+export const postDish = (dish) =>{
+
+//   return async (dispatch) =>{
+//     try {
+      
+//     } catch (error) {
+//       console.error(error);
+//     }
+//   }
+} 
