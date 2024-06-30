@@ -1,5 +1,6 @@
 import ProductDetail from "../components/ProductDetail/ProductDetail";
 import { useSelector } from "react-redux";
+import styles from "./viewsStyles/ProductDetailView.module.css";
 
 
 const ProductDetailView = () => {
@@ -7,7 +8,7 @@ const ProductDetailView = () => {
 
     return (
 
-        <div>
+        <div className={styles.container}>
             <ProductDetail product={productDetail} />
         </div>
     )
