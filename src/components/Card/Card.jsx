@@ -4,7 +4,9 @@ import { getProductDetail } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import styles from "./Card.module.css";
 
-const Card = ({ id, name, image, price }) => {
+
+const Card = ({ id, name, images, price }) => {
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -16,7 +18,9 @@ const Card = ({ id, name, image, price }) => {
   return (
     <div onClick={handleOnClick} className={styles.container}>
       <h3 className={styles.title}>{name}</h3>
-      <img src={image} className={styles.image}/>
+
+      <img src={images[0]}   className={styles.image}/>     
+
       <p className={styles.price}>$ {price}</p>
     </div>
   );

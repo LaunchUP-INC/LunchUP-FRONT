@@ -1,7 +1,7 @@
 
 
 export const validateName = (name) => {
-    const nameRegex = /^[a-zA-Z\s]+$/;
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
     if (!name) {
         return "Nombre del plato obligatorio";
     }
