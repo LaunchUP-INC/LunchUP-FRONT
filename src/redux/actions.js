@@ -52,11 +52,20 @@ export const getProductDetail = (id) =>{
   }
 }
 
-/* export default fetchProducts=(filter)=>{
-  return async (dispatch)=>{
-    dispatch({
-      type: filter,
-      payload: filter
-    })
+export const filterProducts = (type, price) => {
+  return {
+    type: FILTERS,
+    payload: { type, price },
+  };
+};
+
+export const postDish = (dish) =>{
+
+  return async (dispatch) =>{
+    try {
+      
+    } catch (error) {
+      console.error(error);
+    }
   }
-} */
+} 

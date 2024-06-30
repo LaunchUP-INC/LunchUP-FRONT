@@ -14,7 +14,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 60px;
+  /* padding-top: 60px; */
 }
 
 /* Estilos generales para el formulario */
@@ -73,7 +73,7 @@
 
 /* Estilos para el contenedor de campo de formulario */
 .formGroup {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -82,7 +82,16 @@
 }
 
 /* Estilos para mensajes de error */
-.error-message {
+.errorContainer{
+  height: 15px;
+  margin: 2px;
+
+  p{
+    margin: 0;
+  }
+}
+
+.errorMessage {
   color: red;
   font-size: 14px;
 }
@@ -112,6 +121,17 @@
 
 .foodTypeIcon{
   width: 50px;
+}
+
+.imagePreview{
+  height: 100px;
+  margin-top: 10px;
+}
+
+.previewImage{
+  width: 80px;
+  /* height: 95px; */
+  margin: 0px 5px;
 }
 
 
