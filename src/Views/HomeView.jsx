@@ -11,7 +11,7 @@ const HomeView = () => {
   const dispatch = useDispatch();
 
   const dishes = useSelector((state) => state.filteredProducts);
-  console.log(dishes);
+  // console.log(dishes);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage] = useState(3);
 
@@ -24,7 +24,7 @@ const HomeView = () => {
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = dishes.slice(indexOfFirstCard, indexOfLastCard);
 
-  console.log("Current Cards: ", currentCards);
+  // console.log("Current Cards: ", currentCards);
 
   //Cambiar la pagina
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
