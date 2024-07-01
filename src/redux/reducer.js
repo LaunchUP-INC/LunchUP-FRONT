@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { FETCH_PRODUCTS, FILTERS, GET_PRODUCT_DETAIL } from "./actions";
+import { FETCH_PRODUCTS, GET_PRODUCT_DETAIL, FILTERS_TYPE, FILTERS_ORDER } from "./actions";
 
 const initialState = {
   allProducts: [],
@@ -9,6 +9,7 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+
     case FETCH_PRODUCTS:
       return {
         ...state,
@@ -21,31 +22,40 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         productDetail: action.payload,
       };
-    case FILTERS:
+
+    case FILTERS_TYPE:
       const filtered = state.allProducts.filter((product) => {
-        const meetsType =
-          action.payload.type === "allTypes" ||
-          (action.payload.type === "vegetarian" && product.vegetarian) ||
-          (action.payload.type === "vegan" && product.vegan) ||
-          (action.payload.type === "glutenFree" && product.glutenFree) ||
-          (action.payload.type === "convencional" &&
+
+        return action.payload === "allTypes" ||
+          (action.payload === "vegetarian" && product.vegetarian) ||
+          (action.payload === "vegan" && product.vegan) ||
+          (action.payload === "glutenFree" && product.glutenFree) ||
+          (action.payload === "convencional" &&
             !product.vegetarian &&
             !product.vegan &&
             !product.glutenFree);
-
-        const meetsPrice =
-          action.payload.price === "all"
-            ? true
-            : action.payload.price === "minor"
-            ? product.price <= 15
-            : product.price > 15;
-
-        return meetsType && meetsPrice;
       });
 
       return {
         ...state,
         filteredProducts: filtered,
+      }
+
+
+    case FILTERS_ORDER:
+      let orderedDishes = [...state.filteredProducts];
+
+      if (action.payload === "allPrices") {
+        orderedDishes.sort((dishA, dishB) => dishA.id - dishB.id);
+      } else if (action.payload === "mayor") {
+        orderedDishes.sort((dishA, dishB) => dishB.price - dishA.price);
+      } else {
+        orderedDishes.sort((dishA, dishB) => dishA.price - dishB.price);
+      }
+
+      return {
+        ...state,
+        filteredProducts: orderedDishes,
       };
 
     default:

@@ -2,7 +2,8 @@ import { dishes } from "../utils/db";
 
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
-export const FILTERS = "FILTERS";
+export const FILTERS_TYPE = "FILTERS_TYPE";
+export const FILTERS_ORDER = "FILTERS_ORDER";
 
 // const productIds = [716429, 716430, 716431, 716432, 716433, 1000, 1, 7, 10, 14, 500, 5000]; // Ejemplo de IDs de productos
 
@@ -49,12 +50,22 @@ export const getProductDetail = (id) => {
   };
 };
 
-export const filterProducts = (type, price) => {
+export const filterProducts = (type) => {
+
   return {
-    type: FILTERS,
-    payload: { type, price },
+      type: FILTERS_TYPE,
+      payload: type,
   };
 };
+
+export const orderDishes = (order) =>{
+
+  return{
+    type:FILTERS_ORDER,
+    payload: order,
+  };
+
+}
 
 
 export const postDish = (dish) =>{
