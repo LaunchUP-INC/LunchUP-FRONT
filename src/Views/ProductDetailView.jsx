@@ -4,13 +4,10 @@ import styles from "./viewsStyles/ProductDetailView.module.css";
 
 
 const ProductDetailView = () => {
-    const productDetail = useSelector(state => state.productDetail);
-    console.log(productDetail);
-
     return (
 
         <div className={styles.container}>
-            <ProductDetail product={productDetail} />
+            <ProductDetail/>
         </div>
     )
 
