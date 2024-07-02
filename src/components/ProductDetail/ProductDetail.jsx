@@ -14,11 +14,11 @@ import conventionalIcon from "../../utils/foodTypesIcons/convencional-icon.png";
 
 
 
-const ProductDetail = (props) => {
+const ProductDetail = ({product}) => {
 
-    const { id, name, images, price, description, Meal_Type, vegetarian, vegan, glutenFree, dairyFree, preparationTime, servings } = props.product;
+    const { id, name, image, price, description, Meal_Type, vegetarian, vegan, glutenFree, dairyFree, preparationTime, servings } = product;
 
-    console.log(props.product);
+    console.log(product);
 
     return (
         <div className={styles.mainContainer}>
@@ -34,11 +34,9 @@ const ProductDetail = (props) => {
                     centeredSlides={true}
                     pagination={{ clickable: true }}
                     className="mySwiper" >
-                        {images.map((image, index) => (
                             <SwiperSlide key={index}>
                                 <img src={image} alt={`${name} image ${index + 1}`} className={styles.dishImage} />
                             </SwiperSlide>
-                        ))}
                     </Swiper>
                 </div>
 

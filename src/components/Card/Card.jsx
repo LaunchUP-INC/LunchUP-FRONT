@@ -5,11 +5,12 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Card.module.css";
 
 
-const Card = ({ id, name, images, price }) => {
+const Card = ({ id, name, image, price }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  console.log(id)
   const handleOnClick = () =>{
     dispatch(getProductDetail(id));
     navigate(`/products/detail/${id}`);
@@ -19,7 +20,7 @@ const Card = ({ id, name, images, price }) => {
     <div onClick={handleOnClick} className={styles.container}>
       <h3 className={styles.title}>{name}</h3>
 
-      <img src={images[0]}   className={styles.image}/>     
+      <img src={image}   className={styles.image}/>     
 
       <p className={styles.price}>$ {price}</p>
     </div>
