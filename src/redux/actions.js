@@ -1,3 +1,4 @@
+import axios from "axios";
 import { dishes } from "../utils/db";
 
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
@@ -18,11 +19,12 @@ export const fetchProducts = () => {
 
       // console.log('Fetched products:', products); // Verificar la respuesta
 
-      const products = dishes;
+      const products = await axios.get("https://lunchup-back.onrender.com/dishes");
+      console.log(products.data);
 
       dispatch({
         type: FETCH_PRODUCTS,
-        payload: products,
+        payload: products.data.allDishes,
       });
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -34,14 +36,14 @@ export const getProductDetail = (id) => {
   return async (dispatch) => {
     try {
       // const productDetail = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=6afebc2cf75b47ffa18e47b13b1a2885&includeNutrition=true`)
-
+      console.log(id);
       // console.log(productDetail.data);
 
-      const productDetail = dishes.find((dish) => dish.id === id);
-
+      const productDetail = await axios.get(`https://lunchup-back.onrender.com/dishes/${id}`);
+      console.log(productDetail.data.dishDetail);
       dispatch({
         type: GET_PRODUCT_DETAIL,
-        payload: productDetail,
+        payload: productDetail.data.dishDetail,
       });
     } catch (error) {
       console.error("Error fetching data:", error);

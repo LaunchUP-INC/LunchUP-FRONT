@@ -11,7 +11,7 @@ const Cards = ({ dishes }) => {
                   key={dish.id}
                   id={dish.id}
                   name={dish.name}
-                  images={dish.images}
+                  image={dish.image}
                   description={dish.description}
                   price={dish.price}
               />
