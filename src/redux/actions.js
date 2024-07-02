@@ -19,6 +19,9 @@ export const fetchProducts = () => {
 
       const products = await axios.get("http://localhost:3001/dishes");
 
+
+
+
       dispatch({
         type: FETCH_PRODUCTS,
         payload: products.data.allDishes,
@@ -32,9 +35,11 @@ export const fetchProducts = () => {
 export const getProductDetail = (id) => {
   return async (dispatch) => {
     try {
+
       const productDetail = await axios.get(
         `http://localhost:3001/dishes/${id}`
       );
+
       dispatch({
         type: GET_PRODUCT_DETAIL,
         payload: productDetail.data.dishDetail,
