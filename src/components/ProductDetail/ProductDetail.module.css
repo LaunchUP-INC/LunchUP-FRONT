@@ -1,66 +1,109 @@
 :root {
-    --color-Body: #ADD8E6;
-    --color-font: #333333;
-    --color-border: #FFB6C1;
-    --color-input: #90EE90;
-    --color-secundary: #000080;
-    --color-white: #ffffff;
+  --color-Body: #add8e6;          
+  --color-font: #333333;          
+  --color-border: #ffb6c1;        
+  --color-input: #90ee90;        
+  --color-secundary: #000080;     
+  --color-white: #ffffff;         
+  --border-color: rgb(0, 107, 57); 
+  --shadow-color: rgb(9, 98, 70); 
 }
 
-.mainContainer{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  max-width: 1500px;
-  background-color: #f7f7f7;
-  border: 1px solid black;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+.mainContainer {
+display: flex;
+flex-direction: column;
+align-items: center;
+max-width: 800px;
+margin: 25px auto;
+background-color: var(--color-Body);
+border: 1px solid var(--border-color);
+border-radius: 25px;
+box-shadow: 7px 7px 1px var(--shadow-color);
+padding: 25px;
+transition: all 0.3s ease-in-out;
+cursor: pointer;
 }
 
-.mealName{
-  font-size: 2em;
+.mainContainer:hover {
+transform: scale(1.05);
+box-shadow: 0px 0px 15px var(--shadow-color);
 }
 
-.imageContainer {  
-  width: 50%;
+.mealName {
+font-size: 2em;
+color: var(--color-font);
+font-weight: bold;
+margin-bottom: 10px;
+}
+
+.imageContainer {
+width: 100%;
+display: flex;
+justify-content: center;
+margin-bottom: 20px;
 }
 
 .dishImage {
-  width: 50%;
-  height: auto;
-  border-radius: 10px;
+width: 90%;
+height: auto;
+border-radius: 20px;
+border: 3px solid var(--border-color);
+}
+
+.dishInfo {
+display: flex;
+flex-direction: column;
+width: 100%;
+justify-content: space-between;
+}
+
+.iconsContainer {
+display: flex;
+justify-content: space-evenly;
+gap: 10px;
+}
+
+.mealTypeContainer {
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 100px;
+font-size: 0.8em;
+text-align: center;
+color: var(--color-font);
+}
+
+.foodTypeIcon {
+width: 50px;
+height: 50px;
+}
+
+.separator {
+width: 95%;
+border-top: 1px solid var(--color-border);
+margin: 20px 0;
+}
+
+h3 {
+color: var(--color-font);
+font-weight: bold;
+}
+
+p {
+color: var(--color-font);
+font-size: 1rem;
 }
 
 
-.dishInfo{
-  display: flex;
-  width: 1500px;
-  margin-top: 70px;
-  justify-content: space-around;
+button, a {
+background-color: var(--color-input);
+color: var(--color-white);
+padding: 10px;
+border-radius: 10px;
+text-decoration: none;
+transition: background-color 0.2s;
 }
 
-.iconsContainer{
-  display: flex;
-  gap: 10px;
-}
-
-.mealTypeContainer{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100px;  
-  font-size: 0.8em;
-  text-align: center;
-  color: var(--color-font);
-  
-}
-
-.foodTypeIcon{
-  width: 50px;
-}
-
-.separator{
-  width: 95%;
+button:hover, a:hover {
+background-color: var(--color-secundary);
 }
