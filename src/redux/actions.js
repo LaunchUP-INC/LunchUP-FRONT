@@ -19,7 +19,7 @@ export const fetchProducts = () => {
 
       // console.log('Fetched products:', products); // Verificar la respuesta
 
-      const products = await axios.get("https://lunchup-back.onrender.com/dishes");
+      const products = await axios.get("http://localhost:3001/dishes");
       console.log(products.data);
 
       dispatch({
@@ -39,7 +39,7 @@ export const getProductDetail = (id) => {
       console.log(id);
       // console.log(productDetail.data);
 
-      const productDetail = await axios.get(`https://lunchup-back.onrender.com/dishes/${id}`);
+      const productDetail = await axios.get(`http://localhost:3001/dishes/${id}`);
       console.log(productDetail.data.dishDetail);
       dispatch({
         type: GET_PRODUCT_DETAIL,
