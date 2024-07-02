@@ -10,6 +10,7 @@ const Loader = () => {
                     <div className={styles.panHandle}></div>
                 </div>
                 <div className={styles.panShadow}></div>
+                <h2 className={styles.loading}> LunchUP </h2>
             </div>
         </div>
     )
