@@ -11,24 +11,33 @@ import glutenFreeIcon from "../../utils/foodTypesIcons/gluten-free.png";
 import dairyFreeIcon from "../../utils/foodTypesIcons/dairy-free.png";
 import conventionalIcon from "../../utils/foodTypesIcons/convencional-icon.png";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getProductDetail } from "../../redux/actions";
+import Loader from "../Loader/Loader";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.productDetail);
+  const [loader, setLoader] = useState(true);
+
 
   useEffect(() => {
     dispatch(getProductDetail(id));
+    setLoader(false);
   }, [dispatch, id]);
 
-  if (!product) return null; // Manejar el caso donde el producto aún no ha sido cargado
+
+  /*   if (loader) {
+      return <Loader />
+  
+    } */
 
   const { Meal_Type, vegan, vegetarian, glutenFree, dairyFree } = product;
 
-  return (
+  return loader ? <Loader /> : (
     <div className={styles.mainContainer}>
       {/* Sección de imágenes del plato */}
       <div className={styles.dishInfo}>
