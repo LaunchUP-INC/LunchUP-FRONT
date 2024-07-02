@@ -1,10 +1,11 @@
 /* eslint-disable no-case-declarations */
-import { FETCH_PRODUCTS, GET_PRODUCT_DETAIL, FILTERS_TYPE } from "./actions";
+import { FETCH_PRODUCTS, GET_PRODUCT_DETAIL, FILTERS_TYPE, REGISTER } from "./actions";
 
 const initialState = {
   allProducts: [],
   filteredProducts: [],
   productDetail: [],
+  user: {},
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -27,6 +28,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         filteredProducts: action.payload,
       };
+
+    case REGISTER: 
+      return {
+        ...state,
+        user: action.payload
+      }  
 
     default:
       return state;

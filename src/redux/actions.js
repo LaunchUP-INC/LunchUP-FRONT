@@ -3,6 +3,7 @@ import axios from "axios";
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
 export const FILTERS_TYPE = "FILTERS_TYPE";
+export const REGISTER = "REGISTER";
 
 // const productIds = [716429, 716430, 716431, 716432, 716433, 1000, 1, 7, 10, 14, 500, 5000]; // Ejemplo de IDs de productos
 
@@ -19,9 +20,6 @@ export const fetchProducts = () => {
 
       const products = await axios.get("http://localhost:3001/dishes");
 
-
-
-
       dispatch({
         type: FETCH_PRODUCTS,
         payload: products.data.allDishes,
@@ -35,7 +33,6 @@ export const fetchProducts = () => {
 export const getProductDetail = (id) => {
   return async (dispatch) => {
     try {
-
       const productDetail = await axios.get(
         `http://localhost:3001/dishes/${id}`
       );
@@ -63,6 +60,13 @@ export const filterProducts = (type, order) => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+};
+
+export const register = (email, password) => {
+  return {
+    type: REGISTER,
+    payload: { email, password },
   };
 };
 
