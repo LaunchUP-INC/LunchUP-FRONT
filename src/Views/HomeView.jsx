@@ -11,7 +11,7 @@ const HomeView = () => {
   const dispatch = useDispatch();
 
   const dishes = useSelector((state) => state.filteredProducts);
-  console.log(dishes);
+  // console.log(dishes);
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage] = useState(3);
 

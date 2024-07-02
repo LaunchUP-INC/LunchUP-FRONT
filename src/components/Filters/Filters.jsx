@@ -7,7 +7,7 @@ const Filters = () => {
   const dispatch = useDispatch();
 
   const [filters, setFilters] = useState({
-    type: "all",
+    type: "0",
     price: "price-asc",
   });
 
@@ -20,7 +20,7 @@ const Filters = () => {
   };
 
   const applyFilters = () => {
-    if (filters.type === "all") {
+    if (filters.type === "0") {
       dispatch(fetchProducts());
     }
     dispatch(filterProducts(Number(filters.type), filters.price));
@@ -32,7 +32,7 @@ const Filters = () => {
         <div className={styles.filter}>
           <span className={styles.label}>Tipo de comida</span>
           <select name="type" className={styles.select} onChange={handleFilter}>
-            <option value="all">Todos</option>
+            <option value="0">Todos</option>
             <option value="1">Convencional</option>
             <option value="2">Vegano</option>
             <option value="3">Vegetariano</option>

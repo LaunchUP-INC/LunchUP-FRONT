@@ -54,7 +54,7 @@ export const filterProducts = (type, order) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/dishes?filterMealTypeBy=${type}&order=${order}`
+        `http://localhost:3001/dishes?filterMealTypeBy=${type}&orderBy=${order}`
       );
       dispatch({
         type: FILTERS_TYPE,

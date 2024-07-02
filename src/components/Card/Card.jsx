@@ -10,7 +10,7 @@ const Card = ({ id, name, image, price }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(id)
+  // console.log(id)
   const handleOnClick = () =>{
     dispatch(getProductDetail(id));
     navigate(`/products/detail/${id}`);
