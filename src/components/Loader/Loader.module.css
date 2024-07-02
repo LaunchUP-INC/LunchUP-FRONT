@@ -2,8 +2,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .panWrapper {
+}
+
+.panWrapper {
     width: 200px;
     height: fit-content;
     position: relative;
@@ -12,34 +13,38 @@
     justify-content: flex-end;
     flex-direction: column;
     gap: 20px;
-  }
-  
-  .pan {
+}
+
+.pan {
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
     width: 100%;
     height: fit-content;
     animation: cooking 1.7s infinite;
-  }
-  @keyframes cooking {
+}
+
+@keyframes cooking {
     0% {
-      transform: rotate(0deg);
-      transform-origin: top right;
+        transform: rotate(0deg);
+        transform-origin: top right;
     }
+
     10% {
-      transform: rotate(-4deg);
-      transform-origin: top right;
+        transform: rotate(-4deg);
+        transform-origin: top right;
     }
+
     50% {
-      transform: rotate(20deg);
+        transform: rotate(20deg);
     }
+
     100% {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
-  }
-  
-  .food {
+}
+
+.food {
     position: absolute;
     width: 40%;
     height: 6px;
@@ -48,33 +53,39 @@
     border-radius: 50%;
     animation: flip 1.7s infinite;
     z-index: 2;
-  }
-  @keyframes flip {
+}
+
+@keyframes flip {
     0% {
-      transform: translateY(0px) rotate(0deg);
+        transform: translateY(0px) rotate(0deg);
     }
+
     50% {
-      transform: translateY(-100px) rotate(180deg);
+        transform: translateY(-100px) rotate(180deg);
     }
+
     100% {
-      transform: translateY(0px) rotate(360deg);
+        transform: translateY(0px) rotate(360deg);
     }
-  }
-  .panBase {
+}
+
+.panBase {
     z-index: 3;
     width: 50%;
     height: 22px;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     background: linear-gradient(to top, rgb(3, 156, 156), rgb(10, 191, 191));
-  }
-  .panHandle {
+}
+
+.panHandle {
     width: 40%;
     background: linear-gradient(to bottom, rgb(18, 18, 18), rgb(74, 74, 74));
     height: 10px;
     border-radius: 10px;
-  }
-  .panShadow {
+}
+
+.panShadow {
     width: 70px;
     height: 8px;
     background-color: rgba(0, 0, 0, 0.21);
@@ -82,16 +93,62 @@
     border-radius: 10px;
     animation: shadow 1.7s infinite;
     filter: blur(5px);
-  }
-  @keyframes shadow {
+}
+
+@keyframes shadow {
     0% {
-      transform: scaleX(0.7);
+        transform: scaleX(0.7);
     }
+
     50% {
-      transform: scaleX(1);
+        transform: scaleX(1);
     }
+
     100% {
-      transform: scaleX(0.7);
+        transform: scaleX(0.7);
     }
-  }
-  
+}
+
+
+/*Loader animation*/
+
+.loading {
+    color: #000;
+    transform: translate(0%, -50%);
+    animation: op 2s ease-in-out infinite;
+    animation-delay: 0.4s;
+}
+
+@keyframes op {
+    0% {
+        color: black;
+        opacity: 1;
+    }
+
+    50% {
+        color: green;
+        opacity: 1;
+    }
+
+    100% {
+        color: black;
+        opacity: 1;
+    }
+}
+
+@keyframes op1 {
+    0% {
+        color: black;
+        opacity: 1;
+    }
+
+    50% {
+        color: green;
+        opacity: 0;
+    }
+
+    100% {
+        color: black;
+        opacity: 1;
+    }
+}
