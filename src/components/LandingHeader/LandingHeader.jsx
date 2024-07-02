@@ -24,7 +24,7 @@ const LandingHeader = () => {
             </li>
 
             <li>
-              <a className={styles.button} href="#">
+              <a className={styles.button} href="/login">
                 Ingresar
               </a>
             </li>

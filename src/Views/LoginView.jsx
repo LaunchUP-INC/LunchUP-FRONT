@@ -1,6 +1,12 @@
+import LoginForm from "../components/LoginForm/LoginForm";
 
+const LoginView = () => {
 
-const LoginView = () =>{
+    return (
+        <div>
+            <LoginForm />
+        </div>
+    )
 
 }
 
