@@ -21,12 +21,15 @@ const ProductDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.productDetail);
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
 
 
   useEffect(() => {
+    setLoader(true)
     dispatch(getProductDetail(id));
-    setLoader(false);
+    setTimeout(() => {
+      setLoader(false);
+    }, 2000)
   }, [dispatch, id]);
 
 

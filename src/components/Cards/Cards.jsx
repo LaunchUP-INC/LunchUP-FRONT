@@ -1,25 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from "../Card/Card";
 import style from "../Cards/Cards.module.css";
 import Loader from '../Loader/Loader';
+
 const Cards = ({ dishes }) => {
+  const [loader, setLoader] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loader) {
+    return <Loader />
+  }
+
   return (
-      <div className={style.container}>
-          {dishes && dishes.length > 0 ? (
-            dishes.map((dish) => (
-              <Card
-                  key={dish.id}
-                  id={dish.id}
-                  name={dish.name}
-                  image={dish.image}
-                  description={dish.description}
-                  price={dish.price}
-              />
-          ))) : (
-            <Loader />
-          )}
-      </div>
+    <div className={style.container}>
+      {dishes && dishes.length > 0 && dishes.map((dish) => (
+        <Card
+          key={dish.id}
+          id={dish.id}
+          name={dish.name}
+          image={dish.image}
+          description={dish.description}
+          price={dish.price}
+        />
+      ))}
+    </div>
   );
 };
 
 export default Cards;
+
