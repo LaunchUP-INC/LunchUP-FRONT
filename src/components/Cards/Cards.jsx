@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from "../Card/Card";
 import style from "../Cards/Cards.module.css";
-
+import Loader from '../Loader/Loader';
 const Cards = ({ dishes }) => {
   return (
       <div className={style.container}>
@@ -16,7 +16,7 @@ const Cards = ({ dishes }) => {
                   price={dish.price}
               />
           ))) : (
-            <p>No dishes available</p>
+            <Loader />
           )}
       </div>
   );
