@@ -18,6 +18,7 @@ const Nav = () =>{
                 <h2 className={styles.logo} onClick={() => navigate("/home")} >LunchUP <BagIcon className={styles.icon} /></h2>
                 <div className={styles.navLinks}>                   
                     <ul className={styles.navLinks} >
+                        <li><a onClick={() => navigate("/login")} >Inicar Sesión</a></li>
                         <li><a onClick={() => navigate("/home")} >Inicio</a></li>
                         <li><a onClick={() => navigate("/products/add")} >Añadir Producto</a></li>
                     </ul>
