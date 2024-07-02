@@ -4,7 +4,7 @@ import { FETCH_PRODUCTS, GET_PRODUCT_DETAIL, FILTERS_TYPE, FILTERS_ORDER } from 
 const initialState = {
   allProducts: [],
   filteredProducts: [],
-  productDetail: {},
+  productDetail: [],
 };
 
 const rootReducer = (state = initialState, action) => {
