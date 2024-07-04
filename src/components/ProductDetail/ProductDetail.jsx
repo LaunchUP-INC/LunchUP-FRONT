@@ -17,20 +17,20 @@ import { useEffect } from "react";
 import { getProductDetail } from "../../redux/actions";
 import Loader from "../Loader/Loader";
 
-const ProductDetail = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const product = useSelector((state) => state.productDetail);
-  const [loader, setLoader] = useState(false);
+const ProductDetail = (props) => {
+  // const { id } = useParams();
+  // const dispatch = useDispatch();
+  // const product = useSelector((state) => state.productDetail);
+  // const [loader, setLoader] = useState(false);
 
 
-  useEffect(() => {
-    setLoader(true)
-    dispatch(getProductDetail(id));
-    setTimeout(() => {
-      setLoader(false);
-    }, 2000)
-  }, [dispatch, id]);
+  // useEffect(() => {
+  //   setLoader(true)
+  //   dispatch(getProductDetail(id));
+  // setTimeout(() => {
+  //     setLoader(false);
+  // }, 2000)
+  // }, [dispatch, id]);
 
 
   /*   if (loader) {
@@ -38,9 +38,9 @@ const ProductDetail = () => {
   
     } */
 
-  const { Meal_Type, vegan, vegetarian, glutenFree, dairyFree } = product;
+  const { name, image, description, price, Meal_Type, vegan, vegetarian, glutenFree, dairyFree } = props.productDetail;
 
-  return loader ? <Loader /> : (
+  return (
     <div className={styles.mainContainer}>
       {/* Sección de imágenes del plato */}
       <div className={styles.dishInfo}>
@@ -56,8 +56,8 @@ const ProductDetail = () => {
           >
             <SwiperSlide>
               <img
-                src={product.image}
-                alt={product.name}
+                src={image}
+                alt={name}
                 className={styles.dishImage}
               />
             </SwiperSlide>
@@ -66,7 +66,7 @@ const ProductDetail = () => {
 
         {/* Sección informativa del plato */}
         <div>
-          <h2 className={styles.mealName}>{product.name}</h2>
+          <h2 className={styles.mealName}>{name}</h2>
           <h3>Tipo de plato</h3>
           {Meal_Type === "conventional" ? (
             <div className={styles.mealTypeContainer}>
@@ -123,18 +123,24 @@ const ProductDetail = () => {
               </div>
             )
           )}
+
           <h3>Tipo horario</h3>
           <p>{Meal_Type && Meal_Type.name}</p>
+
           <h3>Precio</h3>
-          <p>$&nbsp;{product.price}</p>
+          <p>$&nbsp;{price}</p>
+
         </div>
       </div>
+
       <hr className={styles.separator} />
+
       {/* Sección descripción del plato */}
       <div>
         <h3>Descripción del plato</h3>
-        <p>{product.description}</p>
+        <p>{description}</p>
       </div>
+
     </div>
   );
 };
