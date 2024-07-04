@@ -6,6 +6,7 @@ const initialState = {
   filteredProducts: [],
   productDetail: [],
   user: {},
+  shoppingCart: JSON.parse(localStorage.getItem("shoppingCart")) || [],
 };
 
 const rootReducer = (state = initialState, action) => {
