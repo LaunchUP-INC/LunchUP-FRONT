@@ -8,6 +8,7 @@ import ProductDetailView from "./Views/ProductDetailView";
 import ProductFormView from "./Views/ProductFormView";
 import LoginView from "./Views/LoginView";
 import SignupView from "./Views/SignupView";
+import ShoppingCartView from "./Views/ShoppingCartView";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/products" element={<ProductView />} />
         <Route path="/products/add" element={<ProductFormView />} />
         <Route path="/products/detail/:id" element={<ProductDetailView />} />
+        <Route path="/shopping" element={<ShoppingCartView />} />
       </Routes>
     </>
   );
