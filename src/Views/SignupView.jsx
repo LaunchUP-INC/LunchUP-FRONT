@@ -1,4 +1,4 @@
-import SingForm from "../components/SingFormg/SingForm";
+import SingForm from "../components/SingForm/SingForm";
 
 const SignupView = () =>{
     return (

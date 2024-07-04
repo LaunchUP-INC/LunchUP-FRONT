@@ -1,68 +1,71 @@
 :root {
-    --color-Body: #add8e6;
-    --color-font: #333333;
-    --color-border: #ffb6c1;
-    --color-input: #90ee90;
-    --color-secundary: #000080;
-    --color-white: #ffffff;
-  }
-  
+  --color-Body: #add8e6;
+  --color-font: #333333;
+  --color-border: #ffb6c1;
+  --color-input: #90ee90;
+  --color-secundary: #000080;
+  --color-white: #ffffff;
+}
+
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100%;
-    background-color: var(--color-Body);
-    color: var(--color-font);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--color-Body);
+  color: var(--color-font);
 }
 .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 25%;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    box-shadow: 0 0 10px var(--color-border);
-  }
-  .inputForm {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid var(--color-border);
-    border-radius: 5px;
-    font-size: 16px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--color-white);
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0000005c;
+}
+.inputForm {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid rgb(165, 165, 165);
+  border-radius: 5px;
+  font-size: 16px;
+}
 
-  .btn {
-    display: flex;
-    background-color: var(--color-input);
-    color: var(--color-font);
-    border: none;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: all 0.2s ease-in;
-    &:hover {
-        transform: scale(1.05);
-        background-color: var(--color-secundary);
-        color: var(--color-white);
-    }
+.btn {
+  display: flex;
+  background-color: #11c011;
+  color: var(--color-white);
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  &:hover {
+    transform: scale(1.05);
+    background-color: #016d01;
+  }
 }
 .link {
-    color: var(--color-secundary);
-    text-decoration: none;
+  
+  text-decoration: none;
+  background-color: #11c011;
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 1rem;
 }
 .link:hover {
-    text-decoration: underline;
-    color: var(--color-secundary);
-    cursor: pointer;
+  color: var(--color-white);
+  cursor: pointer;
+  background-color: #016d01;
 }
