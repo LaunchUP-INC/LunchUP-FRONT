@@ -1,0 +1,125 @@
+:root {
+  --color-Body: #add8e6;
+  --color-font: #333333;
+  --color-border: #ffb6c1;
+  --color-input: #90ee90;
+  --color-secundary: #000080;
+  --color-white: #ffffff;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--color-Body);
+  color: var(--color-font);
+  font-size: 1.2rem;
+  gap: 20px;
+}
+.title {
+  font-size: 3rem;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  margin: 0 auto;
+  padding: 20px;
+  gap: 5px;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-white);
+  border-radius: 10px;
+  box-shadow: 0 0 10px #252525;
+  font-size: 1.2rem;
+}
+.input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 7px;
+  border: 1.8px solid rgb(93, 188, 131);
+  border-radius: 5px;
+  font-size: 1.3rem;
+  color: var(--color-font);
+  transition: all 0.2s ease-in;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgb(93, 188, 131);
+  }
+}
+
+.btnAuth {
+  background-color: rgb(55, 55, 55);
+  color: var(--color-white);
+  border: none;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  height: auto;
+  width: auto;
+  transition: all 0.2s ease-in;
+  box-shadow: 0 0 5px #252525;
+  &:hover {
+    background-color: #252525;
+    transform: scale(1.05);
+  }
+}
+.btn {
+  background-color: #11c08e;
+  color: var(--color-white);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  height: auto;
+  width: 100%;
+  transition: all 0.2s ease-in;
+  &:hover {
+   
+    background-color: #02aa34;
+  }
+}
+
+.comensal {
+  background-color: transparent;
+  border: 2px solid #11c08e;
+  color: #717171;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  height: auto;
+  width: 100%;
+  transition: all 0.2s ease-in;
+  &:hover {
+
+    background-color: #defef5;
+  }
+}
+.link {
+  border: 2px solid #029f02;
+  color: #058305;
+  background-color: transparent;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: all 0.2s ease-in;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    background-color: #01c201;
+    border-color: #01c201;
+    color: var(--color-white);
+  }
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  text-align: center;
+}
