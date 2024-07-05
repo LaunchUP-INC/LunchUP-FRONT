@@ -1,4 +1,5 @@
 import "./App.module.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route, useNavigation } from "react-router-dom";
 import LandingView from "./Views/LandingView";
 import ProductView from "./Views/ProductsView";
