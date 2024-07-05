@@ -8,8 +8,8 @@ import { Provider } from "react-redux";
 import store from "./redux/store.js";
 
 
-const domain = import.meta.env.VITE_DOMAIN;
-const clientId = import.meta.env.VITE_CLIENT_ID;
+const domain = "dev-qsskpalqd7swrrb7.us.auth0.com";
+const clientId = "yD9h2cJuiY1QtMblCom82CR3YugeqizO";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

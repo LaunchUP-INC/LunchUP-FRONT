@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+.picture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+.name {
+    font-size: 2rem;
+}
+.btn {
+    margin-top: 20px;
+}
