@@ -10,33 +10,9 @@ import vegetarianIcon from "../../utils/foodTypesIcons/vegetarian-icon.png";
 import glutenFreeIcon from "../../utils/foodTypesIcons/gluten-free.png";
 import dairyFreeIcon from "../../utils/foodTypesIcons/dairy-free.png";
 import conventionalIcon from "../../utils/foodTypesIcons/convencional-icon.png";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getProductDetail } from "../../redux/actions";
-import Loader from "../Loader/Loader";
+
 
 const ProductDetail = (props) => {
-  // const { id } = useParams();
-  // const dispatch = useDispatch();
-  // const product = useSelector((state) => state.productDetail);
-  // const [loader, setLoader] = useState(false);
-
-
-  // useEffect(() => {
-  //   setLoader(true)
-  //   dispatch(getProductDetail(id));
-  // setTimeout(() => {
-  //     setLoader(false);
-  // }, 2000)
-  // }, [dispatch, id]);
-
-
-  /*   if (loader) {
-      return <Loader />
-  
-    } */
 
   const { name, image, description, price, Meal_Type, vegan, vegetarian, glutenFree, dairyFree } = props.productDetail;
 
