@@ -83,30 +83,50 @@ export const postDish = (dish) => {
   //   }
 };
 
-export const setShppingCart = () =>async (dispatch)=>{
-  const shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+export const setShoppingCart = () =>async (dispatch)=>{
+
+  // const response = await axios.get("ruta back")   --- aqui va la coneccion con el back para traer la info del cart
+  const shoppingCart = response.data;
+  localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+
   dispatch({
     type:SET_SHOPPINGCART,
     payload: shoppingCart,
   });
 };
 
-export const addToShppingCart = (product) => (dispatch)=>{
+export const addToShoppingCart = (productId) => async (dispatch, getState)=>{
+
+  // const response = await axios.post("ruta back", product) --- aqui va la coneccion con el back para agregar un producto al cart
+  const updatedShoppingCart = response.data;
+  localStorage.setItem("shoppingCart", JSON.stringify(updatedShoppingCart));
+
   dispatch({
     type: ADD_TO_SHOPPINGCART,
-    payload: product,
+    payload: updatedShoppingCart,
   });
 };
 
-export const removeFromShppingCart = (product) => (dispatch)=>{
+export const removeFromShoppingCart = (productId) => async (dispatch, getState)=>{
+  // const response = await axios.delete("rute back", productId) --- aqui va la coneccion con el back para quitar un producto del cart
+  const updatedShoppingCart = response.data;
+  localStorage.setItem("shoppingCart", JSON.stringify(updatedShoppingCart));
+
   dispatch({
     type: REMOVE_FROM_SHOPPINGCART,
-    payload: product,
+    payload: updatedShoppingCart,
   });
 };
 
-export const clearShppingCart = () =>(dispatch)=>{
-  dispatch({type:CLEAR_SHOPPINGCART});
+export const clearShoppingCart = () => async (dispatch)=>{
+  // const response = await axios.delete(" ruta back") --- aqui va la coneccion con el back para quitar un producto del cart
+  const updatedShoppingCart = response.data;
+  localStorage.setItem("shoppingCart", JSON.stringify(updatedShoppingCart));
+
+  dispatch({
+    type:CLEAR_SHOPPINGCART,
+    payload: updatedShoppingCart,
+  });
 };
 
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { FETCH_PRODUCTS, GET_PRODUCT_DETAIL, FILTERS_TYPE, REGISTER } from "./actions";
+import { FETCH_PRODUCTS, GET_PRODUCT_DETAIL, FILTERS_TYPE, REGISTER, SET_SHOPPINGCART, ADD_TO_SHOPPINGCART, REMOVE_FROM_SHOPPINGCART, CLEAR_SHOPPINGCART } from "./actions";
 
 const initialState = {
   allProducts: [],
@@ -34,7 +34,32 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload
-      }  
+      } 
+
+    case SET_SHOPPINGCART:
+      return{
+        ...state,
+        shoppingCart: action.payload,
+      }
+
+    case ADD_TO_SHOPPINGCART:
+      return{
+        ...state,
+        shoppingCart: action.payload,
+      }
+
+    case REMOVE_FROM_SHOPPINGCART:
+      return{
+        ...state,
+        shoppingCart: action.payload,
+      }
+
+    case CLEAR_SHOPPINGCART:
+      return{
+        ...state,
+        shoppingCart: action.payload,
+      }
+
 
     default:
       return state;
