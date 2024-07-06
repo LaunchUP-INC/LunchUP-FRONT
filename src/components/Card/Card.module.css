@@ -46,6 +46,10 @@
   font-weight: 900;
 }
 
+.priceBtn{
+  display: flex;
+}
+
 .price {
   color: var(--color-font);
   font-weight: bolder;

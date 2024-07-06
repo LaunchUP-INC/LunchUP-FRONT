@@ -3,7 +3,9 @@ import Card from "../Card/Card";
 import style from "../Cards/Cards.module.css";
 import Loader from '../Loader/Loader';
 
-const Cards = ({ dishes }) => {
+const Cards = (props) => {
+  const {dishes} = props;
+
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
