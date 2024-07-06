@@ -1,0 +1,30 @@
+
+.cartContainer{
+    display: flex;
+    justify-content: space-around;
+}
+
+.itemContainer{
+    display: flex;
+    margin: 5px;
+}
+
+.itemInfo{
+    display: flex;
+    justify-content: space-between;
+}
+
+.itemInfoMain{
+    display: flex;
+    gap: 50px;
+}
+
+.imgs{
+    width: 100px;
+}
+
+.chQuanBtns{
+    display: flex;    
+    gap: 20px;
+}
+

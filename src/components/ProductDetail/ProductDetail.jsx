@@ -10,11 +10,21 @@ import vegetarianIcon from "../../utils/foodTypesIcons/vegetarian-icon.png";
 import glutenFreeIcon from "../../utils/foodTypesIcons/gluten-free.png";
 import dairyFreeIcon from "../../utils/foodTypesIcons/dairy-free.png";
 import conventionalIcon from "../../utils/foodTypesIcons/convencional-icon.png";
+import { addToShoppingCart } from "../../redux/actions";
+import { useDispatch } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
 
 const ProductDetail = (props) => {
+  const dispatch = useDispatch();
 
   const { name, image, description, price, Meal_Type, vegan, vegetarian, glutenFree, dairyFree } = props.productDetail;
+
+
+  const handleAddToCart = () =>{
+    dispatch(addToShoppingCart(props.productDetail));
+  }
 
   return (
     <div className={styles.mainContainer}>
@@ -106,6 +116,10 @@ const ProductDetail = (props) => {
           <h3>Precio</h3>
           <p>$&nbsp;{price}</p>
 
+        </div>
+
+        <div>
+          <button onClick={handleAddToCart} ><FontAwesomeIcon icon={faCartPlus} /></button>
         </div>
       </div>
 

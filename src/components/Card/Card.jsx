@@ -2,27 +2,40 @@
 import { useDispatch } from "react-redux";
 import { getProductDetail } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
+import { addToShoppingCart } from "../../redux/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Card.module.css";
 
 
-const Card = ({ id, name, image, price }) => {
+const Card = (props) => {
+  const { id, name, image, price } = props;
+  // console.log(props);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // console.log(id)
-  const handleOnClick = () =>{
+  const handleOnClick = () => {
     dispatch(getProductDetail(id));
     navigate(`/products/detail/${id}`);
+  }
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    dispatch(addToShoppingCart(props));
   }
 
   return (
     <div onClick={handleOnClick} className={styles.container}>
       <h3 className={styles.title}>{name}</h3>
 
-      <img src={image}   className={styles.image}/>     
+      <img src={image} className={styles.image} />
 
-      <p className={styles.price}>$ {price}</p>
+      <div className={styles.priceBtn}>
+        <p className={styles.price}>$ {price}</p>
+        <button onClick={handleAddToCart}><FontAwesomeIcon icon={faCartPlus} /></button>
+      </div>
     </div>
   );
 };
