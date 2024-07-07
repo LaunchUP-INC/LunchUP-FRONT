@@ -8,6 +8,7 @@ export const SET_SHOPPINGCART = "SET_SHOPPINGCART";
 export const ADD_TO_SHOPPINGCART = "ADD_TO_SHOPPINGCART";
 export const REMOVE_FROM_SHOPPINGCART = "REMOVE_FROM_SHOPPINGCART";
 export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
+export const SEARCH = "SEARCH";
 
 // const productIds = [716429, 716430, 716431, 716432, 716433, 1000, 1, 7, 10, 14, 500, 5000]; // Ejemplo de IDs de productos
 
@@ -83,8 +84,7 @@ export const postDish = (dish) => {
   //   }
 };
 
-export const setShoppingCart = () =>async (dispatch, getState)=>{
-
+export const setShoppingCart = () => async (dispatch, getState) => {
   let shoppingCart = getState().shoppingCart;
 
   if (!Array.isArray(shoppingCart)) {
@@ -98,25 +98,26 @@ export const setShoppingCart = () =>async (dispatch, getState)=>{
   localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
   dispatch({
-    type:SET_SHOPPINGCART,
+    type: SET_SHOPPINGCART,
     payload: shoppingCart,
   });
 };
 
-export const addToShoppingCart = (productAdd) => async (dispatch, getState)=>{
-
+export const addToShoppingCart = (productAdd) => async (dispatch, getState) => {
   let shoppingCart = [...getState().shoppingCart];
-  let product = {...productAdd};
+  let product = { ...productAdd };
 
-  const existProductIndex = shoppingCart.findIndex(item => item.id === product.id);
+  const existProductIndex = shoppingCart.findIndex(
+    (item) => item.id === product.id
+  );
 
-  if(existProductIndex !== -1){
+  if (existProductIndex !== -1) {
     shoppingCart[existProductIndex].quantity += 1;
-  }else{
+  } else {
     product.quantity = 1;
     shoppingCart.push(product);
   }
-    
+
   localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
   dispatch({
@@ -125,33 +126,50 @@ export const addToShoppingCart = (productAdd) => async (dispatch, getState)=>{
   });
 };
 
-export const removeFromShoppingCart = (productId) => async (dispatch, getState)=>{
-  let shoppingCart = [...getState().shoppingCart];
+export const removeFromShoppingCart =
+  (productId) => async (dispatch, getState) => {
+    let shoppingCart = [...getState().shoppingCart];
 
-  if(typeof productId === "number"){
-    shoppingCart = shoppingCart.filter((prod) => prod.id !== productId);    
-  }else if(typeof productId === "object"){
-    const existProductIndex = shoppingCart.findIndex(item => item.id === productId.id);
-    shoppingCart[existProductIndex].quantity -=1;
-  }
+    if (typeof productId === "number") {
+      shoppingCart = shoppingCart.filter((prod) => prod.id !== productId);
+    } else if (typeof productId === "object") {
+      const existProductIndex = shoppingCart.findIndex(
+        (item) => item.id === productId.id
+      );
+      shoppingCart[existProductIndex].quantity -= 1;
+    }
 
-  localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+    localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
-  dispatch({
-    type: REMOVE_FROM_SHOPPINGCART,
-    payload: shoppingCart,
-  });
-};
+    dispatch({
+      type: REMOVE_FROM_SHOPPINGCART,
+      payload: shoppingCart,
+    });
+  };
 
-export const clearShoppingCart = () => async (dispatch)=>{
+export const clearShoppingCart = () => async (dispatch) => {
   // const response = await axios.delete(" ruta back") --- aqui va la coneccion con el back para quitar un producto del cart
   const updatedShoppingCart = response.data;
   localStorage.setItem("shoppingCart", JSON.stringify(updatedShoppingCart));
 
   dispatch({
-    type:CLEAR_SHOPPINGCART,
+    type: CLEAR_SHOPPINGCART,
     payload: updatedShoppingCart,
   });
 };
 
-
+export const searchProduct = (search) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/dishes?search=${search}`
+      );
+      dispatch({
+        type: SEARCH,
+        payload: response.data.allDishes,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+};
