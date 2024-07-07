@@ -7,6 +7,7 @@ const SearchBar = () => {
 
   const handleSearch = (event) => {
     setSearch(event.target.value);
+    
   };
 
   return (

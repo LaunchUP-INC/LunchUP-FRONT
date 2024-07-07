@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import AuthIcon from "../Icons/AuthIcon";
 import { useNavigate } from "react-router-dom";
 import { validate } from "./validate";
-import AddComensalModal from "../AñadirComensal/AñadirComensal";
+import AddComensalModal from "../AddComensal/AddComensal";
 
 const SingForm = () => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const SingForm = () => {
     name: "",
     lastName: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
     children: [{ name: "", age: "", school: "", grade: "" }],
@@ -42,14 +43,15 @@ const SingForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(formData);
     const validationErrors = validate(formData);
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
+      alert("Por favor, corrija los errores antes de enviar el formulario.");
+    } else {
+      alert("Formulario enviado correctamente");
+      navigate("/login");
     }
-    setErrors({});
-    alert("Bienvenido a LunchUp");
-    navigate("/login");
+
     // Aquí puedes añadir el código para enviar el formulario
   };
 
@@ -80,40 +82,54 @@ const SingForm = () => {
     !isAuthenticated && (
       <div className={styles.container}>
         <form className={styles.form}>
-          <span>Nombre</span>
+          <label>Nombre</label>
           <input
             name="name"
             type="text"
             className={styles.input}
             placeholder="Ingresa tu nombre"
             onChange={handleChange}
+            value={formData.name}
           />
           <span className={styles.error}>{errors && errors.name}</span>
-          <span>Apellido</span>
+          <label>Apellido</label>
           <input
             name="lastName"
             type="text"
             className={styles.input}
             placeholder="Ingresa tu apellido"
             onChange={handleChange}
+            value={formData.lastName}
           />
           <span className={styles.error}>{errors && errors.lastName}</span>
-          <span>Email</span>
+          <label>Email</label>
           <input
             name="email"
             type="email"
             className={styles.input}
             placeholder="ejemplo@mail.com"
             onChange={handleChange}
+            value={formData.email}
           />
           <span className={styles.error}>{errors && errors.email}</span>
-          <span>Contraseña</span>
+          <label>Teléfono</label>
+          <input
+            name="phone"
+            type="number"
+            className={styles.input}
+            placeholder="Teléfono"
+            onChange={handleChange}
+            value={formData.phone}
+          />
+          <span className={styles.error}>{errors && errors.phone}</span>
+          <label>Contraseña</label>
           <input
             name="password"
             type="password"
             className={styles.input}
             placeholder="Ingresa tu contraseña"
             onChange={handleChange}
+            value={formData.password}
           />
           <span className={styles.error}>{errors && errors.password}</span>
           <span>Confirmar Contraseña</span>
@@ -123,10 +139,9 @@ const SingForm = () => {
             className={styles.input}
             placeholder="Confirma tu contraseña"
             onChange={handleChange}
+            value={formData.confirmPassword}
           />
-          <span className={styles.error}>
-            {errors && errors.confirmPassword}
-          </span>
+          <span className={styles.error}>{errors.confirmPassword}</span>
 
           <button type="button" className={styles.comensal} onClick={openModal}>
             Añadir Comensal
@@ -156,6 +171,7 @@ const SingForm = () => {
           childrens={formData.children}
           handleAddChild={handleAddChild}
           handleChildChange={handleChildChange}
+          errors={errors}
         />
       </div>
     )

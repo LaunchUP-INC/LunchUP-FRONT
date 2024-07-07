@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import Modal from "react-modal";
-import styles from "./AñadirComensal.module.css";
+import styles from "./AddComensal.module.css";
 Modal.setAppElement("#root");
 
 const AddComensalModal = ({
@@ -9,6 +9,7 @@ const AddComensalModal = ({
   childrens,
   handleAddChild,
   handleChildChange,
+  errors,
 }) => {
   return (
     <Modal
@@ -22,6 +23,7 @@ const AddComensalModal = ({
       {childrens.map((child, index) => (
         <div key={index} className={styles.childContainer}>
           <span>Nombre del Hijo/a</span>
+
           <input
             type="text"
             name="name"
@@ -30,6 +32,7 @@ const AddComensalModal = ({
             value={child.name || ""}
             onChange={(event) => handleChildChange(index, event)}
           />
+          <span className={styles.error}>{errors && errors.childName}</span>
           <span>Edad del Hijo/a</span>
           <input
             type="number"
@@ -39,6 +42,7 @@ const AddComensalModal = ({
             value={child.age || ""}
             onChange={(event) => handleChildChange(index, event)}
           />
+          <span className={styles.error}>{errors && errors.childAge}</span>
           <span>Escuela</span>
           <input
             type="text"
@@ -48,6 +52,8 @@ const AddComensalModal = ({
             value={child.school || ""}
             onChange={(event) => handleChildChange(index, event)}
           />
+          <span className={styles.error}>{errors && errors.childSchool}</span>
+
           <span>Grado/Año</span>
           <input
             type="number"
@@ -57,6 +63,7 @@ const AddComensalModal = ({
             value={child.grade || ""}
             onChange={(event) => handleChildChange(index, event)}
           />
+          <span className={styles.error}>{errors && errors.childGrade}</span>
         </div>
       ))}
       <button onClick={handleAddChild} className={styles.btn}>
