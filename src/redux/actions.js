@@ -52,15 +52,27 @@ export const getProductDetail = (id) => {
   };
 };
 
-export const filterProducts = (type, order) => {
+export const filterProducts = (name, type, order) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3001/dishes?filterMealTypeBy=${type}&orderBy=${order}`
-      );
+      let url = "http://localhost:3001/dishes?";
+      const params = [];
+
+      if (name) params.push(`search=${encodeURIComponent(name)}`);
+      if (type) params.push(`filterMealTypeBy=${encodeURIComponent(type)}`);
+      if (order) params.push(`orderBy=${encodeURIComponent(order)}`);
+
+      // Uniendo todos los parámetros con '&' y agregándolos a la URL base
+      url += params.join('&');
+
+      // const response = await axios.get(
+      //   `http://localhost:3001/dishes?filterMealTypeBy=${type}&orderBy=${order}`
+      // );
+
+      const response = await axios.get(url);
       dispatch({
         type: FILTERS_TYPE,
-        payload: response.data.dish,
+        payload: response.data.allDishes,
       });
     } catch (error) {
       console.error("Error fetching data:", error);
