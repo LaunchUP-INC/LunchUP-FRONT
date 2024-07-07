@@ -16,3 +16,46 @@
 .btn {
     margin-top: 20px;
 }
+
+.comensal {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    gap: 10px;
+    background-color: #e9fff7;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #252525;
+    font-size: 1.2rem;
+    z-index: 2;
+}
+.comensal.open {
+    display: flex;
+}
+.btnClose {
+    position: relative;
+    background-color: rgb(255, 0, 0, 0.6);
+    color: #e9fff7;
+    border-radius: 5px;
+    border: none;
+    padding: 10px;
+    font-size: 1.2rem;
+    width: 50px;
+    left: 130px;
+    bottom: 25px;
+}
+.btnClose:hover {
+    cursor: pointer;
+
+    background-color: red;
+    color: #333333;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
