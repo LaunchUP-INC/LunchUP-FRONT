@@ -143,14 +143,15 @@ export const removeFromShoppingCart = (productId) => async (dispatch, getState)=
   });
 };
 
-export const clearShoppingCart = () => async (dispatch)=>{
-  // const response = await axios.delete(" ruta back") --- aqui va la coneccion con el back para quitar un producto del cart
-  const updatedShoppingCart = response.data;
-  localStorage.setItem("shoppingCart", JSON.stringify(updatedShoppingCart));
+export const clearShoppingCart = () => async (dispatch, getState)=>{
+  let shoppingCart = [...getState().shoppingCart];
+
+  shoppingCart = [];
+  localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
   dispatch({
     type:CLEAR_SHOPPINGCART,
-    payload: updatedShoppingCart,
+    payload: shoppingCart,
   });
 };
 

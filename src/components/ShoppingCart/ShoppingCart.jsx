@@ -4,6 +4,7 @@ import { setShoppingCart, removeFromShoppingCart, clearShoppingCart, addToShoppi
 import styles from "./ShoppingCart.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 
 const ShoppingCart = () => {
     const shoppingCart = useSelector(state => state.shoppingCart);
@@ -44,7 +45,7 @@ const ShoppingCart = () => {
 
     //Funcion para quitar todos los productos del carrito
     const handleClearCart = () => {
-        dispatch(clearShoppingCart);
+        dispatch(clearShoppingCart());
     };
 
 
@@ -60,6 +61,35 @@ const ShoppingCart = () => {
         dispatch(removeFromShoppingCart(productToRemove));
     }
 
+
+    const handleCheckout = async () =>{
+        const items = shoppingCart.map(item=>({
+            title: item.name,
+            unit_price: item.price,
+            quantity: item.quantity,
+        }));
+
+        try {
+            const response = await axios.post("ruta back", items);
+            const {preferenceId, publicKey} = response.data;
+
+            const mp = new window.MercadoPago(publicKey,{
+                locale: "es-AR",
+            });
+
+            mp.checkout({
+                preference:{
+                    id: preferenceId,
+                },
+                autoOpen: true,
+            });
+
+
+        } catch (error) {
+            console.error("Error al crear la preferencia", error);
+        }
+    } 
+
     return (
         <div className={styles.cartContainer}>
             <div>
@@ -71,7 +101,7 @@ const ShoppingCart = () => {
                     : shoppingCart.map((item) => {
                         return <div key={item.id} className={styles.itemContainer}>
                             <div>
-                                <img src={item.image} alt={item.name} className={styles.imgs} />
+                                <img src={item.images[0]} alt={item.name} className={styles.imgs} />
                             </div>
                             <div className={styles.itemInfo}>
                                 <div className={styles.itemInfoMain}>
@@ -103,7 +133,11 @@ const ShoppingCart = () => {
                     : <div>
                         <p>Productos({totalProducts})</p>
                         <h3>Total:&nbsp;{totalPrice} </h3>
-                        <button>Comprar</button>
+                        <div>
+                            <button onClick={handleCheckout} >Comprar</button>
+                            <button onClick={handleClearCart} >Limpiar carrito</button>
+                        </div>
+                        
                     </div>}
 
 

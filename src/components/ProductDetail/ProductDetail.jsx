@@ -19,10 +19,10 @@ import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 const ProductDetail = (props) => {
   const dispatch = useDispatch();
 
-  const { name, image, description, price, Meal_Type, vegan, vegetarian, glutenFree, dairyFree } = props.productDetail;
+  const { name, images, description, price, Meal_Type, vegan, vegetarian, glutenFree, dairyFree } = props.productDetail;
 
 
-  const handleAddToCart = () =>{
+  const handleAddToCart = () => {
     dispatch(addToShoppingCart(props.productDetail));
   }
 
@@ -38,15 +38,12 @@ const ProductDetail = (props) => {
             navigation
             centeredSlides={true}
             pagination={{ clickable: true }}
-            className="mySwiper"
-          >
-            <SwiperSlide>
-              <img
-                src={image}
-                alt={name}
-                className={styles.dishImage}
-              />
-            </SwiperSlide>
+            className="mySwiper" >
+              {images.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <img src={image} alt={name} className={styles.dishImage} />
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
 
