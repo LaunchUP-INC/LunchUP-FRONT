@@ -10,6 +10,7 @@ const SearchBar = () => {
   const dispatch = useDispatch();
 
   const handleSearch = (event) => {
+
     const value = event.target.value;
     setSearch(value);
     if (value === "") {
@@ -17,6 +18,7 @@ const SearchBar = () => {
     } else {
       dispatch(searchProduct(value));
     }
+
   };
 
   return (
