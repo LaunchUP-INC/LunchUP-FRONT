@@ -1,37 +1,53 @@
-/* eslint-disable react/prop-types */
-
-import BagIcon from "../Icons/BagIcon";
-import styles from "./LandingHeader.module.css";
+import React, { useState, useEffect } from 'react';
 import { Link } from "react-scroll";
-const LandingHeader = () => {
-  return (
-    <header className={styles.container}>
-      <nav className={styles.nav}>
-        <h2 className={styles.logo}>
-          LunchUP <BagIcon className={styles.icon} />
-        </h2>
-        <div>
-          <ul className={styles.navLinks}>
-            <li>
-              <Link to="inicio" smooth={true} duration={500}>
-                Inicio
-              </Link>
-            </li>
-            <li>
-              <Link to="about" smooth={true} duration={500}>
-                De qué trata
-              </Link>
-            </li>
+import BagIcon from "../Icons/BagIcon";
+import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
+import styles from './LandingHeader.module.css';
 
-            <li>
-              <a className={styles.button} href="/login">
+const LandingHeader = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  const handleScroll = () => {
+    const offset = window.scrollY;
+    if (offset > 50) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  return (
+    <Navbar expand="lg" fixed="top" className={scrolled ? `${styles.scrolled}` : "bg-light"} style={{ transition: 'background-color 0.5s' }}>
+      <Container>
+        <Navbar.Brand href="/" className={styles.navBrand}>
+          <BagIcon className={`${styles.icon} me-2`} />
+          LunchUP
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <NavDropdown title="Informacion" id="collapsible-nav-dropdown">
+              <NavDropdown.Item as={Link} to="about" smooth={true} duration={500}>
+                Inicio
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="about" href='#' smooth={true} duration={500}>
+                De qué Trata
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/login">
                 Ingresar
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 };
 
