@@ -26,7 +26,6 @@ const Nav = () =>{
                     <ul className={styles.navLinks} >
                         {!isAuthenticated && <li><a onClick={() => navigate("/login")} >Inicar Sesión</a></li>}
                         <li><a onClick={() => navigate("/home")} >Inicio</a></li>
-                        <li><a onClick={() => navigate("/products/add")} >Añadir Producto</a></li>
                         <li><a onClick={() => navigate("/shopping")} >
                             <FontAwesomeIcon icon={faShoppingCart} className={styles.cartIcon} />{shoppingCart.length > 0 && <span className={styles.cartCount}>{shoppingCart.length}</span>}</a>
                         </li>
