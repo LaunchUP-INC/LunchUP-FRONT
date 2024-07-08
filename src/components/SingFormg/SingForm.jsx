@@ -6,9 +6,12 @@ import AuthIcon from "../Icons/AuthIcon";
 import { useNavigate } from "react-router-dom";
 import { validate } from "./validate";
 import AddComensalModal from "../AddComensal/AddComensal";
+import axios from "axios";
 
 const SingForm = () => {
   const navigate = useNavigate();
+  const { loginWithRedirect, isAuthenticated, getAccessTokenSilently } =
+    useAuth0();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -21,12 +24,11 @@ const SingForm = () => {
   });
 
   const [errors, setErrors] = useState({});
-
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const openModal = () => {
     if (formData.children.length === 0) {
-      handleAddChild(); // Añadir un comensal vacío si no hay ninguno
+      handleAddChild();
     }
     setModalIsOpen(true);
   };
@@ -41,18 +43,40 @@ const SingForm = () => {
     setErrors(validate({ ...formData, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
     const validationErrors = validate(formData);
     if (Object.keys(validationErrors).length > 0) {
       alert("Por favor, corrija los errores antes de enviar el formulario.");
     } else {
-      alert("Formulario enviado correctamente");
-      navigate("/login");
+      try {
+        await loginWithRedirect();
+        const token = await getAccessTokenSilently();
+        await axios.post(
+          "http://localhost:3001/register",
+          {
+            firstname: formData.name,
+            lastname: formData.lastName,
+            telephone: formData.phone,
+            email: formData.email,
+            password: formData.password,
+            isAdmin: false,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        alert("Formulario enviado correctamente");
+        navigate("/login");
+      } catch (error) {
+        console.error("Error registrando el usuario:", error);
+        alert(
+          "Hubo un error registrando el usuario. Por favor, inténtelo de nuevo."
+        );
+      }
     }
-
-    // Aquí puedes añadir el código para enviar el formulario
   };
 
   const handleAddChild = () => {
@@ -76,12 +100,10 @@ const SingForm = () => {
     setErrors(validate({ ...formData, children: updatedChildren }));
   };
 
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
-
   return (
     !isAuthenticated && (
       <div className={styles.container}>
-        <form className={styles.form}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <label>Nombre</label>
           <input
             name="name"
@@ -147,23 +169,29 @@ const SingForm = () => {
             Añadir Comensal
           </button>
 
-          <button onClick={handleSubmit} className={styles.btn}>
+          <button type="submit" className={styles.btn}>
             Registrarse
           </button>
 
           <span className={styles.error}>{errors && errors.children}</span>
         </form>
-        <span>Registrase con Auth0</span>
-        <button className={styles.btnAuth} onClick={() => loginWithRedirect()}>
-          <AuthIcon />
-        </button>
-
-        <p>
-          ¿Ya tienes una cuenta?{" "}
-          <Link to="/login" className={styles.link}>
-            Iniciar Sesion
-          </Link>
-        </p>
+        <div className={styles.noRegister}>
+          <div className={styles.auth}>
+            <span>Registrase con Auth0</span>
+            <button
+              className={styles.btnAuth}
+              onClick={() => loginWithRedirect()}
+            >
+              <AuthIcon />
+            </button>
+          </div>
+          <div className={styles.account}>
+            <p>¿Ya tienes una cuenta? </p>
+            <Link to="/login" className={styles.link}>
+              Iniciar Sesion
+            </Link>
+          </div>
+        </div>
 
         <AddComensalModal
           modalIsOpen={modalIsOpen}
