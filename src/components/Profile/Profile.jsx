@@ -43,7 +43,7 @@ const Profile = () => {
                 <h2 className={styles.name}>{user.name}</h2>
                 <p className={styles.nickname}>{user.nickname}</p>
                 <div>
-                    <button onClick={handleShowModal} className={styles.btn}>Agregar Comensal</button>
+                    <button onClick={handleShowModal} className={`${styles.btn} ${show ? styles.disabled : ""}`} disabled={show}>Agregar Comensal</button>
                     <div className={`${styles.comensal} ${show ? styles.open : ""}`}>
                         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
                             <button className={styles.btnClose} onClick={handleClose}>X</button>

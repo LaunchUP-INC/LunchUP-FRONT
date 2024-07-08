@@ -16,7 +16,11 @@
 .btn {
     margin-top: 20px;
 }
-
+.disabled, .disabled:hover, .disabled:active {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: grey;
+}
 .comensal {
     display: none;
     flex-direction: column;
