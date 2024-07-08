@@ -4,7 +4,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import LandingView from "./Views/LandingView";
 import ProductView from "./Views/ProductsView";
 import HomeView from "./Views/HomeView";
-import Nav from "./components/Nav/Nav";
+import NavigationBar  from "./components/Nav/Nav";
 import ProductDetailView from "./Views/ProductDetailView";
 import ProductFormView from "./Views/ProductFormView";
 import LoginView from "./Views/LoginView";
@@ -16,7 +16,7 @@ function App() {
   const location = useLocation();
   return (
     <>
-      {location.pathname !== "/dashBoard" && <Nav />}
+      {location.pathname !== "/dashBoard" && <NavigationBar  />}
       <Routes>
         <Route path="/" element={<LandingView />} />
         <Route path="/login" element={<LoginView />} />
