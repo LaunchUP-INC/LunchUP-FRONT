@@ -7,6 +7,24 @@
   --color-white: #ffffff;
 }
 
+/* Nav.module.css */
+.navbar-brand {
+  font-size: 1.5rem; /* Ajusta el tamaño según sea necesario */
+}
+
+.nav-link {
+  font-size: 1.2rem; /* Ajusta el tamaño según sea necesario */
+}
+
+.navbar-icon {
+  font-size: 1.5rem; /* Ajusta el tamaño según sea necesario */
+}
+
+.navbar-badge {
+  font-size: 1.2rem; /* Ajusta el tamaño según sea necesario */
+}
+
+
 @keyframes transform-header {
   to {
     background: rgba(234, 234, 234, 0.4);

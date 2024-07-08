@@ -60,3 +60,26 @@
   color: rgb(0, 89, 92);
   margin-top: 2px;
 }
+
+.resetButton {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  padding: 5px;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resetIcon {
+  width: 25px;
+  height: 25px;
+  fill: #666; 
+  transition: fill 0.3s;
+}
+
+.resetButton:hover .resetIcon {
+  fill: #333; 
+}

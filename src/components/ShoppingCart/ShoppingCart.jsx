@@ -102,6 +102,7 @@ const ShoppingCart = () => {
     }
 
     return (
+
         <Container>
             <Row>
                 <Col lg={9}>
