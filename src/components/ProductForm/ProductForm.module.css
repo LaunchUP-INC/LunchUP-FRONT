@@ -7,6 +7,74 @@
   --color-white: #ffffff;
 }
 
+/* BOOTSTRAP */
+.containerCustom {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.labelCustom {
+  color: #000080; /* Personalización del color de los labels */
+}
+
+.btnCustom {
+  background-color: #229a1b;
+  border-color: #108206;
+  color: white;
+  font-size: 1.2rem;
+  padding: 10px 20px;
+  display: block;
+  margin: 20px auto 0; /* Centrar el botón */
+}
+
+.btnCustom:hover {
+  background-color: #108206;
+  border-color: #0a5c10;
+}
+
+.imagePreview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.imageContainer {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.removeButton {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #ff0000;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* -------------------------- */
+
 /* Estilos para el container */
 
 .container {

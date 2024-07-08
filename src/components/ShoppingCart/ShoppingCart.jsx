@@ -101,7 +101,7 @@ const ShoppingCart = () => {
                     : shoppingCart.map((item) => {
                         return <div key={item.id} className={styles.itemContainer}>
                             <div>
-                                <img src={item.images[0]} alt={item.name} className={styles.imgs} />
+                                <img src={item.image} alt={item.name} className={styles.imgs} /> 
                             </div>
                             <div className={styles.itemInfo}>
                                 <div className={styles.itemInfoMain}>

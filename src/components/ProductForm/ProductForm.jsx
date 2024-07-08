@@ -325,6 +325,13 @@ const handleFileChange = (e) => {
   setDish(prevDish => ({ ...prevDish, images: [...prevDish.images, ...files] }));
 };
 
+const handleRemoveImage = (index) => {
+  setDish(prevDish => ({
+    ...prevDish,
+    images: prevDish.images.filter((_, i) => i !== index),
+  }));
+};
+
 const handleSubmit = (e) => {
   e.preventDefault();
   const errorName = validateName(dish.name);
@@ -338,20 +345,21 @@ const handleSubmit = (e) => {
 };
 
 return (
+  
   <Container className={`mt-5 ${styles.containerCustom}`}>
-  <Form onSubmit={handleSubmit}>
-    <Form.Group as={Row} className="mb-3" controlId="formPlatoNombre">
-      <Form.Label column sm="3" className={styles.labelCustom}>Nombre del plato*</Form.Label>
-      <Col sm="9">
-        <Form.Control type="text" name="name" value={dish.name} onChange={handleChange} isInvalid={!!errors.name} />
-        <Form.Control.Feedback type="invalid">
-          {errors.name}
-        </Form.Control.Feedback>
-      </Col>
-    </Form.Group>
+    <Form onSubmit={handleSubmit}>
+      <Form.Group as={Row} className="mb-3" controlId="formPlatoNombre">
+        <Form.Label column sm="3" className={styles.labelCustom}>Nombre del plato*</Form.Label>
+        <Col sm="9">
+          <Form.Control type="text" name="name" value={dish.name} onChange={handleChange} isInvalid={!!errors.name} />
+          <Form.Control.Feedback type="invalid">
+            {errors.name}
+          </Form.Control.Feedback>
+        </Col>
+      </Form.Group>
 
       <Form.Group as={Row} className="mb-3" controlId="formPlatoPrecio">
-        <Form.Label column sm="3">Precio*</Form.Label>
+        <Form.Label column sm="3" className={styles.labelCustom}>Precio*</Form.Label>
         <Col sm="9">
           <Form.Control type="number" name="price" value={dish.price} onChange={handleChange} isInvalid={!!errors.price} />
           <Form.Control.Feedback type="invalid">
@@ -361,7 +369,7 @@ return (
       </Form.Group>
 
       <Form.Group as={Row} className="mb-3">
-        <Form.Label column sm="3">Descripción del plato</Form.Label>
+        <Form.Label column sm="3" className={styles.labelCustom}>Descripción del plato</Form.Label>
         <Col sm="9">
           <Form.Control as="textarea" rows={3} name="description" value={dish.description} onChange={handleChange} />
         </Col>
@@ -369,37 +377,58 @@ return (
 
       <Form.Group as={Row} className="mb-2">
           <Form.Label column sm="3">Tipo de comida</Form.Label>
-          <Col sm="9" className="d-flex align-items-center">
-            {[
-              { label: "Vegano", value: "vegan", icon: veganIcon },
-              { label: "Vegetariano", value: "vegetarian", icon: vegetarianIcon },
-              { label: "Sin gluten", value: "glutenFree", icon: glutenFreeIcon },
-              { label: "Deslactozado", value: "dairyFree", icon: dairyFreeIcon },
-            ].map((type, index) => (
-              <div key={index} className="me-3">
-                <Form.Check
-                  type="radio"
-                  label={<span><img src={type.icon} alt={type.label} style={{ width: '24px', marginRight: '5px' }} />{type.label}</span>}
-                  name="mealType"
-                  value={type.value}
-                  checked={dish.Meal_Type[type.value]}
-                  onChange={handleCheckboxChange}
-                  custom
-                />
-              </div>
-            ))}
+          <Col sm="9">
+            <Row>
+              {[
+                { label: "Vegano", value: "vegan", icon: veganIcon },
+                { label: "Vegetariano", value: "vegetarian", icon: vegetarianIcon },
+                { label: "Sin gluten", value: "glutenFree", icon: glutenFreeIcon },
+                { label: "Sin Lacteos", value: "dairyFree", icon: dairyFreeIcon },
+              ].map((type, index) => (
+                <Col xs={6} className="d-flex align-items-center mb-3" key={index}>
+                  <Form.Check
+                    type="radio"
+                    label={<span><img src={type.icon} alt={type.label} style={{ width: '24px', marginRight: '5px' }} />{type.label}</span>}
+                    name="mealType"
+                    value={type.value}
+                    checked={dish.Meal_Type[type.value]}
+                    onChange={handleCheckboxChange}
+                    custom
+                  />
+                </Col>
+              ))}
+            </Row>
           </Col>
         </Form.Group>
 
-      <Form.Group as={Row} className="mb-3">
-        <Form.Label column sm="3">Agregar imagen</Form.Label>
-        <Col sm="9">
-          <Form.Control type="file" multiple onChange={handleFileChange} />
-        </Col>
-      </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column sm="3" className={styles.labelCustom}>Agregar imagen</Form.Label>
+          <Col sm="9">
+            <Form.Control type="file" multiple onChange={handleFileChange} />
+            <div className={styles.imagePreview}>
+              {dish.images.map((image, index) => (
+                <div key={index} className={styles.imageContainer}>
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt={`Imagen ${index + 1}`}
+                    className={styles.previewImage}
+                  />
+                  <button
+                    type="button"
+                    className={styles.removeButton}
+                    onClick={() => handleRemoveImage(index)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+          </Col>
+        </Form.Group>
+
 
       <Button type="submit" variant="primary" className={styles.btnCustom}>Añadir plato</Button>
-      </Form>
+    </Form>
   </Container>
 );
 };
