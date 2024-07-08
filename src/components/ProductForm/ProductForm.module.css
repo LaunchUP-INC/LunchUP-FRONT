@@ -181,3 +181,28 @@
 .select{
   margin-left: 20px;
 }
+
+
+/* BOOTSTRAP */
+
+.containerCustom {
+  background-color: #e9fff7 !important; /* Usando !important para asegurar que se aplique */
+  border-color: #ffb6c1 !important;
+  color: #333;
+  
+}
+
+.labelCustom {
+  color: #000080 !important;
+}
+
+.btnCustom {
+  margin-top: 15PX;
+  background-color: #229a1b !important;
+  border-color: #108206 !important;
+}
+
+.btnCustom:hover {
+  background-color: #108206 !important;
+  border-color: #0a5c10 !important;
+}
