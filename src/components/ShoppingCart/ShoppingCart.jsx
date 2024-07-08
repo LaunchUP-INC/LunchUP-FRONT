@@ -5,12 +5,21 @@ import styles from "./ShoppingCart.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
+
 
 const ShoppingCart = () => {
     const shoppingCart = useSelector(state => state.shoppingCart);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalProducts, setTotalProducts] = useState(0);
+    const [preferenceId, setPrefereceId] = useState(null);
+    const [publickKey, setPublickKey] = useState(null);
     const dispatch = useDispatch();
+    
+
+    useEffect(()=>{
+        initMercadoPago(publickKey);
+    },[]);
 
     useEffect(() => {
         dispatch(setShoppingCart);
@@ -49,21 +58,21 @@ const ShoppingCart = () => {
     };
 
 
-    const addOneProduct = (e) =>{
-        const {value} = e.target;
+    const addOneProduct = (e) => {
+        const { value } = e.target;
         const productToAdd = shoppingCart.find(prod => prod.id === Number(value));
 
         dispatch(addToShoppingCart(productToAdd));
     }
 
-    const removeOneProduct = (id) =>{
+    const removeOneProduct = (id) => {
         const productToRemove = shoppingCart.find(prod => prod.id === id);
         dispatch(removeFromShoppingCart(productToRemove));
     }
 
 
-    const handleCheckout = async () =>{
-        const items = shoppingCart.map(item=>({
+    const handleCheckout = async () => {
+        const items = shoppingCart.map(item => ({
             title: item.name,
             unit_price: item.price,
             quantity: item.quantity,
@@ -71,24 +80,23 @@ const ShoppingCart = () => {
 
         try {
             const response = await axios.post("ruta back", items);
-            const {preferenceId, publicKey} = response.data;
+            const { preferenceId, publicKey } = response.data;
 
-            const mp = new window.MercadoPago(publicKey,{
-                locale: "es-AR",
-            });
+            setPrefereceId(preferenceId);
+            setPublickKey(publicKey);
 
-            mp.checkout({
-                preference:{
-                    id: preferenceId,
-                },
-                autoOpen: true,
-            });
+            // mp.checkout({
+            //     preference: {
+            //         id: preferenceId,
+            //     },
+            //     autoOpen: true,
+            // });
 
 
         } catch (error) {
             console.error("Error al crear la preferencia", error);
         }
-    } 
+    }
 
     return (
         <div className={styles.cartContainer}>
@@ -107,13 +115,13 @@ const ShoppingCart = () => {
                                 <div className={styles.itemInfoMain}>
                                     <h3>{item.name}</h3>
                                     <div className={styles.chQuanBtns}>
-                                        <button value={item.id}  onClick={()=>{
-                                            if(item.quantity>1){
+                                        <button value={item.id} onClick={() => {
+                                            if (item.quantity > 1) {
                                                 removeOneProduct(item.id)
-                                            }                                            
-                                            }}>-</button>
+                                            }
+                                        }}>-</button>
                                         <h3>{item.quantity}</h3>
-                                        <button value={item.id}  onClick={addOneProduct}>+</button>
+                                        <button value={item.id} onClick={addOneProduct}>+</button>
                                     </div>
                                     <h3>$&nbsp;{item.price}</h3>
                                 </div>
@@ -137,7 +145,10 @@ const ShoppingCart = () => {
                             <button onClick={handleCheckout} >Comprar</button>
                             <button onClick={handleClearCart} >Limpiar carrito</button>
                         </div>
-                        
+                        <div>
+                            {preferenceId && <Wallet initialization={{ preferenceId: preferenceId, redirectMode:"modal" }}/>}
+                        </div>
+
                     </div>}
 
 
