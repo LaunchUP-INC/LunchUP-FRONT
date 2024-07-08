@@ -1,84 +1,42 @@
-import LandingHeader from "../LandingHeader/LandingHeader";
+import React from 'react';
+import comedorEscolar from './image/comedorescolar.jpg';
+import { Button, Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap';
+import LandingHeader from '../LandingHeader/LandingHeader';
 import AboutSection from "./AboutSection";
-import styles from "./Landing.module.css";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import { Element } from "react-scroll";
+import styles from './Landing.module.css'; // Asegúrate de que el path es correcto
 
-const Landing = () => {
-  const [show, setShow] = useState(false);
+const LandingPage = () => {
+    return (
+      <>
+        <div className={`container-fluid p-0 ${styles.curvedBg}`}>
 
-  const handleShow = () => {
-    setShow(!show);
-  };
-  return (
-    <>
-      <div className={styles.generalContainer}>
-        <LandingHeader />
-        <Element name="inicio" className={styles.containerHero}>
-          <div className={styles.hero}>
-            <img
-              className={styles.fork}
-              src="/heroImage-fork1.png"
-              alt="fork"
-            />
-            <div className={styles.containerText}>
-              <h3>
-                La solución perfecta para una alimentación escolar saludable
-              </h3>
-              <p>
-                Nuestra app está diseñada para transformar la experiencia de las
-                cantinas escolares, haciendo que la elección de comidas
-                nutritivas y deliciosas sea más fácil y accesible para todos.
-              </p>
-              <Link to="/home">
-                <button>Comenzar</button>
-              </Link>
-            </div>
-            <div className={styles.containerImg}>
-              <img src="/heroImage-fork2.png" alt="img" />
-            </div>
+              <LandingHeader/>
+
+              <Container fluid className="p-0">
+                <Row className="align-items-center" style={{ minHeight: '100vh' }}>
+                    <Col md={6} className="p-5">
+                        <h1>La solución perfecta para una alimentación escolar saludable</h1>
+                        <p className="lead">
+                            Nuestra app está diseñada para transformar la experiencia de las cantinas escolares,
+                            haciendo que la elección de comidas nutritivas y deliciosas sea más fácil y accesible para todos.
+                        </p>
+                        <Button as="a" href="/home" variant="success" size="lg" className={`mt-3 ${styles.startButton}`} style={{ position: 'relative', zIndex: 2 }}>
+                            <i className="fas fa-play mr-2"></i> Comenzar
+                        </Button>
+                    </Col>
+                    <Col md={6}>
+                        <img src={comedorEscolar} alt="Niños comiendo en la escuela" className="img-thumbnail" />
+                    </Col>
+                </Row>
+          </Container>
+
           </div>
-        </Element>
-
-        <AboutSection />
-
-        <div className={styles.separator}>
-          <img src="/divider.png" alt="burguer" />
-          <img src="/separator.png" alt="fork" />
-          <img src="/divider.png" alt="burguer" />
-          <img src="/separator.png" alt="fork" />
-          <img src="/divider.png" alt="burguer" />
-          <img src="/separator.png" alt="fork" />
-          <img src="/divider.png" alt="burguer" />
-        </div>
-
-        <Element name="function" className={styles.containerAbout}>
-          <div className={styles.containerSection}>
-            <button onClick={handleShow} className={styles.accordion}>
-              ¿Como funciona?
-            </button>
-            <div
-              className={`${styles.containerSteps} ${show ? styles.open : ""}`}
-            >
-              <div className={styles.step}>
-                <h3>Paso 1: Ingresá tus datos y los de tu hijo.</h3>
-                <img src="/concept.png" alt="img" />
-              </div>
-              <div className={styles.step}>
-                <img src="concept3.png" alt="img" />
-                <h3>Paso 2: Elegí el menu que mas te guste.</h3>
-              </div>
-              <div className={styles.step}>
-                <h3>Paso 3: Recarga el saldo y paga de manera segura.</h3>
-                <img src="concept5.png" alt="img" />
-              </div>
+          <div>
+            <AboutSection/>
             </div>
-          </div>
-        </Element>
-      </div>
-    </>
-  );
-};
+          </>
+    );
+}
 
-export default Landing;
+export default LandingPage;
+
