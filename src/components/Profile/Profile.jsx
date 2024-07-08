@@ -1,11 +1,19 @@
 import styles from "./Profile.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import Card from 'react-bootstrap/Card';
 import Loader from "../Loader/Loader";
+import Image from 'react-bootstrap/Image';
+import Table from 'react-bootstrap/Table';
 
 const Profile = () => {
     const { user, isAuthenticated, isLoading, logout } = useAuth0();
     const [show, setShow] = useState(false);
+    const handleClosed = () => setShow(false);
+    const handleShow = () => setShow(true);
     const [comensal, setComensal] = useState({
         nombre: "",
         apellido: "",
@@ -35,57 +43,98 @@ const Profile = () => {
     return (
         isAuthenticated && (
             <div className={styles.container}>
-                <img
-                    src={user.picture}
-                    alt={user.name}
-                    className={styles.picture}
-                />
-                <h2 className={styles.name}>{user.name}</h2>
-                <p className={styles.nickname}>{user.nickname}</p>
+                <Card style={{ width: '15rem' }} bg="secondary" border="dark">
+                    <Image src={user.picture} alt={user.name} roundedCircle />
+                    <Card.Body>
+                        <Card.Title>{user.name}</Card.Title>
+                        <Card.Text>
+                            {user.email}.
+                        </Card.Text>
+                    </Card.Body>
+                    <Button variant="success" onClick={handleShow} className={styles.btn}>
+                        Agregar comensal
+                    </Button>
+                </Card>
                 <div>
-                    <button onClick={handleShowModal} className={`${styles.btn} ${show ? styles.disabled : ""}`} disabled={show}>Agregar Comensal</button>
-                    <div className={`${styles.comensal} ${show ? styles.open : ""}`}>
-                        <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-                            <button className={styles.btnClose} onClick={handleClose}>X</button>
-                            <h3>Comensal</h3>
-                            <span>Nombre y apellido</span>
-                            <input 
-                                type="text" 
-                                placeholder="Nombre" 
-                                name="nombre" 
-                                onChange={handleChange} 
-                                value={comensal.nombre}
-                            />
-                            <input 
-                                type="text" 
-                                placeholder="Apellido" 
-                                name="apellido" 
-                                onChange={handleChange} 
-                                value={comensal.apellido}
-                            />
-                            <span>Curso</span>
-                            <input 
-                                type="text" 
-                                placeholder="Curso" 
-                                name="curso" 
-                                onChange={handleChange} 
-                                value={comensal.curso}
-                            />
-                            <span>Escuela</span>
-                            <input 
-                                type="text" 
-                                placeholder="Escuela" 
-                                name="escuela" 
-                                onChange={handleChange} 
-                                value={comensal.escuela}
-                            />
-                            <button className={styles.btn}>Añadir</button>
-                        </form>
-                    </div>
+
+                    <Modal show={show} onHide={handleClose} animation={true}>
+                        <Modal.Header closeButton closeVariant="dark">
+                            <Modal.Title>Nuevo Comensal</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Nombre y Apellido</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Pepito Honguito"
+                                        autoFocus
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Curso</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="1"
+                                        min={1}
+                                        max={6}
+                                    />
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                    <Form.Label>Nombre de la escuela</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="Escuela"
+
+                                    />
+                                </Form.Group>
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="danger" onClick={handleClosed}>
+                                Cancelar
+                            </Button>
+                            <Button variant="success" onClick={handleClose}>
+                                Añadir
+                            </Button>
+                        </Modal.Footer>
+                    </Modal>
                 </div>
                 <div>
-                    <button>Edit Profile</button>
-                    <button onClick={() => logout()} className={styles.btn}>Logout</button>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nombre completo</th>
+                                <th>Curso</th>
+                                <th>Escuela</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Mark Zuckerberg</td>
+                                <td>6 A</td>
+                                <td>Escuela Ejemplo</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Elon Musk</td>
+                                <td>5 B</td>
+                                <td>Escuela Ejemplo</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td >Bill Gates</td>
+                                <td>4 C</td>
+                                <td>Escuela Ejemplo</td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </div>
+                <div className={styles.btnContainer}>
+                    <Button variant="info" className={styles.btn}>Edit Profile</Button>
+                    <Button variant="danger" onClick={() => logout()} className={styles.btn}>Logout</Button>
                 </div>
             </div>
         )
