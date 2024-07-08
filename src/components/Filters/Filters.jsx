@@ -1,37 +1,50 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import styles from "./Filters.module.css";
+import SearchBar from "../SearchBar/SearchBar";
 import { filterProducts, fetchProducts } from "../../redux/actions";
 
 const Filters = () => {
   const dispatch = useDispatch();
 
   const [filters, setFilters] = useState({
+    name: "",
     type: "0",
     price: "price-asc",
   });
 
-  const handleFilter = (event) => {
-    const { name, value } = event.target;
-    setFilters((prevFilters) => ({
+  const handleFilterChange = (name, value) => {
+    setFilters(prevFilters => ({
       ...prevFilters,
       [name]: value,
     }));
   };
 
   const applyFilters = () => {
-    if (filters.type === "0") {
-      dispatch(fetchProducts());
-    }
-    dispatch(filterProducts(Number(filters.type), filters.price));
+    dispatch(filterProducts(filters.name, Number(filters.type), filters.price));
+  };
+
+  const resetAllFilters = () => {
+    setFilters({
+      name: "",
+      type: "0",
+      price: "price-asc",
+    });
+    dispatch(fetchProducts());
   };
 
   return (
     <>
+      <SearchBar 
+        searchText={filters.name}
+        onInputChange={(value) => handleFilterChange('name', value)}
+        onSearch={applyFilters}
+        onReset={resetAllFilters}
+      />
       <div className={styles.container}>
         <div className={styles.filter}>
           <span className={styles.label}>Tipo de comida</span>
-          <select name="type" className={styles.select} onChange={handleFilter}>
+          <select name="type" className={styles.select} onChange={(e) => handleFilterChange(e.target.name, e.target.value)}>
             <option value="0">Todos</option>
             <option value="1">Convencional</option>
             <option value="2">Vegano</option>
@@ -43,11 +56,7 @@ const Filters = () => {
 
         <div className={styles.filter}>
           <span className={styles.label}>Ordenar por precio</span>
-          <select
-            name="price"
-            className={styles.select}
-            onChange={handleFilter}
-          >
+          <select name="price" className={styles.select} onChange={(e) => handleFilterChange(e.target.name, e.target.value)}>
             <option value="price-desc">Mayor precio</option>
             <option value="price-asc">Menor precio</option>
           </select>
