@@ -9,7 +9,7 @@ import styles from "./Card.module.css";
 
 
 const Card = (props) => {
-  const { id, name, image, price } = props;
+  const { id, name, images, price } = props;
   // console.log(props);
 
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const Card = (props) => {
     <div onClick={handleOnClick} className={styles.container}>
       <h3 className={styles.title}>{name}</h3>
 
-      <img src={image} className={styles.image} />
+      <img src={images[0]} className={styles.image} />
 
       <div className={styles.priceBtn}>
         <p className={styles.price}>$ {price}</p>
