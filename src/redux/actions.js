@@ -7,6 +7,9 @@ export const FILTERS_TYPE = "FILTERS_TYPE";
 export const REGISTER = "REGISTER";
 export const POST_DISH_SUCCESS = "POST_DISH_SUCCESS";
 export const POST_DISH_ERROR = "POST_DISH_ERROR";
+export const DELETE_DISH_SUCCESS = "DELETE_DISH_SUCCESS";
+export const DELETE_DISH_ERROR = "DELETE_DISH_ERROR";
+export const RESET_DELETE_DISH_STATUS = "RESET_DELETE_DISH_STATUS" ;
 export const SET_SHOPPINGCART = "SET_SHOPPINGCART";
 export const ADD_TO_SHOPPINGCART = "ADD_TO_SHOPPINGCART";
 export const REMOVE_FROM_SHOPPINGCART = "REMOVE_FROM_SHOPPINGCART";
@@ -26,7 +29,11 @@ export const fetchProducts = () => {
 
       // console.log('Fetched products:', products); // Verificar la respuesta
 
+
+      //const products = await axios.get("http://localhost:3001/dishes");
+
       const products = await axios.get(URLD);
+
 
       dispatch({
         type: FETCH_PRODUCTS,
@@ -144,6 +151,25 @@ export const postDish = (dish) => {
     }
   };
 };
+
+export const deleteDish = (id) =>{
+  return async (dispatch) =>{
+    try {
+      const response = await axios.delete(`http://localhost:3001/dishes/${id}`);
+      
+      dispatch({
+        type: DELETE_DISH_SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: DELETE_DISH_ERROR,
+        payload: error.message,
+      });
+    }
+  }
+}
+export const resetDeleteDishStatus = () => ({ type: 'RESET_DELETE_DISH_STATUS' });
 
 export const setShoppingCart = () => async (dispatch, getState) => {
   let shoppingCart = getState().shoppingCart;
