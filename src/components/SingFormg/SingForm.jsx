@@ -53,7 +53,7 @@ const SingForm = () => {
         await loginWithRedirect();
         const token = await getAccessTokenSilently();
         await axios.post(
-          "http://localhost:3001/register",
+          "https://lunchup-back.onrender.com/register",
           {
             firstname: formData.name,
             lastname: formData.lastName,
