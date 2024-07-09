@@ -1,0 +1,33 @@
+.containerAbout {
+    /* tus estilos */
+  }
+  
+  .containerSection {
+    /* tus estilos */
+  }
+  
+  .accordion {
+    /* tus estilos */
+  }
+  
+  .containerSteps {
+    display: none;
+    /* otros estilos */
+  }
+  
+  .containerSteps.open {
+    display: block;
+    /* otros estilos */
+  }
+  
+  .step {
+    text-align: center;
+    /* otros estilos */
+  }
+  
+  .step img {
+    max-width: 100%;
+    height: auto;
+    /* otros estilos */
+  }
+  

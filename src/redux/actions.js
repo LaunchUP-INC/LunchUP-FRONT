@@ -2,8 +2,11 @@ import axios from "axios";
 
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
+export const GET_MEAL_TYPE = "GET_MEAL_TYPE";
 export const FILTERS_TYPE = "FILTERS_TYPE";
 export const REGISTER = "REGISTER";
+export const POST_DISH_SUCCESS = "POST_DISH_SUCCESS";
+export const POST_DISH_ERROR = "POST_DISH_ERROR";
 export const SET_SHOPPINGCART = "SET_SHOPPINGCART";
 export const ADD_TO_SHOPPINGCART = "ADD_TO_SHOPPINGCART";
 export const REMOVE_FROM_SHOPPINGCART = "REMOVE_FROM_SHOPPINGCART";
@@ -34,6 +37,24 @@ export const fetchProducts = () => {
     }
   };
 };
+
+export const getMealType = () => {
+  return async (dispatch) => {
+
+    try {
+      
+      const response = await axios.get('http://localhost:3001/meal')
+
+      dispatch({
+        type: GET_MEAL_TYPE,
+        payload: response.data.mealTypes
+      })
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+}
 
 export const getProductDetail = (id) => {
   return async (dispatch) => {
@@ -88,12 +109,40 @@ export const register = (email, password) => {
 };
 
 export const postDish = (dish) => {
-  //   return async (dispatch) =>{
-  //     try {
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
+  return async (dispatch) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", dish.name);
+      formData.append("description", dish.description);
+      formData.append("price", dish.price);
+
+      // Añadir imágenes al formData
+      dish.images.forEach((image) => {
+        formData.append("images", image);
+      });
+
+      // Añadir tipos de comida al formData
+      dish.mealTypes.forEach((mealType) => {
+        formData.append("mealTypes", mealType);
+      });
+
+      const response = await axios.post("http://localhost:3001/dishes", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      dispatch({
+        type: POST_DISH_SUCCESS,
+        payload: response.data.newId,
+      });
+    } catch (error) {
+      dispatch({
+        type: POST_DISH_ERROR,
+        payload: error.message,
+      });
+    }
+  };
 };
 
 export const setShoppingCart = () => async (dispatch, getState) => {
