@@ -12,7 +12,10 @@ import {
   REMOVE_FROM_SHOPPINGCART,
   CLEAR_SHOPPINGCART,
   SEARCH,
-  
+  DELETE_DISH_SUCCESS,
+  DELETE_DISH_ERROR,
+  RESET_DELETE_DISH_STATUS,
+
 } from "./actions";
 
 const initialState = {
@@ -23,6 +26,8 @@ const initialState = {
   user: {},
   newDishId: null,
   postDishError: null,
+  succesDishDelete: null,
+  errorDishDelete: null,
   shoppingCart: JSON.parse(localStorage.getItem("shoppingCart")) || [],
 };
 
@@ -40,13 +45,13 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         productDetail: action.payload,
       };
-    
+
     case GET_MEAL_TYPE:
       return {
         ...state,
         mealTypes: action.payload
       }
-    
+
 
     case FILTERS_TYPE:
       return {
@@ -60,18 +65,39 @@ const rootReducer = (state = initialState, action) => {
         user: action.payload,
       };
 
-      case POST_DISH_SUCCESS:
-        return {
-          ...state,
-          newDishId: action.payload,
-          postDishError: null,
-        };
-      case POST_DISH_ERROR:
-        return {
-          ...state,
-          newDishId: null,
-          postDishError: action.payload,
-        };
+    case POST_DISH_SUCCESS:
+      return {
+        ...state,
+        newDishId: action.payload,
+        postDishError: null,
+      };
+    case POST_DISH_ERROR:
+      return {
+        ...state,
+        newDishId: null,
+        postDishError: action.payload,
+      };
+
+    case DELETE_DISH_SUCCESS:
+      return {
+        ...state,
+        succesDishDelete: action.payload,
+        errorDishDelete: null,
+      }
+
+    case DELETE_DISH_ERROR:
+      return {
+        ...state,
+        succesDishDelete: null,
+        errorDishDelete: action.payload,
+      }
+
+    case RESET_DELETE_DISH_STATUS:
+      return{
+        ...state,
+        succesDishDelete: null,
+        errorDishDelete: null,
+      }
 
     case SET_SHOPPINGCART:
       return {
