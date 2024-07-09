@@ -1,33 +1,37 @@
-.containerAbout {
-    /* tus estilos */
-  }
-  
-  .containerSection {
-    /* tus estilos */
-  }
-  
-  .accordion {
-    /* tus estilos */
-  }
-  
-  .containerSteps {
-    display: none;
-    /* otros estilos */
-  }
-  
-  .containerSteps.open {
-    display: block;
-    /* otros estilos */
-  }
-  
-  .step {
-    text-align: center;
-    /* otros estilos */
-  }
-  
-  .step img {
-    max-width: 100%;
-    height: auto;
-    /* otros estilos */
-  }
-  
+.howItWorksContainer {
+  margin-top: 20px;
+}
+
+.carouselCustom {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.carouselContent {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  align-items: center;
+  text-align: center;
+}
+
+.carouselImage {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+}
+
+
+/* Estilos personalizados para las flechas del carrusel */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: #28a745; /* Color verde para las flechas */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  background-color: #218838; /* Color verde oscuro al pasar el cursor */
+}
