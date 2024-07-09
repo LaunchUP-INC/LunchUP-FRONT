@@ -14,7 +14,7 @@ export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const SEARCH = "SEARCH";
 
 // const productIds = [716429, 716430, 716431, 716432, 716433, 1000, 1, 7, 10, 14, 500, 5000]; // Ejemplo de IDs de productos
-
+const URLD = "https://lunchup-back.onrender.com/dishes";
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
@@ -26,7 +26,7 @@ export const fetchProducts = () => {
 
       // console.log('Fetched products:', products); // Verificar la respuesta
 
-      const products = await axios.get("https://lunchup-back.onrender.com/dishes");
+      const products = await axios.get(URLD);
 
       dispatch({
         type: FETCH_PRODUCTS,
@@ -43,7 +43,7 @@ export const getMealType = () => {
 
     try {
       
-      const response = await axios.get('http://localhost:3001/meal')
+      const response = await axios.get('https://lunchup-back.onrender.com/meal')
 
       dispatch({
         type: GET_MEAL_TYPE,
@@ -60,7 +60,7 @@ export const getProductDetail = (id) => {
   return async (dispatch) => {
     try {
       const productDetail = await axios.get(
-        `https://lunchup-back.onrender.com/dishes/${id}`
+        `${URLD}/${id}`
       );
 
       dispatch({
@@ -76,7 +76,7 @@ export const getProductDetail = (id) => {
 export const filterProducts = (name, type, order) => {
   return async (dispatch) => {
     try {
-      let url = "https://lunchup-back.onrender.com/dishes?";
+      let url =`${URLD}?`;
       const params = [];
 
       if (name) params.push(`search=${encodeURIComponent(name)}`);
@@ -126,7 +126,7 @@ export const postDish = (dish) => {
         formData.append("mealTypes", mealType);
       });
 
-      const response = await axios.post("http://localhost:3001/dishes", formData, {
+      const response = await axios.post(URLD, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -225,7 +225,7 @@ export const searchProduct = (search) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `https://lunchup-back.onrender.com/dishes?search=${search}`
+        `${URLD}?search=${search}`
       );
       dispatch({
         type: SEARCH,
