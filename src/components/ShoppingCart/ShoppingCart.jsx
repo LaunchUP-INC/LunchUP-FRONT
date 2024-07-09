@@ -16,7 +16,7 @@ const ShoppingCart = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalProducts, setTotalProducts] = useState(0);
     const [preferenceId, setPrefereceId] = useState(null);
-    const [publickKey, setPublickKey] = useState(null);
+    // const [publickKey, setPublickKey] = useState(null);
     const dispatch = useDispatch();
     
 
@@ -83,10 +83,11 @@ const ShoppingCart = () => {
 
         try {
             const response = await axios.post("ruta back", items);
-            const { preferenceId, publicKey } = response.data;
+            const { id } = response.data;
+            // const { preferenceId, publicKey } = response.data;
 
-            setPrefereceId(preferenceId);
-            setPublickKey(publicKey);
+            // setPrefereceId(preferenceId);
+            // setPublickKey(publicKey);
 
             // mp.checkout({
             //     preference: {
@@ -94,11 +95,18 @@ const ShoppingCart = () => {
             //     },
             //     autoOpen: true,
             // });
-
+            return id;
 
         } catch (error) {
             console.error("Error al crear la preferencia", error);
         }
+    }
+
+    const handleBuy = async () =>{
+        const id = await handleCheckout();
+
+        if(id) setPrefereceId(id);
+
     }
 
     return (
@@ -152,11 +160,11 @@ const ShoppingCart = () => {
                             <p>Productos({totalProducts})</p>
                             <h3>Total:&nbsp;${totalPrice}</h3>
                             <div className="d-flex justify-content-between">
-                                <Button variant="primary" onClick={handleCheckout}>Comprar</Button>
+                                <Button variant="primary" onClick={handleBuy}>Comprar</Button>
                                 <Button variant="warning" onClick={handleClearCart}>Limpiar carrito</Button>
                             </div>
                             <div className="mt-3">
-                                {preferenceId && <Wallet initialization={{ preferenceId }} />}
+                                {preferenceId && <Wallet initialization={{ preferenceId, redirectMode: "modal" }} />}
                             </div>
                         </div>}
                 </Col>
