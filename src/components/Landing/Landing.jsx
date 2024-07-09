@@ -34,6 +34,7 @@ const LandingPage = () => {
           <div>
             <AboutSection/>
             </div>
+            
           </>
     );
 }
