@@ -5,9 +5,9 @@
   --color-input: #90ee90;
   --color-secundary: #5f5ff9;
   --color-white: #ffffff;
+  --color-gray-background: #f0f0f0;
 }
 
-/* Landing.module.css */
 .curvedBg {
   overflow: hidden;
   position: relative;
@@ -18,14 +18,13 @@
   content: '';
   position: absolute;
   width: 100%;
-  height: 150px; 
+  height: 90px; 
   bottom: 0;
   left: 0;
   background: #ffffff;  
   clip-path: ellipse(120% 100% at 50% 100%); 
 }
 
-/* Media query para dispositivos móviles */
 @media (max-width: 768px) {
   .curvedBg::after {
       height: 100px; 
@@ -40,18 +39,53 @@
 }
 
 .about {
-  background-color: var(--color-Body);
   color: var(--color-font);
-  padding: 20px 0;
+  padding: 2rem 0;
 }
 
-.about h1,
-.about h2,
-.about h3,
-.about h4,
-.about h5,
-.about h6 {
-  color: var(--color-secundary);
+.backgroundContainer {
+  background-color: var(--color-gray-background);
+  width: 100%;
+  height: 75%;
+  position: absolute;
+  top: 25%;
+  z-index: 0;
+}
+
+
+.justifiedText {
+  text-align: justify;
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+.colCard{
+  padding: 20px;
+}
+
+.equalCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #198754;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: var(--color-white);
+}
+
+.cardBodyPadding {
+  padding: 1.5rem;
+  text-align: justify;
+}
+
+ol {
+  padding-left: 1.2rem;
+}
+
+ol li {
+  list-style-type: decimal;
+  margin-bottom: 0.5rem;
 }
 
 .about ul {
@@ -63,7 +97,6 @@
 }
 
 .about .card {
-  border: 1px solid var(--color-border);
   margin-top: 20px;
 }
 
@@ -83,4 +116,41 @@
 
 .about .btn-link:hover {
   text-decoration: underline;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #e74c3c;
+  margin-bottom: 1rem;
+}
+
+.card-text ul {
+  padding-left: 1.5rem;
+}
+
+.card-text li {
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .card-title {
+      font-size: 1.25rem;
+  }
+
+  .card-text {
+      font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .about .container {
+    max-width: 800px;
+  }
 }
