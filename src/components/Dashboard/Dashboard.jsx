@@ -8,7 +8,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get("http://localhost:3001/dishes");
-      setData(result.data);
+      setData(result.data.allDishes);
     };
     fetchData();
   }, []);
@@ -32,6 +32,7 @@ const Dashboard = () => {
                 <td>{item.id}</td>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
+                <button>Editar</button>
               </tr>
             ))}
           </tbody>

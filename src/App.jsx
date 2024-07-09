@@ -16,12 +16,12 @@ function App() {
   const location = useLocation();
   return (
     <>
-      {location.pathname !== "/dashBoard" && <NavigationBar  />}
+      <NavigationBar  />
       <Routes>
         <Route path="/" element={<LandingView />} />
         <Route path="/login" element={<LoginView />} />
         <Route path="/signup" element={<SignupView />} />
-        <Route path="/dashBoard" element={<AdminView />} />
+        <Route path="/dashboard" element={<AdminView />} />
         <Route path="/home" element={<HomeView />} />
         <Route path="/products" element={<ProductView />} />
         <Route path="/products/add" element={<ProductFormView />} />
