@@ -21,7 +21,7 @@ const ShoppingCart = () => {
     
 
     useEffect(()=>{
-        initMercadoPago(publickKey);
+        initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6");
     },[]);
 
     useEffect(() => {
@@ -82,7 +82,7 @@ const ShoppingCart = () => {
         }));
 
         try {
-            const response = await axios.post("ruta back", items);
+            const response = await axios.post(`http://localhost:3001/payment`, items);
             const { id } = response.data;
             // const { preferenceId, publicKey } = response.data;
 
@@ -165,7 +165,7 @@ const ShoppingCart = () => {
                                 <Button variant="warning" onClick={handleClearCart}>Limpiar carrito</Button>
                             </div>
                             <div className="mt-3">
-                                {preferenceId && <Wallet initialization={{ preferenceId, redirectMode: "modal" }} />}
+                                {preferenceId && <Wallet initialization={{ preferenceId, redirectMode: "blank" }} />}
                             </div>
                         </div>}
                 </Col>
