@@ -33,7 +33,7 @@ const HomeView = () => {
   return (
     <div>
       <div>
-        <SearchBar />
+        {/* <SearchBar /> */}
         <Filters />
       </div>
       <div>
