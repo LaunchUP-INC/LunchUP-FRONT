@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Loader from "../Loader/Loader";
 import Image from 'react-bootstrap/Image';
 import Table from 'react-bootstrap/Table';
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
     const { user, isAuthenticated, isLoading, logout } = useAuth0();
@@ -20,6 +21,7 @@ const Profile = () => {
         curso: "",
         escuela: "",
     });
+    const navigate = useNavigate();
     console.log(comensal);
     const handleChange = (event) => {
         setComensal({
@@ -135,6 +137,7 @@ const Profile = () => {
                 <div className={styles.btnContainer}>
                     <Button variant="info" className={styles.btn}>Edit Profile</Button>
                     <Button variant="danger" onClick={() => logout()} className={styles.btn}>Logout</Button>
+                    <Button variant="primary" onClick={() => navigate("/dashboard")} className={styles.btn}>Mis publicaciones</Button>
                 </div>
             </div>
         )
