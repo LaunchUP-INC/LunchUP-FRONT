@@ -82,7 +82,7 @@ const ShoppingCart = () => {
         }));
 
         try {
-            const response = await axios.post(`http://localhost:3001/payment`, items);
+            const response = await axios.post(`https://lunchup-back.onrender.com/payment`, items);
             const { id } = response.data;
             // const { preferenceId, publicKey } = response.data;
 
