@@ -3,6 +3,7 @@ import comedorEscolar from './image/comedorescolar.jpg';
 import { Button, Navbar, Nav, NavDropdown, Container, Row, Col } from 'react-bootstrap';
 import LandingHeader from '../LandingHeader/LandingHeader';
 import AboutSection from "./AboutSection";
+import FunctionCarousel  from './Carousel/Carousel';
 import styles from './Landing.module.css'; // Asegúrate de que el path es correcto
 
 const LandingPage = () => {
@@ -35,6 +36,7 @@ const LandingPage = () => {
             <AboutSection/>
             </div>
             
+            <FunctionCarousel/>
           </>
     );
 }
