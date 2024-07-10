@@ -17,7 +17,13 @@ export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const SEARCH = "SEARCH";
 
 // const productIds = [716429, 716430, 716431, 716432, 716433, 1000, 1, 7, 10, 14, 500, 5000]; // Ejemplo de IDs de productos
-const URLD = "https://lunchup-back.onrender.com/dishes";
+
+//constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
+
+// const URLD = "https://lunchup-back.onrender.com";
+const URLD = "http://localhost:3001";
+
+
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
@@ -32,7 +38,7 @@ export const fetchProducts = () => {
 
       //const products = await axios.get("http://localhost:3001/dishes");
 
-      const products = await axios.get(URLD);
+      const products = await axios.get(`${URLD}/dishes`);
 
 
       dispatch({
@@ -50,7 +56,7 @@ export const getMealType = () => {
 
     try {
       
-      const response = await axios.get('https://lunchup-back.onrender.com/meal')
+      const response = await axios.get(`${URLD}/meal`)
 
       dispatch({
         type: GET_MEAL_TYPE,
@@ -67,7 +73,7 @@ export const getProductDetail = (id) => {
   return async (dispatch) => {
     try {
       const productDetail = await axios.get(
-        `${URLD}/${id}`
+        `${URLD}/dishes/${id}`
       );
 
       dispatch({
@@ -83,7 +89,7 @@ export const getProductDetail = (id) => {
 export const filterProducts = (name, type, order) => {
   return async (dispatch) => {
     try {
-      let url =`${URLD}?`;
+      let url =`${URLD}/dishes?`;
       const params = [];
 
       if (name) params.push(`search=${encodeURIComponent(name)}`);
@@ -133,7 +139,7 @@ export const postDish = (dish) => {
         formData.append("mealTypes", mealType);
       });
 
-      const response = await axios.post(URLD, formData, {
+      const response = await axios.post(`${URLD}/dishes`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -155,7 +161,7 @@ export const postDish = (dish) => {
 export const deleteDish = (id) =>{
   return async (dispatch) =>{
     try {
-      const response = await axios.delete(`http://localhost:3001/dishes/${id}`);
+      const response = await axios.delete(`${URLD}/dishes/${id}`);
       
       dispatch({
         type: DELETE_DISH_SUCCESS,
@@ -251,7 +257,7 @@ export const searchProduct = (search) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(
-        `${URLD}?search=${search}`
+        `${URLD}/dishes?search=${search}`
       );
       dispatch({
         type: SEARCH,
