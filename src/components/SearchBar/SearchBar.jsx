@@ -1,7 +1,8 @@
+import React from 'react';
+import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import SearchIcon from "../Icons/SearchIcon";
 import ResetIcon from "../Icons/ResetIcon";
 import styles from "./SearchBar.module.css";
-import { useState } from "react";
 
 const SearchBar = ({ searchText, onInputChange, onSearch, onReset }) => {
   const handleInputChange = (event) => {
@@ -9,23 +10,23 @@ const SearchBar = ({ searchText, onInputChange, onSearch, onReset }) => {
   };
 
   return (
-    <div className={styles.container}>
-      <input
+    <InputGroup className={styles.container}>
+      <FormControl
         type="text"
         value={searchText}
         onChange={handleInputChange}
         placeholder="Encontrá lo que te gusta"
         className={styles.inputForm}
       />
-      <button className={styles.button} onClick={onSearch}>
+      <Button variant="outline-secondary" className={styles.button} onClick={onSearch}>
         <SearchIcon className={styles.icon} />
-      </button>
+      </Button>
       {searchText && (
-        <button className={styles.resetButton} onClick={onReset}>
+        <Button variant="outline-secondary" className={styles.resetButton} onClick={onReset}>
           <ResetIcon className={styles.resetIcon} />
-        </button>
+        </Button>
       )}
-    </div>
+    </InputGroup>
   );
 };
 
