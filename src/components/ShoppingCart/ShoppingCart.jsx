@@ -84,17 +84,7 @@ const ShoppingCart = () => {
         try {
             const response = await axios.post(`https://lunchup-back.onrender.com/payment`, items);
             const { id } = response.data;
-            // const { preferenceId, publicKey } = response.data;
-
-            // setPrefereceId(preferenceId);
-            // setPublickKey(publicKey);
-
-            // mp.checkout({
-            //     preference: {
-            //         id: preferenceId,
-            //     },
-            //     autoOpen: true,
-            // });
+            
             return id;
 
         } catch (error) {
@@ -111,7 +101,7 @@ const ShoppingCart = () => {
 
     return (
 
-        <Container>
+        <Container className="mt-5">
             <Row>
                 <Col lg={9}>
                     <h2>Carrito de compras</h2>
