@@ -154,3 +154,12 @@ ol li {
     max-width: 800px;
   }
 }
+
+.reviews {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  background-color: var(--color-gray-background);
+}
