@@ -30,7 +30,7 @@ const Card = (props) => {
   return (
     <div onClick={handleOnClick} className={styles.container}>
       <h3 className={styles.title}>{name}</h3>
-      <Rating />
+      {/* <Rating /> */}
       <img src={images[0]} className={styles.image} />
 
       <div className={styles.priceBtn}>
