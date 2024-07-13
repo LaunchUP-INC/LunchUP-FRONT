@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Card.module.css";
 import Rating from "../Rating/Rating";
-
+import { useState } from "react";
 
 const Card = (props) => {
   const { id, name, images, price } = props;
@@ -15,6 +15,7 @@ const Card = (props) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isActive, setIsActive] = useState(false);
 
   // console.log(id)
   const handleOnClick = () => {
@@ -26,16 +27,21 @@ const Card = (props) => {
     e.stopPropagation();
     dispatch(addToShoppingCart(props));
   }
-
+  const handleTouch = () => {
+    setIsActive(!isActive);
+  };
   return (
-    <div onClick={handleOnClick} className={styles.container}>
-      <h3 className={styles.title}>{name}</h3>
-      {/* <Rating /> */}
-      <img src={images[0]} className={styles.image} />
-
-      <div className={styles.priceBtn}>
-        <p className={styles.price}>$ {price}</p>
-        <button onClick={handleAddToCart}><FontAwesomeIcon icon={faCartPlus} /></button>
+    <div 
+      className={`${styles.card} ${isActive ? styles.active : ""}`} 
+      onTouchStart={handleTouch}
+    >
+      <img src={images[0]} alt={name} className={styles.cardImage} onClick={handleOnClick}/>
+      <div className={styles.cardContent}>
+        <p className={styles.cardTitle}>{name}</p>
+        <p className={styles.cardDescription}>$ {price}</p>
+        <button className={styles.cardButton} onClick={handleAddToCart}>
+          <FontAwesomeIcon icon={faCartPlus} />
+        </button>
       </div>
     </div>
   );

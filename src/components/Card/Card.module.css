@@ -6,55 +6,134 @@
   --color-secundary: #000080;
   --color-white: #ffffff;
 }
-
-.container {
-  font-weight: bold;
-  width: 450px;
-  height: 500px;
-  margin: 25px;
-  border: rgb(0, 107, 57) 1px solid;
-  box-shadow: 7px 7px 1px rgb(9, 98, 70);
-  border-radius: 25px;
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  background-color: #f2f2f2;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  margin: 20px;
   align-items: center;
-  background-color: rgb(199, 239, 215);
-  padding: 25px;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 1000px;
+  box-shadow: 0 0 0 5px #3ee94380;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card .cardImage {
+  max-width: 250px;
+  fill: #333;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover,
+.card.active {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.cardContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f2f2f2;
+  transform: rotateX(-90deg);
+  transform-origin: bottom;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .cardContent,
+.card.active .cardContent {
+  transform: rotateX(0deg);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 25px;
+  color: #333;
+  font-weight: 700;
+}
+
+.card:hover .cardImage,
+.card.active .cardImage {
+  transform: scale(0);
+}
+
+.cardDescription {
+  margin: 10px 0 0;
+  font-size: 25px;
+  color: #777;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.cardImage {
+  width: 250px;
+  height: 200px;
+}
+
+.cardButton {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #3ee943;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  transition: all 0.2s ease-in;
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 0px 0px rgb(9, 98, 70);
+  transition: background-color 0.3s;
+}
+
+.cardButton:hover {
+  background-color: #2eb832;
+}
+
+@media (max-width: 600px) {
+  .card {
+    width: 90%;
+    margin: 10px auto;
   }
-}
 
-.image {
-  width: 340px;
-  height: 290px;
-  border-radius: 25px;
-  border: rgb(9, 98, 70) .5px solid;
-}
+  .card .cardImage {
+    width: 100%;
+    height: auto;
+  }
 
-.label {
-  color: var(--color-font);
-  font-size: 1rem;
-}
-.title {
-  color: var(--color-font);
-  font-size: 1.5rem;
-  font-weight: 900;
-}
+  .cardTitle {
+    font-size: 20px;
+  }
 
-.priceBtn{
-  display: flex;
-}
+  .cardDescription {
+    font-size: 12px;
+  }
 
-.price {
-  color: var(--color-font);
-  font-weight: bolder;
-  margin-top: 20px;
-  margin-left: 30px;
-  font-size: 1.8rem;
-  align-self: start;
+  .cardContent {
+    position: relative;
+    transform: none;
+    height: auto;
+    background-color: transparent;
+    padding: 10px;
+  }
+
+  .card:hover .cardContent,
+  .card.active .cardContent {
+    transform: none;
+  }
+  
+  .card:hover .cardImage,
+  .card.active .cardImage {
+    transform: none;
+  }
+  .cardImage {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+  }
 }
