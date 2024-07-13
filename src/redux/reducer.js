@@ -19,6 +19,8 @@ import {
 } from "./actions";
 
 const initialState = {
+  isAdmin: false,
+  allUsers:[],
   allProducts: [],
   filteredProducts: [],
   productDetail: [],
