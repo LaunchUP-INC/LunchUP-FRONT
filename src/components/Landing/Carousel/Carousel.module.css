@@ -1,31 +1,32 @@
 .howItWorksContainer {
-  margin-top: 20px;
+  margin-top: 50px;
+  align-items: center;
 }
 
-.carouselCustom {
+.carouselCustom  {
   max-width: 600px;
   margin: 0 auto;
+  
 }
 
-.carouselContent {
-  display: flex;
-  flex-direction: column;
-  width: 600px;
-  align-items: center;
-  text-align: center;
+.customPrevIcon{
+  color: red;
+  background-color: #218838;
 }
 
-.carouselImage {
+.customPrevIcon:hover{
+  background-color: #218838;
+}
+
+.carouselItem img {
   max-width: 100%;
   height: auto;
-  margin-bottom: 15px;
 }
-
 
 /* Estilos personalizados para las flechas del carrusel */
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-color: #28a745; /* Color verde para las flechas */
+  background-color: #28a745 !important; /* Color verde para las flechas */
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -33,5 +34,20 @@
 
 .carousel-control-prev-icon:hover,
 .carousel-control-next-icon:hover {
-  background-color: #218838; /* Color verde oscuro al pasar el cursor */
+  background-color: #218838 !important; /* Color verde oscuro al pasar el cursor */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  filter: invert(1); /* Invertir colores para asegurar que las flechas sean visibles */
+}
+
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+  background-color: #218838 !important; /* Color verde oscuro al pasar el cursor */
+}
+
+
+.carousel-caption h5 {
+  color: white;
 }
