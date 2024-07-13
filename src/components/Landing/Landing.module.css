@@ -21,8 +21,8 @@
   height: 90px; 
   bottom: 0;
   left: 0;
-  background: #ffffff;  
-  clip-path: ellipse(120% 100% at 50% 100%); 
+  background: linear-gradient(to top, #ffffff, #f0f0f0); 
+  clip-path: ellipse(90% 100% at 50% 100%);
 }
 
 @media (max-width: 768px) {
@@ -35,8 +35,9 @@
 .icon {
   height: 30px;
   width: 30px;
-  color: var(--color-secundary);
+  color: #5f5ff9
 }
+
 
 .about {
   color: var(--color-font);
@@ -46,7 +47,6 @@
 
 
 .justifiedText {
-  text-align: justify;
   margin-left: 60px;
   margin-right: 60px;
 }
@@ -56,19 +56,21 @@
 }
 
 .equalCard {
-  height: 550px;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid #198754;
+  border: 2px solid #198754;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   background-color: var(--color-white);
+  overflow: auto;
 }
 
 .cardBodyPadding {
   padding: 1.5rem;
-  text-align: justify;
+  text-align: left;
+  
 }
 
 ol {
@@ -76,7 +78,7 @@ ol {
 }
 
 ol li {
-  list-style-type: decimal;
+  list-style-type: disc;
   margin-bottom: 0.5rem;
 }
 
