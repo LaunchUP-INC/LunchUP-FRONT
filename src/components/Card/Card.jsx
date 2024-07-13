@@ -6,6 +6,7 @@ import { addToShoppingCart } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Card.module.css";
+import Rating from "../Rating/Rating";
 
 
 const Card = (props) => {
@@ -29,7 +30,7 @@ const Card = (props) => {
   return (
     <div onClick={handleOnClick} className={styles.container}>
       <h3 className={styles.title}>{name}</h3>
-
+      <Rating />
       <img src={images[0]} className={styles.image} />
 
       <div className={styles.priceBtn}>
