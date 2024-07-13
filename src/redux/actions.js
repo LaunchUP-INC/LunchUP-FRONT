@@ -158,6 +158,45 @@ export const postDish = (dish) => {
   };
 };
 
+export const updateDish = (id, dish) =>{
+  return async (dispatch) => {
+    try {
+      // const formData = new FormData();
+      // formData.append("name", dish.name);
+      // formData.append("description", dish.description);
+      // formData.append("price", dish.price);
+
+      // // Añadir imágenes al formData
+      // dish.images.forEach((image) => {
+      //   formData.append("images", image);
+      // });
+      
+      // // Añadir tipos de comida al formData
+      // dish.Meal_Types.forEach((mealType) => {
+      //   formData.append("Meal_Types", mealType);
+      // });
+      console.log("llega");
+      const response = await axios.put(`${URLD}/dishes/${id}`, dish)
+      // , {
+      //   headers: {
+      //     "Content-Type": "multipart/form-data",
+      //   },
+      // });
+
+      dispatch({
+        type: POST_DISH_SUCCESS,
+        payload: response.data.dish,
+      });
+    } catch (error) {
+      dispatch({
+        type: POST_DISH_ERROR,
+        payload: error.message,
+      });
+    }
+  };
+}
+
+
 export const deleteDish = (id) =>{
   return async (dispatch) =>{
     try {
