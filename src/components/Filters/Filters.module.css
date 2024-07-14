@@ -1,80 +1,169 @@
+/* Variables de color */
 :root {
-    --color-Body: #ADD8E6;
-    --color-font: #333333;
-    --color-border: #FFB6C1;
-    --color-input: #90EE90;
-    --color-secundary: #000080;
-    --color-white: #ffffff;
-  }
+  --color-Body: #add8e6;
+  --color-font: #333333;
+  --color-border: #ffb6c1;
+  --color-input: #90ee90;
+  --color-secundary: #000080;
+  --color-white: #ffffff;
+}
+
+/* Contenedor principal */
 .container {
-   
-    margin: 0 auto;
-    margin-top: 70px;
-    display: flex;
-    gap: 60px;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    max-width: 1400px;
+  margin: 0 auto;
+  margin-top: 70px;
+  display: flex;
+  gap: 60px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+  padding-bottom: 100px;
 }
+
+/* Estilos de filtro */
 .filter {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
 }
+
 .label {
-    font-size: 1.2rem;
-    color: var(--color-font);
-    margin: 5px;
+  font-size: 1.2rem;
+  color: var(--color-font);
+  margin: 5px;
 }
+
+/* Ocultar selectores */
 .select {
-    font-size: 1.2rem;
-    border-radius: 5px;
-    color: var(--color-font);
-    border: 1px solid rgb(187, 106, 190);
-    background-color: rgb(252, 229, 255);
-    cursor: pointer;
+  display: none; /* Ocultar selectores */
 }
-.select:focus {
-    outline: none;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-    background-color: rgb(187, 106, 190);
-    color: rgb(252, 229, 255);
-    border: 1px solid rgb(252, 229, 255);;
+
+/* Contenedor de opciones de filtro */
+.filterOptions {
+  display: flex;
+  flex-wrap: wrap; /* Wrap para filas en pantallas pequeñas */
+  justify-content: center; /* Centrar elementos */
+  gap: 10px; /* Espacio entre tarjetas */
 }
+
+/* Tarjetas de filtro */
+.filterCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 125px;
+  height: 90px;
+  margin: 8px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.47);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  background-color: rgb(139, 233, 139);
+  font-weight: bolder;
+}
+
+.filterCard:hover {
+  transform: scale(1.05);
+}
+
+.filterCard.selected {
+  border: 1px solid rgb(187, 106, 190);
+  background-color: rgb(252, 229, 255);
+}
+
+.filterCardPrice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 120px;
+  height: 90px;
+  margin: 8px;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.47);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s;
+  background-color: rgb(139, 233, 139);
+  font-weight: bolder;
+}
+
+.filterCardPrice.selected {
+  border: 1px solid rgb(187, 106, 190);
+  background-color: rgb(252, 229, 255);
+}
+
+.filterCardPrice:hover {
+  transform: scale(1.05);
+}
+
+.icon {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+/* Otros estilos */
 .radioContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
 }
 
 .radio {
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.2rem;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
 }
 
 .radioInput {
-    font-size: 1.5rem;
-    color: var(--color-input);
-    background-color: aqua;
+  font-size: 1.5rem;
+  color: var(--color-input);
+  background-color: aqua;
 }
 
-.apply{
-    font-size: 1.1rem;
-    border-radius: 5px;
-    border: 1px solid rgb(54, 54, 54);
-    color: var(--color-font);
-    padding: 5px;
-    background-color: rgb(255, 255, 255);
-    cursor: pointer;
-    transition: all 0.2s ease-in;
-    &:hover {
-       transform: scale(1.05);
-       background-color: rgb(233, 233, 233);
-    }
+.apply {
+  font-size: 0.8rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 900;
+  border-radius: 5px;
+  border: 1px solid rgb(54, 54, 54);
+  color: var(--color-font);
+  padding: 5px;
+  background-color: rgb(255, 255, 255);
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  align-self: center;
+}
+
+.apply:hover {
+  transform: scale(1.05);
+  background-color: rgb(233, 233, 233);
+}
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+  .filterOptions {
+    flex-direction: row; /* Alinear horizontalmente en pantallas pequeñas */
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
+  }
+
+  .filterCard {
+    width: 120px; /* Ajustar ancho para pantallas pequeñas */
+    height: 70px; /* Ajustar alto para pantallas pequeñas */
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .icon {
+    font-size: 15px;
+  }
 }
