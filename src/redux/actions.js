@@ -22,8 +22,10 @@ export const POST_REVIEWS = "POST_REVIEWS";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
-/*export const URLD = "https://lunchup-back.onrender.com"; */
-export const URLD = "http://localhost:3001";
+
+export const URLD = "https://lunchup-back.onrender.com"; 
+/*export const URLD = "http://localhost:3001";*/
+
 
 export const fetchProducts = () => {
   return async (dispatch) => {

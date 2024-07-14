@@ -7,7 +7,7 @@ import FunctionCarousel from "./Carousel/Carousel";
 import TypingEffect from "../TypingEffect"; // Importa el nuevo componente
 import styles from "./Landing.module.css";
 import BlinkingCursor from "../BlinkingCursor";
-
+import ReviewCarrusel from "../ReviewCarrusel/ReviewCarrusel";
 const LandingPage = () => {
   const dynamicText = [
     "alimentación escolar saludable.",
@@ -79,6 +79,10 @@ const LandingPage = () => {
       </div>
 
       <FunctionCarousel />
+
+      <div className={styles.reviews}>
+        <ReviewCarrusel />
+      </div>
     </>
   );
 };
