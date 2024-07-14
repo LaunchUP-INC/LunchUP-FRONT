@@ -15,7 +15,7 @@ const DashboardHeading = () => {
         <li>Dashboard</li>
 
         <li>
-          <a onClick={() => navigate("/products/add")}>Añadir Producto</a>
+          <a onClick={() => navigate("/product/create")}>Añadir Producto</a>
         </li>
       </ul>
     </header>
