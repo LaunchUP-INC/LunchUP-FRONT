@@ -306,10 +306,12 @@ export const fetchReviews = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/reviews`);
+      console.log(response.data);
       dispatch({
         type: FETCH_REVIEWS,
-        payload: response.data.allReviews,
+        payload: response.data.reviews,
       });
+
     } catch (error) {
       console.error("Error fetching data:", error);
     }

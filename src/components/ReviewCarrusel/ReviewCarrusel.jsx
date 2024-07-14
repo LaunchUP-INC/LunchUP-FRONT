@@ -3,29 +3,13 @@ import { Carousel } from "react-bootstrap";
 import Reviews from "../Reviews/Reviews";
 
 const ReviewCarrusel = () => {
+  return (
+    <Carousel interval={3000} variant="dark" slide={false}>
+      <Carousel.Item>
+        <Reviews />
+      </Carousel.Item>
+    </Carousel>
+  );
+};
 
-    return (
-
-        <Carousel interval={3000} variant="dark" slide={false}>
-            <Carousel.Item>
-                <Reviews />
-            </Carousel.Item>
-            <Carousel.Item>
-                <Reviews />
-            </Carousel.Item>
-            <Carousel.Item>
-                <Reviews />
-            </Carousel.Item>
-            <Carousel.Item>
-                <Reviews />
-            </Carousel.Item>
-            <Carousel.Item>
-                <Reviews />
-            </Carousel.Item>
-        </Carousel>
-
-    )
-
-}
-
-export default ReviewCarrusel
+export default ReviewCarrusel;

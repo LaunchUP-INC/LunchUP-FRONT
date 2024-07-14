@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styles from "./Filters.module.css";
 import SearchBar from "../SearchBar/SearchBar";
@@ -20,15 +20,15 @@ const Filters = () => {
     price: "price-asc",
   });
 
+  useEffect(() => {
+    dispatch(filterProducts(filters.name, Number(filters.type), filters.price));
+  }, [filters, dispatch]);
+
   const handleFilterChange = (name, value) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
     }));
-  };
-
-  const applyFilters = () => {
-    dispatch(filterProducts(filters.name, Number(filters.type), filters.price));
   };
 
   const resetAllFilters = () => {
@@ -70,7 +70,7 @@ const Filters = () => {
       <SearchBar
         searchText={filters.name}
         onInputChange={(value) => handleFilterChange("name", value)}
-        onSearch={applyFilters}
+        onSearch={() => {}}
         onReset={resetAllFilters}
       />
       <div className={styles.container}>
@@ -132,10 +132,6 @@ const Filters = () => {
             </div>
           </div>
         </div>
-
-        <button className={styles.apply} onClick={applyFilters}>
-          Aplicar Filtros
-        </button>
       </div>
     </>
   );
