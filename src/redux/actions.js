@@ -21,7 +21,7 @@ export const SEARCH = "SEARCH";
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
  const URLD = "https://lunchup-back.onrender.com";
-/* const URLD = "http://localhost:3001"; */
+
 
 
 export const fetchProducts = () => {
