@@ -1,34 +1,72 @@
 import styles from "./Rating.module.css";
 import { useState } from "react";
 
-
 const Rating = () => {
-const [stars, setStars] = useState(0);
-const handleClick = (e) => {
-    setStars(e.target.value);
-}
+    const [stars, setStars] = useState(0);
+
+    const handleClick = (e) => {
+        setStars(e.target.value);
+    };
 
     return (
         <div className={styles.rating}>
-            <input className={styles.input} value="5" name="rating" id="star5" type="radio">
-                <label className={styles.label} for="star5"></label>
-            </input>
-            <input className={styles.input} value="4" name="rating" id="star4" type="radio">
-                <label className={styles.label} for="star4"></label>
-            </input>
-            <input className={styles.input} value="3" name="rating" id="star3" type="radio">
-                <label className={styles.label} for="star3"></label>
-            </input>
-            <input className={styles.input} value="2" name="rating" id="star2" type="radio">
-                <label className={styles.label} for="star2"></label>
-            </input>
-            <input className={styles.input} value="1" name="rating" id="star1" type="radio">
-                <label className={styles.label} for="star1"></label>
-            </input>
-
+            <label className={styles.label} htmlFor="star5">
+                <input
+                    className={styles.input}
+                    value={5}
+                    name="rating"
+                    id="star5"
+                    type="radio"
+                    onClick={handleClick}
+                />
+                5
+            </label>
+            <label className={styles.label} htmlFor="star4">
+                <input
+                    className={styles.input}
+                    value={4}
+                    name="rating"
+                    id="star4"
+                    type="radio"
+                    onClick={handleClick}
+                />
+                4
+            </label>
+            <label className={styles.label} htmlFor="star3">
+                <input
+                    className={styles.input}
+                    value={3}
+                    name="rating"
+                    id="star3"
+                    type="radio"
+                    onClick={handleClick}
+                />
+                3
+            </label>
+            <label className={styles.label} htmlFor="star2">
+                <input
+                    className={styles.input}
+                    value={2}
+                    name="rating"
+                    id="star2"
+                    type="radio"
+                    onClick={handleClick}
+                />
+                2
+            </label>
+            <label className={styles.label} htmlFor="star1">
+                <input
+                    className={styles.input}
+                    value={1}
+                    name="rating"
+                    id="star1"
+                    type="radio"
+                    onClick={handleClick}
+                />
+                1
+            </label>
         </div>
-            )
+    );
+};
 
-}
-
-export default Rating
+export default Rating;

@@ -5,7 +5,7 @@ import Loader from '../Loader/Loader';
 
 const Cards = (props) => {
   const {dishes} = props;
-
+  console.log(dishes);
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {

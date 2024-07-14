@@ -36,6 +36,7 @@ const Card = (props) => {
       onTouchStart={handleTouch}
     >
       <img src={images[0]} alt={name} className={styles.cardImage} onClick={handleOnClick}/>
+      <Rating />
       <div className={styles.cardContent}>
         <p className={styles.cardTitle}>{name}</p>
         <p className={styles.cardDescription}>$ {price}</p>
