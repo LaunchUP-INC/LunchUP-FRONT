@@ -18,25 +18,16 @@ export const SEARCH = "SEARCH";
 export const FETCH_REVIEWS = "FETCH_REVIEWS";
 export const POST_REVIEWS = "POST_REVIEWS";
 
-// const productIds = [716429, 716430, 716431, 716432, 716433, 1000, 1, 7, 10, 14, 500, 5000]; // Ejemplo de IDs de productos
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
-// export const URLD = "https://lunchup-back.onrender.com";
-export const URLD = "http://localhost:3001";
+
+export const URLD = "https://lunchup-back.onrender.com";
+// export const URLD = "http://localhost:3001";
 
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-      // const requests = productIds.map(id =>
-      //   axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=6afebc2cf75b47ffa18e47b13b1a2885&includeNutrition=true`)
-      // );
-      // const responses = await Promise.all(requests);
-      // const products = responses.map(response => response.data);
-
-      // console.log('Fetched products:', products); // Verificar la respuesta
-
-      //const products = await axios.get("http://localhost:3001/dishes");
 
       const products = await axios.get(`${URLD}/dishes`);
 

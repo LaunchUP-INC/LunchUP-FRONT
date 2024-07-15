@@ -19,7 +19,7 @@ import {
   POST_REVIEWS,
 } from "./actions";
 
-const initialState = {
+const initialState = { 
   isAdmin: false,
   allUsers: [],
   allProducts: [],
