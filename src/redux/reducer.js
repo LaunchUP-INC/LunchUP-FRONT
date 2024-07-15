@@ -19,13 +19,13 @@ import {
 } from "./actions";
 
 const initialState = {
+  currentUser: {},
   isAdmin: false,
-  allUsers:[],
+  allUsers:[],  
   allProducts: [],
   filteredProducts: [],
   productDetail: [],
   mealTypes: [],
-  user: {},
   newDishId: null,
   postDishError: null,
   succesDishDelete: null,

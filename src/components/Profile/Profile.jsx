@@ -137,7 +137,7 @@ const Profile = () => {
                 <div className={styles.btnContainer}>
                     <Button variant="info" className={styles.btn}>Edit Profile</Button>
                     <Button variant="danger" onClick={() => logout()} className={styles.btn}>Logout</Button>
-                    <Button variant="primary" onClick={() => navigate("/dashboard")} className={styles.btn}>Mis publicaciones</Button>
+                    <Button variant="primary" onClick={() => navigate("/admin")} className={styles.btn}>Mis publicaciones</Button>
                 </div>
             </div>
         )

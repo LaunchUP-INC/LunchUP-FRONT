@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import DashboardHeading from "./DashBoardHeading";
+import DashboardHeading from "../AdminNav/TopNavBar";
 import styles from "./Dashboard.module.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteDish, fetchProducts, resetDeleteDishStatus } from "../../redux/actions";
+import { deleteDish, fetchProducts, resetDeleteDishStatus } from "../../../redux/actions";
 import { useNavigate } from "react-router-dom";
 
 
@@ -38,7 +38,6 @@ const Dashboard = () => {
 
   return (
     <section className={styles.dashboardContainer}>
-      <DashboardHeading />
       <div>
         <h1>Admin Dashboard</h1>
         <table>
@@ -56,7 +55,7 @@ const Dashboard = () => {
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <td>
-                  <button onClick={() => navigate(`/product/modify/${item.id}`)}>Editar</button>
+                  <button onClick={() => navigate(`/admin/product/modify/${item.id}`)}>Editar</button>
                 </td>
                 <td>
                   <button className={styles.dB} onClick={() => handleDeleteProduct(item.id)}>Eliminar producto</button>
