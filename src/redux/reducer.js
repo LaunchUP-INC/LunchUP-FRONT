@@ -15,17 +15,19 @@ import {
   DELETE_DISH_SUCCESS,
   DELETE_DISH_ERROR,
   RESET_DELETE_DISH_STATUS,
-
+  FETCH_REVIEWS,
+  POST_REVIEWS,
 } from "./actions";
 
-const initialState = {
-  currentUser: {},
+const initialState = { 
   isAdmin: false,
-  allUsers:[],  
+  allUsers: [],
   allProducts: [],
   filteredProducts: [],
   productDetail: [],
   mealTypes: [],
+  reviews: [],
+  user: {},
   newDishId: null,
   postDishError: null,
   succesDishDelete: null,
@@ -51,9 +53,8 @@ const rootReducer = (state = initialState, action) => {
     case GET_MEAL_TYPE:
       return {
         ...state,
-        mealTypes: action.payload
-      }
-
+        mealTypes: action.payload,
+      };
 
     case FILTERS_TYPE:
       return {
@@ -85,21 +86,21 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         succesDishDelete: action.payload,
         errorDishDelete: null,
-      }
+      };
 
     case DELETE_DISH_ERROR:
       return {
         ...state,
         succesDishDelete: null,
         errorDishDelete: action.payload,
-      }
+      };
 
     case RESET_DELETE_DISH_STATUS:
-      return{
+      return {
         ...state,
         succesDishDelete: null,
         errorDishDelete: null,
-      }
+      };
 
     case SET_SHOPPINGCART:
       return {
@@ -129,6 +130,16 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         filteredProducts: action.payload,
+      };
+    case FETCH_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+    case POST_REVIEWS:
+      return {
+        ...state,
+        reviews: [...state.reviews, action.payload],
       };
 
     default:
