@@ -4,17 +4,16 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Routes, Route, useLocation } from "react-router-dom";
 import LandingView from "./Views/LandingView";
-import ProductView from "./Views/ProductsView";
+import ProductView from "./Views/AdminViews/ProductsView";
 import HomeView from "./Views/HomeView";
 import NavigationBar  from "./components/Nav/Nav";
 import ProductDetailView from "./Views/ProductDetailView";
-import ProductFormView from "./Views/ProductFormView";
+import ProductFormView from "./Views/AdminViews/ProductFormView";
 import LoginView from "./Views/LoginView";
 import SignupView from "./Views/SignupView";
 import ShoppingCartView from "./Views/ShoppingCartView";
 import ProfileUserView from "./Views/ProfileUserView";
 import AdminView from "./Views/AdminView";
-
 
 function App() {
   const location = useLocation();
@@ -26,16 +25,13 @@ function App() {
         <Route path="/login" element={<LoginView />} />
         <Route path="/signup" element={<SignupView />} />
         <Route path="/home" element={<HomeView />} />
-        <Route path="/products" element={<ProductView />} />
         <Route path="/products/detail/:id" element={<ProductDetailView />} />
         <Route path="/shopping" element={<ShoppingCartView />} />
         <Route path="/profile" element={<ProfileUserView />} />
 
 
         {/*Rtuas para ADMIN */}
-        <Route path="/dashboard" element={<AdminView />} />
-        <Route path="/product/create" element={<ProductFormView />} />
-        <Route path="/product/modify/:id" element={<ProductFormView />} />
+        <Route path="/admin/*" element={<AdminView />} />        
       </Routes>
       <ToastContainer />
     </>

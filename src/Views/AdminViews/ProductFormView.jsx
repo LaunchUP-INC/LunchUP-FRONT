@@ -1,4 +1,4 @@
-import ProductForm from "../components/ProductForm/ProductForm";
+import ProductForm from "../../components/ProductForm/ProductForm";
 
 const ProductFormView = () => {
   return (
