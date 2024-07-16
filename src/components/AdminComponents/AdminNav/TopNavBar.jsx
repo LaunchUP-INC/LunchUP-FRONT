@@ -4,7 +4,7 @@ import BagIcon from '../../Icons/BagIcon';
 
 const TopNavbar = ({ toggleSidebar }) => {
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
+    <Navbar bg="dark" variant="dark" expand="lg" fixed="top" style={{ height: '70px' }}>
       <Button variant="dark" onClick={toggleSidebar} className="mr-2">
         ☰ Menu
       </Button>

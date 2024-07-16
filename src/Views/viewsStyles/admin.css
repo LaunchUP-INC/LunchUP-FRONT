@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
 }
@@ -48,13 +49,13 @@ body {
 
 .sidebar-open .content {
   margin-left: 200px; /* Ajustar según el ancho de tu sidebar */
-} 
+}
 
-/* Estilos adicionales para asegurar que la sidebar no cubra el contenido en pantallas pequeñas */
+/* Estilos adicionales para asegurar que el sidebar no cubra el contenido en pantallas pequeñas */
 @media (max-width: 768px) {
   .sidebar {
-    width: 100%;
-    height: calc(100vh - 56px); /* Ajustar para la altura de la navbar */
+    width: 200px; /* Asegurar el ancho del sidebar */
+    left: -200px; /* Asegurar que esté oculto */
   }
   .sidebar.open {
     left: 0;
