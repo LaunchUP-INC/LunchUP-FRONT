@@ -9,24 +9,26 @@ export const POST_DISH_SUCCESS = "POST_DISH_SUCCESS";
 export const POST_DISH_ERROR = "POST_DISH_ERROR";
 export const DELETE_DISH_SUCCESS = "DELETE_DISH_SUCCESS";
 export const DELETE_DISH_ERROR = "DELETE_DISH_ERROR";
-export const RESET_DELETE_DISH_STATUS = "RESET_DELETE_DISH_STATUS" ;
+export const RESET_DELETE_DISH_STATUS = "RESET_DELETE_DISH_STATUS";
 export const SET_SHOPPINGCART = "SET_SHOPPINGCART";
 export const ADD_TO_SHOPPINGCART = "ADD_TO_SHOPPINGCART";
 export const REMOVE_FROM_SHOPPINGCART = "REMOVE_FROM_SHOPPINGCART";
 export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const SEARCH = "SEARCH";
+export const FETCH_REVIEWS = "FETCH_REVIEWS";
+export const POST_REVIEWS = "POST_REVIEWS";
 
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
+
 export const URLD = "https://lunchup-back.onrender.com";
 // export const URLD = "http://localhost:3001";
 
-
-
 export const fetchProducts = () => {
   return async (dispatch) => {
-    try {     
+    try {
+
       const products = await axios.get(`${URLD}/dishes`);
 
       dispatch({
@@ -41,28 +43,23 @@ export const fetchProducts = () => {
 
 export const getMealType = () => {
   return async (dispatch) => {
-
     try {
-      
-      const response = await axios.get(`${URLD}/meal`)
+      const response = await axios.get(`${URLD}/meal`);
 
       dispatch({
         type: GET_MEAL_TYPE,
-        payload: response.data.mealTypes
-      })
-
+        payload: response.data.mealTypes,
+      });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }
-}
+  };
+};
 
 export const getProductDetail = (id) => {
   return async (dispatch) => {
     try {
-      const productDetail = await axios.get(
-        `${URLD}/dishes/${id}`
-      );
+      const productDetail = await axios.get(`${URLD}/dishes/${id}`);
 
       dispatch({
         type: GET_PRODUCT_DETAIL,
@@ -77,7 +74,7 @@ export const getProductDetail = (id) => {
 export const filterProducts = (name, type, order) => {
   return async (dispatch) => {
     try {
-      let url =`${URLD}/dishes?`;
+      let url = `${URLD}/dishes?`;
       const params = [];
 
       if (name) params.push(`search=${encodeURIComponent(name)}`);
@@ -85,7 +82,7 @@ export const filterProducts = (name, type, order) => {
       if (order) params.push(`orderBy=${encodeURIComponent(order)}`);
 
       // Uniendo todos los parámetros con '&' y agregándolos a la URL base
-      url += params.join('&');
+      url += params.join("&");
 
       // const response = await axios.get(
       //   `http://localhost:3001/dishes?filterMealTypeBy=${type}&orderBy=${order}`
@@ -146,7 +143,7 @@ export const postDish = (dish) => {
   };
 };
 
-export const updateDish = (id, dish) =>{
+export const updateDish = (id, dish) => {
   return async (dispatch) => {
     try {
       // const formData = new FormData();
@@ -158,13 +155,13 @@ export const updateDish = (id, dish) =>{
       // dish.images.forEach((image) => {
       //   formData.append("images", image);
       // });
-      
+
       // // Añadir tipos de comida al formData
       // dish.Meal_Types.forEach((mealType) => {
       //   formData.append("Meal_Types", mealType);
       // });
       console.log("llega");
-      const response = await axios.put(`${URLD}/dishes/${id}`, dish)
+      const response = await axios.put(`${URLD}/dishes/${id}`, dish);
       // , {
       //   headers: {
       //     "Content-Type": "multipart/form-data",
@@ -182,14 +179,13 @@ export const updateDish = (id, dish) =>{
       });
     }
   };
-}
+};
 
-
-export const deleteDish = (id) =>{
-  return async (dispatch) =>{
+export const deleteDish = (id) => {
+  return async (dispatch) => {
     try {
       const response = await axios.delete(`${URLD}/dishes/${id}`);
-      
+
       dispatch({
         type: DELETE_DISH_SUCCESS,
         payload: response.data,
@@ -200,9 +196,11 @@ export const deleteDish = (id) =>{
         payload: error.message,
       });
     }
-  }
-}
-export const resetDeleteDishStatus = () => ({ type: 'RESET_DELETE_DISH_STATUS' });
+  };
+};
+export const resetDeleteDishStatus = () => ({
+  type: "RESET_DELETE_DISH_STATUS",
+});
 
 export const setShoppingCart = () => async (dispatch, getState) => {
   let shoppingCart = getState().shoppingCart;
@@ -267,15 +265,14 @@ export const removeFromShoppingCart =
     });
   };
 
-
-export const clearShoppingCart = () => async (dispatch, getState)=>{
+export const clearShoppingCart = () => async (dispatch, getState) => {
   let shoppingCart = [...getState().shoppingCart];
 
   shoppingCart = [];
   localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
   dispatch({
-    type:CLEAR_SHOPPINGCART,
+    type: CLEAR_SHOPPINGCART,
     payload: shoppingCart,
   });
 };
@@ -283,12 +280,39 @@ export const clearShoppingCart = () => async (dispatch, getState)=>{
 export const searchProduct = (search) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(
-        `${URLD}/dishes?search=${search}`
-      );
+      const response = await axios.get(`${URLD}/dishes?search=${search}`);
       dispatch({
         type: SEARCH,
         payload: response.data.allDishes,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+};
+
+export const fetchReviews = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/reviews`);
+      console.log(response.data);
+      dispatch({
+        type: FETCH_REVIEWS,
+        payload: response.data.reviews,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+};
+
+export const postReviews = (review) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URLD}/reviews`, review);
+      dispatch({
+        type: FETCH_REVIEWS,
+        payload: response.data,
       });
     } catch (error) {
       console.error("Error fetching data:", error);
