@@ -9,7 +9,7 @@ import Loader from "../Loader/Loader";
 import Image from 'react-bootstrap/Image';
 import Table from 'react-bootstrap/Table';
 import { useNavigate } from "react-router-dom";
-
+import ReviewAlert from "../ReviewAlert/ReviewAlert";
 const Profile = () => {
     const { user, isAuthenticated, isLoading, logout } = useAuth0();
     const [show, setShow] = useState(false);
@@ -139,6 +139,7 @@ const Profile = () => {
                     <Button variant="danger" onClick={() => logout()} className={styles.btn}>Logout</Button>
                     <Button variant="primary" onClick={() => navigate("/admin")} className={styles.btn}>Mis publicaciones</Button>
                 </div>
+                <ReviewAlert />
             </div>
         )
     );
