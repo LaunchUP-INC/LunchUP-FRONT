@@ -1,11 +1,13 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import Dashboard from "../components/AdminComponents/Dashboard/Dashboard";
-import ProductView from "./AdminViews/ProductsView";
+import ProductsView from "./AdminViews/ProductsView";
 import ProductFormView from "./AdminViews/ProductFormView";
 import SideBar from "../components/AdminComponents/AdminNav/SideBar";
 import TopNavBar from "../components/AdminComponents/AdminNav/TopNavBar";
 import { useState } from "react";
 import "./viewsStyles/admin.css"
+import UsersView from "./AdminViews/UsersView";
+import StatsView from "./AdminViews/StatsView";
 
 const AdminView = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -23,11 +25,11 @@ const AdminView = () => {
           <main className="content">
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="products" element={<ProductView />} />
+              <Route path="products" element={<ProductsView />} />
               <Route path="product/create" element={<ProductFormView />} />
               <Route path="product/modify/:id" element={<ProductFormView />} />
-              <Route />
-              <Route />
+              <Route path="users" element={<UsersView />} />
+              <Route path="stats" element={<StatsView />} />
               <Route />
             </Routes>
           </main>
