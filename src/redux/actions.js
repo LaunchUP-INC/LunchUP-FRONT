@@ -1,6 +1,7 @@
 import axios from "axios";
-
+import { toast } from "react-toastify";
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
+export const FETCH_PRODUCTS_ERROR = "FETCH_PRODUCTS_ERROR";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
 export const GET_MEAL_TYPE = "GET_MEAL_TYPE";
 export const FILTERS_TYPE = "FILTERS_TYPE";
@@ -20,7 +21,7 @@ export const SEARCH = "SEARCH";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
- const URLD = "https://lunchup-back.onrender.com";
+ export const URLD = "https://lunchup-back.onrender.com";
 
 
 
@@ -36,9 +37,9 @@ export const fetchProducts = () => {
       // console.log('Fetched products:', products); // Verificar la respuesta
 
 
-      //const products = await axios.get("http://localhost:3001/dishes");
+      const products = await axios.get("http://localhost:3001/dishes");
 
-      const products = await axios.get(`${URLD}/dishes`);
+      // const products = await axios.get(`${URLD}/dishes`);
 
 
       dispatch({
@@ -46,7 +47,10 @@ export const fetchProducts = () => {
         payload: products.data.allDishes,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch({
+        type: FETCH_PRODUCTS_ERROR,
+        payload: error.message,
+      });
     }
   };
 };

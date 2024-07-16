@@ -1,5 +1,7 @@
 import "./App.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Routes, Route, useLocation } from "react-router-dom";
 import LandingView from "./Views/LandingView";
 import ProductView from "./Views/ProductsView";
@@ -35,6 +37,7 @@ function App() {
         <Route path="/product/create" element={<ProductFormView />} />
         <Route path="/product/modify/:id" element={<ProductFormView />} />
       </Routes>
+      <ToastContainer />
     </>
   );
 }
