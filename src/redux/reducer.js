@@ -27,6 +27,7 @@ const initialState = {
   productDetail: [],
   mealTypes: [],
   reviews: [],
+  newreviews: [],
   user: {},
   newDishId: null,
   postDishError: null,
@@ -139,7 +140,7 @@ const rootReducer = (state = initialState, action) => {
     case POST_REVIEWS:
       return {
         ...state,
-        reviews: [...state.reviews, action.payload],
+        newreviews: [...state.reviews, action.payload],
       };
 
     default:

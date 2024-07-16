@@ -1,0 +1,15 @@
+.rating {
+    display: flex;
+    gap: 5px;
+    font-size: 30px;
+  }
+  
+  .filledStar {
+    color: gold;
+    cursor: pointer;
+  }
+  
+  .emptyStar {
+    color: lightgray;
+    cursor: pointer;
+  }
