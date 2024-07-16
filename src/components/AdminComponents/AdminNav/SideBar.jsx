@@ -19,7 +19,7 @@ const Sidebar = ({ isOpen, toggle }) => {
                 </LinkContainer>
             </Nav.Item>
             <Nav.Item>
-                <LinkContainer to="/admin/product/create">
+                <LinkContainer to="/admin/users">
                     <Nav.Link onClick={toggle}>Usuarios</Nav.Link>
                 </LinkContainer>
             </Nav.Item>

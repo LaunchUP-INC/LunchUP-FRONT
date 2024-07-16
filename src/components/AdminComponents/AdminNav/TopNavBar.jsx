@@ -6,7 +6,7 @@ const TopNavbar = ({ toggleSidebar }) => {
   return (
     <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
       <Button variant="dark" onClick={toggleSidebar} className="mr-2">
-        ☰
+        ☰ Menu
       </Button>
       <Navbar.Brand href="#home"><BagIcon/> LunchUP </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
