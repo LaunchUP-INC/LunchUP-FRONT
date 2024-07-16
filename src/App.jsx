@@ -1,5 +1,7 @@
 import "./App.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Routes, Route, useLocation } from "react-router-dom";
 import LandingView from "./Views/LandingView";
 import ProductView from "./Views/AdminViews/ProductsView";
@@ -31,6 +33,7 @@ function App() {
         {/*Rtuas para ADMIN */}
         <Route path="/admin/*" element={<AdminView />} />        
       </Routes>
+      <ToastContainer />
     </>
   );
 }

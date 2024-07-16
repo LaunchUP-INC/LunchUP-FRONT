@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 import { fetchProducts } from "../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
@@ -11,6 +12,7 @@ const HomeView = () => {
   const dispatch = useDispatch();
 
   const dishes = useSelector((state) => state.filteredProducts);
+  const error = useSelector((state)=> state.error);
 
   // console.log(dishes);
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +20,16 @@ const HomeView = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
+
   }, [dispatch]);
+
+  useEffect(() => {
+    if (error) {     
+        toast.error(`Error al obtener los datos: ${error}`);
+    } else if (error === null) {     
+      toast.success("Productos cargados exitosamente.");
+    } 
+  }, [error]);
 
   //Obtener la cantidad de Cards
   const indexOfLastCard = currentPage * cardsPerPage;
