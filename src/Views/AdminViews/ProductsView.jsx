@@ -1,13 +1,13 @@
-import { useSelector } from "react-redux";
 import Products from "../../components/AdminComponents/Products/Products";
-import Card from "../../components/Card/Card";
 
-const ProductsView = () =>{
-    const allProducts = useSelector((state) => state.allProducts);
+
+
+const ProductsView = (props) =>{
+    
 
     return(
         <>
-            <Products products={allProducts} />
+            <Products products={props.products} />
         </>
     )
 

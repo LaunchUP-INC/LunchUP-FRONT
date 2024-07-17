@@ -114,7 +114,7 @@ const ProductForm = () => {
             images: [],
             Meal_Types: []
           });
-          navigate("/dashboard");
+          navigate("/admin/products");
         }else{
           await dispatch(postDish(dish));
           Swal.fire({

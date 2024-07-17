@@ -8,9 +8,26 @@ import {
 import { useNavigate } from "react-router-dom";
 import BasketIcon from "../../Icons/BasketIcon";
 import styles from "./Products.module.css";
+import { useState } from "react";
+import EditStockModal from "./EditStockModal";
+
+
 const Products = (props) => {
   const { products } = props;
   const navigate = useNavigate();
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  
+  const handleShowModal = (product) => {
+    setSelectedProduct(product);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedProduct(null);
+  };
+
 
   return (
     <Container>
@@ -46,7 +63,15 @@ const Products = (props) => {
               <Row className="align-items-center">
                 <Col>{item.name}</Col>
                 <Col>$ {item.price}</Col>
-                <Col>{item.stock}</Col>
+                <Col>
+                  {item.stock}{" "}
+                  <Button
+                    variant="link"
+                    onClick={() => handleShowModal(item)}
+                    style={{ padding: "0" }}
+                  >
+                    <FontAwesomeIcon icon={faPenToSquare} />
+                  </Button></Col>
                 <Col
                   style={{
                     display: "flex",
@@ -77,6 +102,13 @@ const Products = (props) => {
           );
         })}
       </Row>
+      {selectedProduct && (
+        <EditStockModal
+          show={showModal}
+          handleClose={handleCloseModal}
+          product={selectedProduct}
+        />
+      )}
     </Container>
   );
 };

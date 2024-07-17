@@ -23,8 +23,8 @@ export const POST_REVIEWS = "POST_REVIEWS";
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
 
-export const URLD = "https://lunchup-back.onrender.com";
-// export const URLD = "http://localhost:3001";
+// export const URLD = "https://lunchup-back.onrender.com";
+export const URLD = "http://localhost:3001";
 
 export const fetchProducts = () => {
   return async (dispatch) => {
@@ -40,12 +40,19 @@ export const fetchProducts = () => {
 
 
       const products = await axios.get(`${URLD}/dishes`);
+      const {allDishes} = products.data;
+
+
+      for (let i = 0; i < allDishes.length; i++) {
+        const {data} = await axios.get(`${URLD}/dishes/${allDishes[i].id}/stock`);
+        allDishes[i].stock = data.stock;
+      }
 
       // const products = await axios.get(`${URLD}/dishes`);
 
       dispatch({
         type: FETCH_PRODUCTS,
-        payload: products.data.allDishes,
+        payload: allDishes,
       });
     } catch (error) {
       dispatch({
@@ -161,27 +168,27 @@ export const postDish = (dish) => {
 export const updateDish = (id, dish) => {
   return async (dispatch) => {
     try {
-      // const formData = new FormData();
-      // formData.append("name", dish.name);
-      // formData.append("description", dish.description);
-      // formData.append("price", dish.price);
+      const formData = new FormData();
+      formData.append("name", dish.name);
+      formData.append("description", dish.description);
+      formData.append("price", dish.price);
 
-      // // Añadir imágenes al formData
-      // dish.images.forEach((image) => {
-      //   formData.append("images", image);
-      // });
+      // Añadir imágenes al formData
+      dish.images.forEach((image) => {
+        formData.append("images", image);
+      });
 
-      // // Añadir tipos de comida al formData
-      // dish.Meal_Types.forEach((mealType) => {
-      //   formData.append("Meal_Types", mealType);
-      // });
-      console.log("llega");
-      const response = await axios.put(`${URLD}/dishes/${id}`, dish);
-      // , {
-      //   headers: {
-      //     "Content-Type": "multipart/form-data",
-      //   },
-      // });
+      // Añadir tipos de comida al formData
+      dish.Meal_Types.forEach((mealType) => {
+        formData.append("Meal_Types", mealType);
+      });
+      // console.log("llega");
+      const response = await axios.put(`${URLD}/dishes/${id}`, formData
+      , {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       dispatch({
         type: POST_DISH_SUCCESS,
@@ -195,6 +202,15 @@ export const updateDish = (id, dish) => {
     }
   };
 };
+
+export const updateStock = (id, quantity) =>{
+  return async (dispatch)=>{
+
+    const {data} = await axios.put(`${URLD}/dishes/${id}/stock`, {"quantity": Number(quantity)});
+    dispatch(fetchProducts());
+    return data.stock;
+  }
+}
 
 export const deleteDish = (id) => {
   return async (dispatch) => {
