@@ -12,6 +12,7 @@ import { Card, CardBody, CardText, Col, Container, Row } from "react-bootstrap";
 
 const Dashboard = () => {
   const allProducts = useSelector((state) => state.allProducts);
+  const allUsers = useSelector((state) => state.allUsers);
 
   return (
     <Container className="mt-5">
@@ -19,7 +20,7 @@ const Dashboard = () => {
         <Col>
           <Card>
             <CardBody>
-              <Card.Title><FontAwesomeIcon icon={faUsers}/> 15</Card.Title>
+              <Card.Title><FontAwesomeIcon icon={faUsers}/>{allUsers.length}</Card.Title>
               <CardText>Usuarios</CardText>
             </CardBody>
           </Card>
