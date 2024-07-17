@@ -1,13 +1,17 @@
 :root {
-  --color-Body: #ADD8E6;
+  --color-Body: #add8e6;
   --color-font: #333333;
-  --color-border: #FFB6C1;
-  --color-input: #90EE90;
+  --color-border: #ffb6c1;
+  --color-input: #90ee90;
   --color-secundary: #3333e5;
   --color-white: #ffffff;
 }
 
 .navBrand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   font-weight: bold;
   color: var(--color-font);
 }
@@ -35,26 +39,24 @@
   background-color: var(--color-Body) !important;
 }
 
+.dropDown a {
+  &:hover {
+    background-color: rgb(189, 189, 189)
+  }
+}
 
 .icon {
-  height: 35px;
-  width: 35px;
+  height: 25px;
+  width: 25px;
   color: var(--color-secundary);
 }
 
-.icon:hover {
-  color: #198754;  
-  transform: scale(1.1);  
-  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;  
-}
-
 .navBrand:hover {
-  transform: scale(1.05); 
-  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out; 
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
   background-color: var(--color-white);
   color: #198754;
 }
-
 
 .scrolled {
   background-color: rgba(255, 255, 255, 0.9) !important;
@@ -62,6 +64,6 @@
 }
 
 .activeLink {
-  background-color: rgba(255, 255, 255, 0.2) !important; 
-  color: #007bff !important; 
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #007bff !important;
 }
