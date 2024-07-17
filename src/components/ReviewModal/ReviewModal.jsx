@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import styles from './ReviewModal.module.css'; // Importa tus estilos
 import RatingModal from '../RatingModal/RatingModal';
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { postReviews } from '../../redux/actions';
+import { useParams } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const customStyles = {
   content: {
@@ -17,24 +19,22 @@ const customStyles = {
 };
 
 const ReviewModal = ({ isOpen, onRequestClose }) => {
-  const [reviewText, setReviewText] = useState('');
-  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+  const [score, setScore] = useState(0);
   const dispatch = useDispatch();
-  const review = { reviewText, rating };
-  console.log(review);
-  
-  
 
+const { user } = useAuth0();
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Aquí puedes manejar el envío de la reseña y la puntuación
-
-    console.log('Review:', reviewText, 'Rating:', rating);
-    localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado
+    const review = { comment, score };
+    dispatch(postReviews(review));
+    /* localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado */
     onRequestClose(); // Cierra el modal después de enviar la reseña
   };
+  const id = user.name;
+  console.log(user);
   const handleTextChange = (event) => {
-    setReviewText(event.target.value);
+    setComment(event.target.value);
   };
 
   return (
@@ -46,10 +46,11 @@ const ReviewModal = ({ isOpen, onRequestClose }) => {
     >
       <h2>Deja tu Reseña</h2>
       <form onSubmit={handleSubmit}>
-        <RatingModal rating={rating} setRating={setRating} />
+        <RatingModal rating={score} setRating={setScore} />
         <textarea
           className={styles.textarea}
           placeholder="Escribe tu reseña aquí..."
+          value={comment}
           onChange={handleTextChange}
           maxLength={300}
           minLength={20}

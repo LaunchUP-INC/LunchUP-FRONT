@@ -149,7 +149,7 @@ const rootReducer = (state = initialState, action) => {
     case POST_REVIEWS:
       return {
         ...state,
-        newreviews: [...state.reviews, action.payload],
+        newreviews: [...state.newreviews, action.payload],
       };
 
     default:

@@ -338,11 +338,12 @@ export const fetchReviews = () => {
 };
 
 export const postReviews = (review) => {
+  console.log(review);
   return async (dispatch) => {
     try {
       const response = await axios.post(`${URLD}/reviews`, review);
       dispatch({
-        type: FETCH_REVIEWS,
+        type: POST_REVIEWS,
         payload: response.data,
       });
     } catch (error) {

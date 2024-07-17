@@ -34,8 +34,9 @@ const Card = (props) => {
     <div 
       className={`${styles.card} ${isActive ? styles.active : ""}`} 
       onTouchStart={handleTouch}
+      onClick={handleOnClick}
     >
-      <img src={images[0]} alt={name} className={styles.cardImage} onClick={handleOnClick}/>
+      <img src={images[0]} alt={name} className={styles.cardImage} />
       <Rating />
       <div className={styles.cardContent}>
         <p className={styles.cardTitle}>{name}</p>
