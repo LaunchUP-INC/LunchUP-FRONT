@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 import {
   FETCH_PRODUCTS,
+  FETCH_PRODUCTS_ERROR,
   GET_PRODUCT_DETAIL,
   GET_MEAL_TYPE,
   FILTERS_TYPE,
@@ -43,7 +44,15 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         allProducts: action.payload,
         filteredProducts: action.payload,
+        success: action.payload,
+        error: null,
       };
+
+    case FETCH_PRODUCTS_ERROR:
+        return {
+          ...state,
+          error: action.payload,
+        };
 
     case GET_PRODUCT_DETAIL:
       return {

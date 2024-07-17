@@ -1,6 +1,7 @@
 import axios from "axios";
-
+import { toast } from "react-toastify";
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
+export const FETCH_PRODUCTS_ERROR = "FETCH_PRODUCTS_ERROR";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
 export const GET_MEAL_TYPE = "GET_MEAL_TYPE";
 export const FILTERS_TYPE = "FILTERS_TYPE";
@@ -29,6 +30,15 @@ export const fetchProducts = () => {
   return async (dispatch) => {
     try {
 
+      // const requests = productIds.map(id =>
+      //   axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=6afebc2cf75b47ffa18e47b13b1a2885&includeNutrition=true`)
+      // );
+      // const responses = await Promise.all(requests);
+      // const products = responses.map(response => response.data);
+
+      // console.log('Fetched products:', products); // Verificar la respuesta
+
+
       const products = await axios.get(`${URLD}/dishes`);
       const {allDishes} = products.data;
 
@@ -38,12 +48,17 @@ export const fetchProducts = () => {
         allDishes[i].stock = data.stock;
       }
 
+      // const products = await axios.get(`${URLD}/dishes`);
+
       dispatch({
         type: FETCH_PRODUCTS,
         payload: allDishes,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch({
+        type: FETCH_PRODUCTS_ERROR,
+        payload: error.message,
+      });
     }
   };
 };
