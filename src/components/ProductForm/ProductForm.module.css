@@ -9,7 +9,7 @@
 
 /* BOOTSTRAP */
 .containerCustom {
-  background-color: #f8f9fa;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -85,82 +85,26 @@
   /* padding-top: 60px; */
   width: 100%;
   height: 100vh;
-  background-color: #e9fff7;
+  background-color: #00ffa2;
 }
 
 /* Estilos generales para el formulario */
-.form {
-  width: 35%;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  box-shadow: 7px 7px 1px rgb(9, 98, 70);
-  font-size: 1.1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  color: var(--color-font);
-  font-weight: bold;
-  gap: 20px;
-  position: relative;
-}
+
 
 /* Estilos para los elementos de entrada */
 
 
-.inputForm {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 30px;
-}
 
-.labelForm {
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: start;
-  text-align: left;
-  width: 100%;
-  color: var(--color-font);
-}
 
 /* Estilos para los botones */
-.button {
-  width: 100%;
-  padding: 10px;
-  background: linear-gradient(to top, #229a1b, #108206);
-  border: none;
-  border-radius: 5px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
 
-.button:hover {
-  background: linear-gradient(to top, #108206, #229a1b);
-  transform: scale(1.02);
-}
+
+
 
 /* Estilos para etiquetas */
 
 /* Estilos para el contenedor de campo de formulario */
-.formGroup {
-  margin-bottom: 10px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-}
+
 
 /* Estilos para mensajes de error */
 .errorContainer{
@@ -251,26 +195,4 @@
 }
 
 
-/* BOOTSTRAP */
 
-.containerCustom {
-  background-color: #e9fff7 !important; /* Usando !important para asegurar que se aplique */
-  border-color: #ffb6c1 !important;
-  color: #333;
-  
-}
-
-.labelCustom {
-  color: #000080 !important;
-}
-
-.btnCustom {
-  margin-top: 15PX;
-  background-color: #229a1b !important;
-  border-color: #108206 !important;
-}
-
-.btnCustom:hover {
-  background-color: #108206 !important;
-  border-color: #0a5c10 !important;
-}
