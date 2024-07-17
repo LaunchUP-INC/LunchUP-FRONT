@@ -8,7 +8,7 @@ const TopNavbar = ({ toggleSidebar }) => {
       <Button variant="dark" onClick={toggleSidebar} className="mr-2">
         ☰ Menu
       </Button>
-      <Navbar.Brand href="#home"><BagIcon/> LunchUP </Navbar.Brand>
+      <Navbar.Brand href="../home"><BagIcon/> LunchUP </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">

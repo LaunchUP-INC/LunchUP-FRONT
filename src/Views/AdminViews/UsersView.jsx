@@ -1,11 +1,11 @@
 import Users from "../../components/AdminComponents/Users/Users";
 
 
-const UsersView = () =>{
+const UsersView = (props) =>{
 
     return(
         <div>
-            <Users />
+            <Users users={props.users} />
         </div>
     )
 

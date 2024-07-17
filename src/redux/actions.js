@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const FETCH_PRODUCTS_ERROR = "FETCH_PRODUCTS_ERROR";
+export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
 export const GET_MEAL_TYPE = "GET_MEAL_TYPE";
 export const FILTERS_TYPE = "FILTERS_TYPE";
@@ -23,21 +24,12 @@ export const POST_REVIEWS = "POST_REVIEWS";
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
 
-export const URLD = "https://lunchup-back.onrender.com";
-/* export const URLD = "http://localhost:3001"; */
+// export const URLD = "https://lunchup-back.onrender.com";
+export const URLD = "http://localhost:3001"; 
 
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-
-      // const requests = productIds.map(id =>
-      //   axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=6afebc2cf75b47ffa18e47b13b1a2885&includeNutrition=true`)
-      // );
-      // const responses = await Promise.all(requests);
-      // const products = responses.map(response => response.data);
-
-      // console.log('Fetched products:', products); // Verificar la respuesta
-
 
       const products = await axios.get(`${URLD}/dishes`);
       const {allDishes} = products.data;
@@ -62,6 +54,41 @@ export const fetchProducts = () => {
     }
   };
 };
+
+export const fetchUsers = () =>{
+  return async (dispatch) =>{
+    try {
+      const response = await axios.get(`${URLD}/user`);
+      const {users} = response.data;
+      console.log(users);
+
+      dispatch({
+        type:FETCH_ALL_USERS,
+        payload: users,
+      })
+      
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+
+};
+
+export const setUserAdminBan = (id, user) =>{
+  return async (dispatch) =>{
+    try {
+      const response = await axios.put(`${URLD}/user/${id}`, user);
+      console.log(response);
+      dispatch(fetchUsers());
+
+      return "success";
+
+    } catch (error) {
+      console.error(error);
+      return "error";
+    }
+  }
+}
 
 export const getMealType = () => {
   return async (dispatch) => {
@@ -205,10 +232,14 @@ export const updateDish = (id, dish) => {
 
 export const updateStock = (id, quantity) =>{
   return async (dispatch)=>{
-
-    const {data} = await axios.put(`${URLD}/dishes/${id}/stock`, {"quantity": Number(quantity)});
-    dispatch(fetchProducts());
-    return data.stock;
+    try {
+      const {data} = await axios.put(`${URLD}/dishes/${id}/stock`, {"quantity": Number(quantity)});
+      dispatch(fetchProducts());
+      return data.stock;
+      
+    } catch (error) {
+      console.error(error); 
+    }
   }
 }
 
