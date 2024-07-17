@@ -8,13 +8,14 @@ import { useEffect, useState } from "react";
 import "./viewsStyles/admin.css"
 import UsersView from "./AdminViews/UsersView";
 import StatsView from "./AdminViews/StatsView";
-import { fetchProducts } from "../redux/actions";
+import { fetchProducts, fetchUsers } from "../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 
 const AdminView = () => {
   const dispatch = useDispatch(); 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const allProducts = useSelector((state) => state.allProducts);
+  const allUsers = useSelector((state) => state.allUsers);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -22,6 +23,7 @@ const AdminView = () => {
 
   useEffect(()=>{
     dispatch(fetchProducts());
+    dispatch(fetchUsers());
   },[dispatch]);
 
   return (
@@ -36,7 +38,7 @@ const AdminView = () => {
               <Route path="products" element={<ProductsView products={allProducts} />} />
               <Route path="product/create" element={<ProductFormView />} />
               <Route path="product/modify/:id" element={<ProductFormView />} />
-              <Route path="users" element={<UsersView />} />
+              <Route path="users" element={<UsersView users={allUsers} />} />
               <Route path="stats" element={<StatsView />} />
               <Route />
             </Routes>

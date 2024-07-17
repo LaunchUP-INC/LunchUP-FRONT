@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import styles from "./Filters.module.css";
+import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import SearchBar from "../SearchBar/SearchBar";
 import { filterProducts, fetchProducts } from "../../redux/actions";
 import {
@@ -9,7 +9,8 @@ import {
   FaCarrot,
   FaBreadSlice,
   FaCheese,
-} from "react-icons/fa"; // Ejemplo usando react-icons
+} from "react-icons/fa"; 
+import styles from "./Filters.module.css";
 
 const Filters = () => {
   const dispatch = useDispatch();
@@ -73,66 +74,72 @@ const Filters = () => {
         onSearch={() => {}}
         onReset={resetAllFilters}
       />
-      <div className={styles.container}>
-        <div className={styles.filter}>
-          <select
-            name="type"
-            className={styles.select}
-            value={filters.type}
-            onChange={(e) => handleFilterChange(e.target.name, e.target.value)}
-          >
+      <Container className={styles.container}>
+        <Row className="mb-3 justify-content-center">
+          <Col xs={12} md={6} className="d-flex justify-content-center">
+            <Form.Select
+              name="type"
+              value={filters.type}
+              onChange={(e) => handleFilterChange(e.target.name, e.target.value)}
+              className={styles.select}
+            >
+              {foodTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                  {type.name}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+          <Col xs={12} md={6} className="d-flex justify-content-center">
+            <Form.Select
+              name="price"
+              value={filters.price}
+              onChange={(e) => handleFilterChange(e.target.name, e.target.value)}
+              className={styles.select}
+            >
+              <option value="price-desc">Mayor precio</option>
+              <option value="price-asc">Menor precio</option>
+            </Form.Select>
+          </Col>
+        </Row>
+        <Row className="mb-3 justify-content-center">
+          <Col className="d-flex flex-wrap justify-content-center">
             {foodTypes.map((type) => (
-              <option key={type.id} value={type.id}>
-                {type.name}
-              </option>
-            ))}
-          </select>
-          <div className={styles.filterOptions}>
-            {foodTypes.map((type) => (
-              <div
+              <Card
                 key={type.id}
-                className={`${styles.filterCard} ${
-                  filters.type === type.id ? styles.selected : ""
-                }`}
+                className={`m-2 ${styles.filterCard} ${filters.type === type.id ? styles.selected : ""}`}
                 onClick={() => handleFilterChange("type", type.id)}
               >
-                {type.icon}
-                <span>{type.name}</span>
-              </div>
+                <Card.Body className="text-center">
+                  {type.icon}
+                  <Card.Text>{type.name}</Card.Text>
+                </Card.Body>
+              </Card>
             ))}
-          </div>
-        </div>
-
-        <div className={styles.filter}>
-          <select
-            name="price"
-            className={styles.select}
-            value={filters.price}
-            onChange={(e) => handleFilterChange(e.target.name, e.target.value)}
-          >
-            <option value="price-desc">Mayor precio</option>
-            <option value="price-asc">Menor precio</option>
-          </select>
-          <div className={styles.filterOptions}>
-            <div
-              className={`${styles.filterCard} ${
-                filters.price === "price-desc" ? styles.selected : ""
-              }`}
+            <Card
+              className={`m-2 ${styles.filterCard} ${filters.price === "price-desc" ? styles.selected : ""}`}
               onClick={() => handleFilterChange("price", "price-desc")}
             >
-              <span>Mayor precio</span>
-            </div>
-            <div
-              className={`${styles.filterCard} ${
-                filters.price === "price-asc" ? styles.selected : ""
-              }`}
+              <Card.Body className="text-center">
+                <Card.Text>Mayor precio</Card.Text>
+              </Card.Body>
+            </Card>
+            <Card
+              className={`m-2 ${styles.filterCard} ${filters.price === "price-asc" ? styles.selected : ""}`}
               onClick={() => handleFilterChange("price", "price-asc")}
             >
-              <span>Menor precio</span>
-            </div>
-          </div>
-        </div>
-      </div>
+              <Card.Body className="text-center">
+                <Card.Text>Menor precio</Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row className="justify-content-center">
+          <Button variant="outline-secondary" onClick={resetAllFilters}>
+            Reset Filters
+          </Button>
+        </Row>
+      </Container>
     </>
   );
 };

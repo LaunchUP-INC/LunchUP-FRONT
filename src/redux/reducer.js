@@ -18,6 +18,7 @@ import {
   RESET_DELETE_DISH_STATUS,
   FETCH_REVIEWS,
   POST_REVIEWS,
+  FETCH_ALL_USERS,
 } from "./actions";
 
 const initialState = { 
@@ -46,6 +47,12 @@ const rootReducer = (state = initialState, action) => {
         filteredProducts: action.payload,
         success: action.payload,
         error: null,
+      };
+
+    case FETCH_ALL_USERS:
+      return {
+        ...state,
+        allUsers: action.payload,
       };
 
     case FETCH_PRODUCTS_ERROR:

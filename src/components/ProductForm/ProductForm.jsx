@@ -152,7 +152,7 @@ const ProductForm = () => {
   return (
 
     <Container className={`mt-5 ${styles.containerCustom}`}>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} >
         <h2>{id ? "Modificar plato" : "Nuevo plato"}</h2>
         <Form.Group as={Row} className="mb-3" controlId="formPlatoNombre">
           <Form.Label column sm="3" className={styles.labelCustom}>Nombre del plato*</Form.Label>
