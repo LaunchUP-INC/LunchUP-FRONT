@@ -1,23 +1,17 @@
 :root {
-    --color-Body: #ADD8E6;
+    --color-Body: #add8e6;
     --color-font: #333333;
-    --color-border: #FFB6C1;
-    --color-input: #90EE90;
-    --color-secundary: #000080;
+    --color-border: #b475c9;
+    --color-input: #90ee90;
+    --color-secundary: #5f5ff9;
     --color-white: #ffffff;
-}
-
-.container {
-    position: sticky;
-    display: flex;
-    
-}
+    --color-gray-background: #f0f0f0;
+  }
 
 .paginationContainer {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
-    z-index: 2;
+    margin-top: 10px;
 }
 
 .pagination {
@@ -27,54 +21,25 @@
 }
 
 .pageItem {
-    margin: 0 4px;
+    margin: 0 2px; 
 }
 
-.pageLink {
-    padding: 2px 6px; /* Reducido el padding para hacer los recuadros más pequeños */
-    border: 1px solid rgb(187, 106, 190);
+.pagination .page-link {
+    padding: var(--pagination-padding-y) var(--pagination-padding-x); 
+    border: 1px solid var(--color-border);
     border-radius: 5px;
-    background-color: rgb(252, 229, 255);;
+    background-color: var(--color-input);
     color: var(--color-font);
     cursor: pointer;
-    font-size: 0.9em; /* Reducir tamaño de la fuente */
+    font-size: var(--pagination-font-size); 
 }
 
-.pageLink:hover {
-    background-color: var(--color-border);
+.pagination .page-link:hover {
+    background-color: var(--color-secondary) !important;
 }
 
-.active {
-    background-color: rgb(187, 106, 190);
+.pagination .page-item.active .page-link {
+    background-color: var(--color-secondary);
     color: var(--color-white);
-    border-color: rgb(187, 106, 190);;
-}
-
-/* Media Queries */
-@media (min-width: 1201px) {
-    .pageLink {
-        padding: 4px 8px;
-        font-size: 0.8em;
-    }
-}
-
-@media (max-width: 1200px) {
-    .pageLink {
-        padding: 3px 6px;
-        font-size: 0.7em;
-    }
-}
-
-@media (max-width: 768px) {
-    .pageLink {
-        padding: 5px 8px;
-        font-size: 0.8em;
-    }
-}
-
-@media (max-width: 480px) {
-    .pageLink {
-        padding: 4px 6px;
-        font-size: 0.7em;
-    }
+    border-color: var(--color-secondary);
 }
