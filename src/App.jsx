@@ -12,7 +12,7 @@ import SignupView from "./Views/SignupView";
 import ShoppingCartView from "./Views/ShoppingCartView";
 import ProfileUserView from "./Views/ProfileUserView";
 import AdminView from "./Views/AdminView";
-
+import ProfileEdit from "./Views/ProfileEdit";
 function App() {
   const location = useLocation();
   return (
@@ -26,6 +26,7 @@ function App() {
         <Route path="/products/detail/:id" element={<ProductDetailView />} />
         <Route path="/shopping" element={<ShoppingCartView />} />
         <Route path="/profile" element={<ProfileUserView />} />
+        <Route path="/profile/edit" element={<ProfileEdit />} />
 
 
         {/*Rtuas para ADMIN */}

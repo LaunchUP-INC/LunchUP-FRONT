@@ -97,21 +97,17 @@
 
 @media (max-width: 600px) {
   .card {
-    width: 90%;
+    width: 70%;
     margin: 10px auto;
   }
 
-  .card .cardImage {
-    width: 100%;
-    height: auto;
-  }
 
   .cardTitle {
-    font-size: 20px;
+    font-size: 15px;
   }
 
   .cardDescription {
-    font-size: 12px;
+    font-size: 18px;
   }
 
   .cardContent {
@@ -134,6 +130,16 @@
   .cardImage {
     width: 100%;
     max-width: 250px;
-    height: auto;
+    height: 150px;
+  }
+  .cardButton {
+    margin-top: 5px;
+    padding: 5px 10px;
+    background-color: #3ee943;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
   }
 }

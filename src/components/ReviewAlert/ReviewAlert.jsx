@@ -20,7 +20,7 @@ const ReviewAlert = () => {
             setIsModalOpen(true);
           }
         });
-      }, 10000); // 10 minutos
+      }, 50000); // 10 minutos
 
       return () => clearInterval(reviewRequestInterval);
     }
