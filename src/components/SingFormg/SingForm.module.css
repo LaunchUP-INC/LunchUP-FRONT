@@ -17,10 +17,10 @@
   background-color: var(--color-Body);
   color: var(--color-font);
   font-size: 1.2rem;
-  gap: 20px;
 }
 .title {
   font-size: 3rem;
+  color: #252525;
 }
 .form {
   display: flex;
@@ -38,6 +38,7 @@
   font-size: 1.2rem;
 }
 .input {
+
   width: 90%;
   margin-bottom: 5px;
   border: 1.8px solid rgb(93, 188, 131);
@@ -45,10 +46,14 @@
   font-size: 1.1rem;
   color: var(--color-font);
   transition: all 0.2s ease-in;
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgb(93, 188, 131);
-  }
+  color: var(--color-white);
+}
+.input::placeholder {
+  color: var(--color-Body);
+}
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgb(93, 188, 131);
 }
 
 .noRegister {
