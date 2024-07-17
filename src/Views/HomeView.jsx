@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import React, { useState } from "react";
 import Cards from "../components/Cards/Cards";
 import SearchBar from "../components/SearchBar/SearchBar";
-import Pagination from "../components/Pagination/Pagination";
+import PaginationComponent  from "../components/Pagination/Pagination";
 import Filters from "../components/Filters/Filters";
 
 const HomeView = () => {
@@ -51,7 +51,7 @@ const HomeView = () => {
         <Cards dishes={currentCards} />
       </div>
       <div className="pagination">
-        <Pagination
+        <PaginationComponent
           currentPage={currentPage}
           totalPages={Math.ceil(dishes.length / cardsPerPage)}
           onPageChange={paginate}
