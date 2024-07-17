@@ -4,17 +4,25 @@ import ProductsView from "./AdminViews/ProductsView";
 import ProductFormView from "./AdminViews/ProductFormView";
 import SideBar from "../components/AdminComponents/AdminNav/SideBar";
 import TopNavBar from "../components/AdminComponents/AdminNav/TopNavBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./viewsStyles/admin.css"
 import UsersView from "./AdminViews/UsersView";
 import StatsView from "./AdminViews/StatsView";
+import { fetchProducts } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const AdminView = () => {
+  const dispatch = useDispatch(); 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const allProducts = useSelector((state) => state.allProducts);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  useEffect(()=>{
+    dispatch(fetchProducts());
+  },[dispatch]);
 
   return (
 
@@ -25,7 +33,7 @@ const AdminView = () => {
           <main className="content">
             <Routes>
               <Route path="/" element={<Dashboard />} />
-              <Route path="products" element={<ProductsView />} />
+              <Route path="products" element={<ProductsView products={allProducts} />} />
               <Route path="product/create" element={<ProductFormView />} />
               <Route path="product/modify/:id" element={<ProductFormView />} />
               <Route path="users" element={<UsersView />} />

@@ -6,17 +6,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteDish, fetchProducts, resetDeleteDishStatus } from "../../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers } from "@fortawesome/free-solid-svg-icons";
-import { Container, Row } from "react-bootstrap";
+import { faUsers, faBasketShopping } from "@fortawesome/free-solid-svg-icons";
+import { Card, CardBody, CardText, Col, Container, Row } from "react-bootstrap";
 
 
 const Dashboard = () => {
-  
+  const allProducts = useSelector((state) => state.allProducts);
 
   return (
-    <Container>
-      <Row>
-        Aqui va la info general
+    <Container className="mt-5">
+      <Row className="d-flex">
+        <Col>
+          <Card>
+            <CardBody>
+              <Card.Title><FontAwesomeIcon icon={faUsers}/> 15</Card.Title>
+              <CardText>Usuarios</CardText>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col>
+          <Card>
+            <CardBody>
+              <Card.Title><FontAwesomeIcon icon={faBasketShopping}/> {allProducts.length}</Card.Title>
+              <CardText>Productos publicados</CardText>
+            </CardBody>
+          </Card>
+        </Col>
       </Row>
       <Row>
         Aqui pueden ir unas estadisticas 
