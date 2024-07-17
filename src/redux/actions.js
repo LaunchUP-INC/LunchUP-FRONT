@@ -20,23 +20,26 @@ export const SEARCH = "SEARCH";
 export const FETCH_REVIEWS = "FETCH_REVIEWS";
 export const POST_REVIEWS = "POST_REVIEWS";
 
-
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
 
-// export const URLD = "https://lunchup-back.onrender.com";
-export const URLD = "http://localhost:3001"; 
+export const URLD = "https://lunchup-back.onrender.com";
+
+
+
+// export const URLD = "http://localhost:3001"; 
+
 
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-
       const products = await axios.get(`${URLD}/dishes`);
-      const {allDishes} = products.data;
-
+      const { allDishes } = products.data;
 
       for (let i = 0; i < allDishes.length; i++) {
-        const {data} = await axios.get(`${URLD}/dishes/${allDishes[i].id}/stock`);
+        const { data } = await axios.get(
+          `${URLD}/dishes/${allDishes[i].id}/stock`
+        );
         allDishes[i].stock = data.stock;
       }
 
@@ -210,8 +213,7 @@ export const updateDish = (id, dish) => {
         formData.append("Meal_Types", mealType);
       });
       // console.log("llega");
-      const response = await axios.put(`${URLD}/dishes/${id}`, formData
-      , {
+      const response = await axios.put(`${URLD}/dishes/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -230,6 +232,7 @@ export const updateDish = (id, dish) => {
   };
 };
 
+
 export const updateStock = (id, quantity) =>{
   return async (dispatch)=>{
     try {
@@ -242,6 +245,7 @@ export const updateStock = (id, quantity) =>{
     }
   }
 }
+
 
 export const deleteDish = (id) => {
   return async (dispatch) => {
