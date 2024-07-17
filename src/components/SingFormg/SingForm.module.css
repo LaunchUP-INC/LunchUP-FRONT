@@ -46,7 +46,7 @@
   font-size: 1.1rem;
   color: var(--color-font);
   transition: all 0.2s ease-in;
-  color: var(--color-white);
+
 }
 .input::placeholder {
   color: var(--color-Body);

@@ -19,17 +19,14 @@ export const SEARCH = "SEARCH";
 export const FETCH_REVIEWS = "FETCH_REVIEWS";
 export const POST_REVIEWS = "POST_REVIEWS";
 
-
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
-
-export const URLD = "https://lunchup-back.onrender.com";
-/* export const URLD = "http://localhost:3001"; */
+// export const URLD = "https://lunchup-back.onrender.com";
+export const URLD = "http://localhost:3001";
 
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-
       // const requests = productIds.map(id =>
       //   axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=6afebc2cf75b47ffa18e47b13b1a2885&includeNutrition=true`)
       // );
@@ -38,13 +35,13 @@ export const fetchProducts = () => {
 
       // console.log('Fetched products:', products); // Verificar la respuesta
 
-
       const products = await axios.get(`${URLD}/dishes`);
-      const {allDishes} = products.data;
-
+      const { allDishes } = products.data;
 
       for (let i = 0; i < allDishes.length; i++) {
-        const {data} = await axios.get(`${URLD}/dishes/${allDishes[i].id}/stock`);
+        const { data } = await axios.get(
+          `${URLD}/dishes/${allDishes[i].id}/stock`
+        );
         allDishes[i].stock = data.stock;
       }
 
@@ -183,8 +180,7 @@ export const updateDish = (id, dish) => {
         formData.append("Meal_Types", mealType);
       });
       // console.log("llega");
-      const response = await axios.put(`${URLD}/dishes/${id}`, formData
-      , {
+      const response = await axios.put(`${URLD}/dishes/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -203,14 +199,15 @@ export const updateDish = (id, dish) => {
   };
 };
 
-export const updateStock = (id, quantity) =>{
-  return async (dispatch)=>{
-
-    const {data} = await axios.put(`${URLD}/dishes/${id}/stock`, {"quantity": Number(quantity)});
+export const updateStock = (id, quantity) => {
+  return async (dispatch) => {
+    const { data } = await axios.put(`${URLD}/dishes/${id}/stock`, {
+      quantity: Number(quantity),
+    });
     dispatch(fetchProducts());
     return data.stock;
-  }
-}
+  };
+};
 
 export const deleteDish = (id) => {
   return async (dispatch) => {
