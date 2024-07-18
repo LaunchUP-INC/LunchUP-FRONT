@@ -14,7 +14,7 @@ const HomeView = () => {
   const dishes = useSelector((state) => state.filteredProducts);
   const error = useSelector((state)=> state.error);
 
-  // console.log(dishes);
+ 
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage] = useState(3);
 
@@ -23,11 +23,11 @@ const HomeView = () => {
 
   }, [dispatch]);
 
+
+
   useEffect(() => {
     if (error) {     
-        toast.error(`Error al obtener los datos: ${error}`);
-    } else if (error === null) {     
-      toast.success("Productos cargados exitosamente.");
+        toast.error(error);
     } 
   }, [error]);
 
@@ -36,7 +36,6 @@ const HomeView = () => {
   const indexOfFirstCard = indexOfLastCard - cardsPerPage;
   const currentCards = dishes.slice(indexOfFirstCard, indexOfLastCard);
 
-  // console.log("Current Cards: ", currentCards);
 
   //Cambiar la pagina
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -44,7 +43,6 @@ const HomeView = () => {
   return (
     <div>
       <div>
-        {/* <SearchBar /> */}
         <Filters />
       </div>
       <div>

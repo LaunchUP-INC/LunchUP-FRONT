@@ -30,7 +30,6 @@ function App() {
         <Route path="/profile" element={<ProfileUserView />} />
         <Route path="/profile/edit" element={<ProfileEdit />} />
 
-
         {/*Rtuas para ADMIN */}
         <Route path="/admin/*" element={<AdminView />} />        
       </Routes>

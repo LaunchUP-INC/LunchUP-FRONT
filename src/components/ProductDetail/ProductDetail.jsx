@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -13,7 +14,7 @@ import glutenFreeIcon from "../../utils/foodTypesIcons/gluten-free.png";
 import dairyFreeIcon from "../../utils/foodTypesIcons/dairy-free.png";
 import conventionalIcon from "../../utils/foodTypesIcons/convencional-icon.png";
 import { addToShoppingCart } from "../../redux/actions";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 
@@ -26,6 +27,7 @@ const ProductDetail = (props) => {
   const handleAddToCart = () => {
     dispatch(addToShoppingCart(props.productDetail));
   }
+
 
   const mealTypeIcons = {
     vegan: veganIcon,

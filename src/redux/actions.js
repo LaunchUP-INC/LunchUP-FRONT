@@ -4,6 +4,7 @@ export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const FETCH_PRODUCTS_ERROR = "FETCH_PRODUCTS_ERROR";
 export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
+export const GET_PRODUCT_DETAIL_ERROR = 'GET_PRODUCT_DETAIL_ERROR';
 export const GET_MEAL_TYPE = "GET_MEAL_TYPE";
 export const FILTERS_TYPE = "FILTERS_TYPE";
 export const REGISTER = "REGISTER";
@@ -19,14 +20,24 @@ export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const SEARCH = "SEARCH";
 export const FETCH_REVIEWS = "FETCH_REVIEWS";
 export const POST_REVIEWS = "POST_REVIEWS";
+export const HANDLE_ERROR = "HANDLE_ERROR";
 export const LOGIN = "LOGIN";
 export const GET_SCHOOLS = "GET_SCHOOLS";
+
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
 
-// export const URLD = "https://lunchup-back.onrender.com";
-export const URLD = "http://localhost:3001"; 
+export const URLD = "https://lunchup-back.onrender.com";
+// export const URLD = "http://localhost:3001"; 
+
+export const handleError = (error) => {
+  const errorMessage = error.response?.data?.message || "Error inesperado al obtener los datos";
+  return {
+    type: HANDLE_ERROR,
+    payload: errorMessage,
+  };
+};
 
 
 export const fetchProducts = () => {
@@ -49,10 +60,11 @@ export const fetchProducts = () => {
         payload: allDishes,
       });
     } catch (error) {
-      dispatch({
-        type: FETCH_PRODUCTS_ERROR,
-        payload: error.message,
-      });
+      // dispatch({
+      //   type: FETCH_PRODUCTS_ERROR,
+      //   payload: error.message,
+      // });
+      dispatch(handleError(error));
     }
   };
 };
@@ -132,7 +144,13 @@ export const getProductDetail = (id) => {
         payload: productDetail.data.dishDetail,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      // const errorMessage = error.response?.data?.message
+      // dispatch({
+      //   type: GET_PRODUCT_DETAIL_ERROR,
+      //   payload: errorMessage,
+      // });
+      // console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -161,6 +179,7 @@ export const filterProducts = (name, type, order) => {
       });
     } catch (error) {
       console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
