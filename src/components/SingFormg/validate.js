@@ -46,7 +46,7 @@ export const validate = (formData) => {
   if (formData.children.length > 0) {
     formData.children.forEach((child, index) => {
       if (!child.name || !child.age || !child.school || !child.grade) {
-        errors.children = `Todos los campos de los comensales deben ser completados`;
+        errors.children = `Debe añadir al menos un comensal`;
       }
       if (!child.name) {
         errors.childName = "El nombre del niño/a es obligatorio";

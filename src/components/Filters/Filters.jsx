@@ -136,7 +136,7 @@ const Filters = () => {
         </Row>
         <Row className="justify-content-center">
           <Button variant="outline-secondary" onClick={resetAllFilters}>
-            Reset Filters
+            Reiniciar Filtros
           </Button>
         </Row>
       </Container>
