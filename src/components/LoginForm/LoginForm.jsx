@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./LoginForm.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
+
+import { Form, Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/actions";
+
 const LoginForm = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const { loginWithRedirect, getAccessTokenSilently, isAuthenticated } =
@@ -29,10 +34,7 @@ const LoginForm = () => {
     const checkRegistration = async () => {
       if (isAuthenticated) {
         try {
-          const token = await getAccessTokenSilently({
-            audience: "YOUR_API_IDENTIFIER", // Asegúrate de que esto esté configurado
-            scope: "read:users", // Ajusta los scopes según tu API
-          });
+          const token = await getAccessTokenSilently();
           console.log("Token recibido desde Auth0:", token);
 
           const response = await axios.post(
@@ -61,39 +63,44 @@ const LoginForm = () => {
   }, [isAuthenticated, navigate, getAccessTokenSilently]);
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input
+    <div className="container d-flex justify-content-center align-items-center vh-100 flex-column gap-5">
+      <Form className="form bg-white box-shadow p-5 rounded" style={{boxShadow: "7px 7px 1px rgb(9, 98, 70)"}} onSubmit={handleSubmit} >
+        <Form.Control
           type="text"
           name="email"
           placeholder="Email"
           value={loginData.email}
           onChange={handleChange}
-          className={styles.inputForm}
+          className="form-control mb-3"
         />
-        <input
+        <Form.Control
           type="password"
           name="password"
           placeholder="Password"
           value={loginData.password}
           onChange={handleChange}
-          className={styles.inputForm}
+          className="form-control mb-3"
         />
-        <button type="submit" className={styles.btn}>
+        <Button
+          type="submit"
+          variant="primary"
+          className="btn btn-primary mb-3 w-100"
+        >
           Login
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          className={styles.btn}
+          variant="danger"
+          className="btn btn-danger mb-3 w-100"
           onClick={handleLoginWithGmail}
         >
           Login with Google
-        </button>
-      </form>
+        </Button>
+      </Form>
 
       <p>
         ¿No tienes una cuenta?{" "}
-        <Link to="/signup" className={styles.link}>
+        <Link to="/signup" className="link">
           Registrarse
         </Link>
       </p>

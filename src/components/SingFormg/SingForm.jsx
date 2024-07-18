@@ -1,9 +1,10 @@
-import styles from "./SingForm.module.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { validate } from "./validate";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import styles from "./SingForm.module.css";
 import AddComensalModal from "../AddComensal/AddComensal";
+import { validate } from "./validate";
 
 const SingForm = () => {
   const navigate = useNavigate();
@@ -87,90 +88,123 @@ const SingForm = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <label>Nombre</label>
-        <input
-          name="name"
-          type="text"
-          className={styles.input}
-          placeholder="Ingresa tu nombre"
-          onChange={handleChange}
-          value={formData.name}
-        />
-        <span className={styles.error}>{errors.name}</span>
+    <Container
+      className="d-flex justify-content-center align-items-center flex-column gap-5"
+      style={{ minHeight: "100vh",  }}
+    >
+      <Form onSubmit={handleSubmit} className="bg-white p-5 rounded" style={{boxShadow: "7px 7px 1px rgb(9, 98, 70)"}}>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="name">
+            <Form.Label>Nombre</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ingresa tu nombre"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              isInvalid={!!errors.name}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.name}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-        <label>Apellido</label>
-        <input
-          name="lastName"
-          type="text"
-          className={styles.input}
-          placeholder="Ingresa tu apellido"
-          onChange={handleChange}
-          value={formData.lastName}
-        />
-        <span className={styles.error}>{errors.lastName}</span>
+          <Form.Group as={Col} controlId="lastName">
+            <Form.Label>Apellido</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ingresa tu apellido"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              isInvalid={!!errors.lastName}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.lastName}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
 
-        <label>Email</label>
-        <input
-          name="email"
-          type="email"
-          className={styles.input}
-          placeholder="ejemplo@mail.com"
-          onChange={handleChange}
-          value={formData.email}
-        />
-        <span className={styles.error}>{errors.email}</span>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="email">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="ejemplo@mail.com"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              isInvalid={!!errors.email}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.email}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-        <label>Teléfono</label>
-        <input
-          name="phone"
-          type="number"
-          className={styles.input}
-          placeholder="Teléfono"
-          onChange={handleChange}
-          value={formData.phone}
-        />
-        <span className={styles.error}>{errors.phone}</span>
+          <Form.Group as={Col} controlId="phone">
+            <Form.Label>Teléfono</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Teléfono"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              isInvalid={!!errors.phone}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.phone}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
 
-        <label>Contraseña</label>
-        <input
-          name="password"
-          type="password"
-          className={styles.input}
-          placeholder="Ingresa tu contraseña"
-          onChange={handleChange}
-          value={formData.password}
-        />
-        <span className={styles.error}>{errors.password}</span>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="password">
+            <Form.Label>Contraseña</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Ingresa tu contraseña"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              isInvalid={!!errors.password}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.password}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-        <span>Confirmar Contraseña</span>
-        <input
-          name="confirmPassword"
-          type="password"
-          className={styles.input}
-          placeholder="Confirma tu contraseña"
-          onChange={handleChange}
-          value={formData.confirmPassword}
-        />
-        <span className={styles.error}>{errors.confirmPassword}</span>
+          <Form.Group as={Col} controlId="confirmPassword">
+            <Form.Label>Confirmar Contraseña</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Confirma tu contraseña"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              isInvalid={!!errors.confirmPassword}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.confirmPassword}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Row>
 
-        <button type="button" className={styles.comensal} onClick={openModal}>
+        <Button variant="primary" className="mb-3 w-100" onClick={openModal}>
           Añadir Comensal
-        </button>
-        <button type="submit" className={styles.btn}>
+        </Button>
+        <Button variant="success" type="submit" className="mb-3 w-100">
           Registrarse
-        </button>
-        <span className={styles.error}>{errors.children}</span>
-      </form>
+        </Button>
+        <Form.Control.Feedback type="invalid">
+          {errors.children}
+        </Form.Control.Feedback>
+      </Form>
 
-      <div className={styles.noRegister}>
-        <div className={styles.account}>
-          <p>¿Ya tienes una cuenta? </p>
-          <Link to="/login" className={styles.link}>
-            Iniciar Sesión
-          </Link>
-        </div>
+      <div className="text-center">
+        <p>¿Ya tienes una cuenta?</p>
+        <Link to="/login" className={styles.link}>
+          Iniciar Sesión
+        </Link>
       </div>
 
       <AddComensalModal
@@ -180,8 +214,10 @@ const SingForm = () => {
         handleAddChild={handleAddChild}
         handleChildChange={handleChildChange}
         errors={errors}
+        validateChild={validate} // Asegúrate de pasar la función de validación correcta
+        setFormData={setFormData} // Pasa la función setFormData para actualizar el estado global
       />
-    </div>
+    </Container>
   );
 };
 
