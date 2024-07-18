@@ -20,6 +20,7 @@ export const SEARCH = "SEARCH";
 export const FETCH_REVIEWS = "FETCH_REVIEWS";
 export const POST_REVIEWS = "POST_REVIEWS";
 export const LOGIN = "LOGIN";
+export const GET_SCHOOLS = "GET_SCHOOLS";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
@@ -400,3 +401,17 @@ export const postReviews = (review) => {
     }
   };
 };
+
+export const getSchools = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/school`);
+      dispatch({
+        type: GET_SCHOOLS,
+        payload: response.data.schools,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+}
