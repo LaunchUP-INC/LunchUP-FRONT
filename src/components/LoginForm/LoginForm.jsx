@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./LoginForm.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -6,8 +6,7 @@ import axios from "axios";
 
 const LoginForm = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const { loginWithRedirect, getAccessTokenSilently, isAuthenticated } =
-    useAuth0();
+  const { loginWithRedirect } = useAuth0();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -38,41 +37,6 @@ const LoginForm = () => {
   const handleLoginWithGmail = async () => {
     await loginWithRedirect();
   };
-
-  useEffect(() => {
-    const checkRegistration = async () => {
-      if (isAuthenticated) {
-        try {
-          const token = await getAccessTokenSilently({
-            audience: "YOUR_API_IDENTIFIER", // Asegúrate de que esto esté configurado
-            scope: "read:users", // Ajusta los scopes según tu API
-          });
-          console.log("Token recibido desde Auth0:", token);
-
-          const response = await axios.post(
-            "http://localhost:3001/register/check",
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (response.status === 200) {
-            const isRegistered = response.data.isRegistered;
-            navigate(isRegistered ? "/home" : "/register");
-          } else {
-            alert("Error en la verificación.");
-          }
-        } catch (error) {
-          console.error("Error al verificar el usuario:", error);
-        }
-      }
-    };
-
-    checkRegistration();
-  }, [isAuthenticated, navigate, getAccessTokenSilently]);
 
   return (
     <div className={styles.container}>
