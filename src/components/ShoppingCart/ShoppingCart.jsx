@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setShoppingCart, removeFromShoppingCart, clearShoppingCart, addToShoppingCart } from "../../redux/actions";
+import { setShoppingCart, removeFromShoppingCart, clearShoppingCart, addToShoppingCart, URLD } from "../../redux/actions";
 import styles from "./ShoppingCart.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
-import {Container, Col, Row, Card, Button} from 'react-bootstrap';
+import {Container, Col, Row, Card, Button, Spinner} from 'react-bootstrap';
+import Swal from "sweetalert2";
 
 
 
@@ -16,12 +17,12 @@ const ShoppingCart = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalProducts, setTotalProducts] = useState(0);
     const [preferenceId, setPrefereceId] = useState(null);
-    // const [publickKey, setPublickKey] = useState(null);
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     
 
     useEffect(()=>{
-        initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6");
+        initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6",{locale:"es-AR"});
     },[]);
 
     useEffect(() => {
@@ -61,6 +62,7 @@ const ShoppingCart = () => {
     };
 
 
+    //Funcion para agregar 1 a la cantidad que se quiere comprar de un producto
     const addOneProduct = (e) => {
         const { value } = e.target;
         const productToAdd = shoppingCart.find(prod => prod.id === Number(value));
@@ -68,12 +70,14 @@ const ShoppingCart = () => {
         dispatch(addToShoppingCart(productToAdd));
     }
 
+    //Funcion para quitar 1 a la cantidad que se quiere comprar de un producto
     const removeOneProduct = (id) => {
         const productToRemove = shoppingCart.find(prod => prod.id === id);
         dispatch(removeFromShoppingCart(productToRemove));
     }
 
 
+    //Funcion que crea la orden de compra pasando por el back
     const handleCheckout = async () => {
         const items = shoppingCart.map(item => ({
             title: item.name,
@@ -82,7 +86,7 @@ const ShoppingCart = () => {
         }));
 
         try {
-            const response = await axios.post(`https://lunchup-back.onrender.com/payment`, items);
+            const response = await axios.post(`${URLD}/payment`, items);
             const { id } = response.data;
             
             return id;
@@ -92,12 +96,35 @@ const ShoppingCart = () => {
         }
     }
 
+
+    //Funcion que ejecuta handleCheckout y setea el id de compra para el boton de MP
     const handleBuy = async () =>{
+        setLoading(true);
         const id = await handleCheckout();
 
         if(id) setPrefereceId(id);
-
+        setLoading(false);
     }
+
+    //Funcion que indica pago exitoso y limpia el carrito
+    const handlePaymentSuccess = () => {
+        Swal.fire({
+            icon: "success",
+            title: "Pago exitoso",
+            text: "El pago se ha realizado con éxito",
+        });
+        dispatch(clearShoppingCart());
+    };
+
+    //Funcion que indica que hubo un problema con el pago
+    const handlePaymentError = () => {
+        Swal.fire({
+            icon: "error",
+            title: "Error en el pago",
+            text: "Hubo un problema con el pago. Inténtalo de nuevo.",
+        });
+    };
+
 
     return (
 
@@ -151,11 +178,18 @@ const ShoppingCart = () => {
                             <p>Productos({totalProducts})</p>
                             <h3>Total:&nbsp;${totalPrice}</h3>
                             <div className="d-flex justify-content-between">
-                                <Button variant="primary" onClick={handleBuy}>Comprar</Button>
+                                <Button variant="primary" onClick={handleBuy} disabled={loading}>
+                                    {loading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : "Comprar"}
+                                </Button>
                                 <Button variant="warning" onClick={handleClearCart}>Limpiar carrito</Button>
                             </div>
                             <div className="mt-3">
-                                {preferenceId && <Wallet initialization={{ preferenceId, redirectMode: "blank" }} />}
+                                {preferenceId && (
+                                    <Wallet 
+                                    initialization={{ preferenceId, redirectMode: "blank" }}                                     
+                                    onSubmit={handlePaymentSuccess} 
+                                    onError={handlePaymentError}
+                                    />)}
                             </div>
                         </div>}
                 </Col>

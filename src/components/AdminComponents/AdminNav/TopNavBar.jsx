@@ -11,11 +11,11 @@ const TopNavbar = ({ toggleSidebar }) => {
       <Navbar.Brand href="../home"><BagIcon/> LunchUP </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-          <LinkContainer to="/profile">
-            <Nav.Link>Profile</Nav.Link>
+        <Nav className="ms-auto">
+          <LinkContainer to="../profile">
+            <Nav.Link className='me-3'>Volver a LunchUP</Nav.Link>
           </LinkContainer>
-          <Nav.Link href="#logout">Logout</Nav.Link>
+          <Nav.Link href="#logout" className='me-3'>Cerrar sesion</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
