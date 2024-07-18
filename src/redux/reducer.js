@@ -2,6 +2,7 @@
 import {
   FETCH_PRODUCTS,
   FETCH_PRODUCTS_ERROR,
+  HANDLE_ERROR,
   GET_PRODUCT_DETAIL,
   GET_MEAL_TYPE,
   FILTERS_TYPE,
@@ -66,6 +67,12 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         productDetail: action.payload,
       };
+
+    case HANDLE_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      }
 
     case GET_MEAL_TYPE:
       return {

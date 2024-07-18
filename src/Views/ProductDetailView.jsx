@@ -1,4 +1,5 @@
 import ProductDetail from "../components/ProductDetail/ProductDetail";
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -22,6 +23,14 @@ const ProductDetailView = () => {
         setLoader(false);
 
       }, [dispatch, id]);
+
+      const error = useSelector((state) => state.error);
+        console.log(error)
+        useEffect(() => {
+            if (error) {
+            toast.error(error);
+            }
+        }, [error]);
 
     return loader || productDetail.id != id ? <Loader /> : (
 
