@@ -23,7 +23,7 @@ const EditStockModal = ({ show, handleClose, product }) => {
       <Modal.Body>
         <Form>
           <Form.Group controlId="formStock">
-            <Form.Label>Stock</Form.Label>
+            <Form.Label>Stock (Agrege la cantidad a sumar)</Form.Label>
             <Form.Control
               type="number"
               value={newStock}
