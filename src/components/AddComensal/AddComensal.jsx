@@ -2,6 +2,9 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { getSchools } from "../../redux/actions";
 
 const AddComensalModal = ({
   modalIsOpen,
@@ -14,6 +17,12 @@ const AddComensalModal = ({
   savedComensalsCount,
   setSavedComensalsCount,
 }) => {
+  const dispatch = useDispatch();
+  const schools = useSelector((state) => state.schools);
+
+  useEffect(() => {
+    dispatch(getSchools());
+  }, []);
   const handleSave = () => {
     // Validar cada hijo antes de guardar
     if (
@@ -73,16 +82,21 @@ const AddComensalModal = ({
               <Form.Control.Feedback type="invalid">
                 {errors.childAge}
               </Form.Control.Feedback>
-
               <Form.Label>Escuela</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 name="school"
-                placeholder="Escuela"
                 value={child.school || ""}
                 onChange={(event) => handleChildChange(index, event)}
                 isInvalid={!!errors.childSchool}
-              />
+              >
+                <option value="">Seleccione una escuela</option>
+                {schools.map((school) => (
+                  <option key={school.id} value={school.name}>
+                    {school.name}
+                  </option>
+                ))}
+              </Form.Control>
               <Form.Control.Feedback type="invalid">
                 {errors.childSchool}
               </Form.Control.Feedback>
