@@ -19,6 +19,7 @@ import {
   FETCH_REVIEWS,
   POST_REVIEWS,
   FETCH_ALL_USERS,
+  LOGIN
 } from "./actions";
 
 const initialState = { 
@@ -84,7 +85,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-
+      case LOGIN:
+        return {
+          ...state,
+          user: action.payload,
+        }
     case POST_DISH_SUCCESS:
       return {
         ...state,

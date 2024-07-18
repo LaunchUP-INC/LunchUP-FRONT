@@ -19,6 +19,7 @@ export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const SEARCH = "SEARCH";
 export const FETCH_REVIEWS = "FETCH_REVIEWS";
 export const POST_REVIEWS = "POST_REVIEWS";
+export const LOGIN = "LOGIN";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
@@ -76,7 +77,22 @@ export const fetchUsers = () =>{
   }
 
 };
-
+export const loginUser = (loginData) =>{
+  console.log(loginData);
+  return async (dispatch) =>{
+    try {
+      const response = await axios.post(`${URLD}/login`, loginData);
+      console.log(response);
+      dispatch({
+        type:LOGIN,
+        payload: response.data.user,
+      })
+      
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+}
 export const setUserAdminBan = (id, user) =>{
   return async (dispatch) =>{
     try {
