@@ -20,6 +20,7 @@ const SingForm = () => {
 
   const [errors, setErrors] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [savedComensalsCount, setSavedComensalsCount] = useState(0);
 
   const openModal = () => {
     if (formData.children.length === 0) {
@@ -90,9 +91,13 @@ const SingForm = () => {
   return (
     <Container
       className="d-flex justify-content-center align-items-center flex-column gap-5"
-      style={{ minHeight: "100vh",  }}
+      style={{ minHeight: "100vh" }}
     >
-      <Form onSubmit={handleSubmit} className="bg-white p-5 rounded" style={{boxShadow: "7px 7px 1px rgb(9, 98, 70)"}}>
+      <Form
+        onSubmit={handleSubmit}
+        className="bg-white p-5 rounded"
+        style={{ boxShadow: "7px 7px 1px rgb(9, 98, 70)" }}
+      >
         <Row className="mb-3">
           <Form.Group as={Col} controlId="name">
             <Form.Label>Nombre</Form.Label>
@@ -162,7 +167,7 @@ const SingForm = () => {
             <Form.Label>Contraseña</Form.Label>
             <Form.Control
               type="password"
-              placeholder="Ingresa tu contraseña"
+              placeholder="Contraseña"
               name="password"
               value={formData.password}
               onChange={handleChange}
@@ -188,24 +193,33 @@ const SingForm = () => {
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
+        <div className="mb-2">
+          <strong>Comensales guardados:</strong> {savedComensalsCount}
+        </div>
 
-        <Button variant="primary" className="mb-3 w-100" onClick={openModal}>
-          Añadir Comensal
-        </Button>
-        <Button variant="success" type="submit" className="mb-3 w-100">
+        <span className="text-danger" type="invalid">
+          {errors.children}
+        </span>
+
+        <div>
+          <Button className="btn-primary w-100 mb-2" onClick={openModal}>
+            Añadir Comensal
+          </Button>
+        </div>
+
+        <Button className="btn-success w-100" type="submit">
           Registrarse
         </Button>
-        <Form.Control.Feedback type="invalid">
-          {errors.children}
-        </Form.Control.Feedback>
       </Form>
-
-      <div className="text-center">
-        <p>¿Ya tienes una cuenta?</p>
+      <Form.Text
+        className="text-muted mt-3 d-flex justify-content-center align-items-center flex-column gap-2 "
+        style={{ fontSize: "18px" }}
+      >
+        ¿Ya tienes una cuenta?{" "}
         <Link to="/login" className={styles.link}>
-          Iniciar Sesión
+          Inicia sesión aquí
         </Link>
-      </div>
+      </Form.Text>
 
       <AddComensalModal
         modalIsOpen={modalIsOpen}
@@ -214,8 +228,9 @@ const SingForm = () => {
         handleAddChild={handleAddChild}
         handleChildChange={handleChildChange}
         errors={errors}
-        validateChild={validate} // Asegúrate de pasar la función de validación correcta
-        setFormData={setFormData} // Pasa la función setFormData para actualizar el estado global
+        setFormData={setFormData}
+        savedComensalsCount={savedComensalsCount}
+        setSavedComensalsCount={setSavedComensalsCount}
       />
     </Container>
   );

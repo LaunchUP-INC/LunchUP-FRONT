@@ -135,8 +135,8 @@ const Profile = () => {
                     </Table>
                 </div>
                 <div className={styles.btnContainer}>
-                    <Button variant="info" className={styles.btn} onClick={() => navigate("/profile/edit")}>Edit Profile</Button>
-                    <Button variant="danger" onClick={() => logout()} className={styles.btn}>Logout</Button>
+                    <Button variant="info" className={styles.btn} onClick={() => navigate("/profile/edit")}>Editar Perfil</Button>
+                    <Button variant="danger" onClick={() => logout()} className={styles.btn}>Cerrar sesión</Button>
                     <Button variant="primary" onClick={() => navigate("/admin")} className={styles.btn}>Mis publicaciones</Button>
                 </div>
                 <ReviewAlert />

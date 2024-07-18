@@ -1,20 +1,16 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
 
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/actions";
 
 const LoginForm = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const { loginWithRedirect, getAccessTokenSilently, isAuthenticated } =
-    useAuth0();
-  const navigate = useNavigate();
+  const { loginWithRedirect } = useAuth0();
   const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,52 +19,25 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser(loginData))
+    console.log(loginData); // Agrega esto para verificar los datos
+    dispatch(loginUser(loginData));
   };
 
   const handleLoginWithGmail = async () => {
     await loginWithRedirect();
   };
 
-  useEffect(() => {
-    const checkRegistration = async () => {
-      if (isAuthenticated) {
-        try {
-          const token = await getAccessTokenSilently();
-          console.log("Token recibido desde Auth0:", token);
-
-          const response = await axios.post(
-            "http://localhost:3001/register/check",
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (response.status === 200) {
-            const isRegistered = response.data.isRegistered;
-            navigate(isRegistered ? "/home" : "/register");
-          } else {
-            alert("Error en la verificación.");
-          }
-        } catch (error) {
-          console.error("Error al verificar el usuario:", error);
-        }
-      }
-    };
-
-    checkRegistration();
-  }, [isAuthenticated, navigate, getAccessTokenSilently]);
-
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100 flex-column gap-5">
-      <Form className="form bg-white box-shadow p-5 rounded" style={{boxShadow: "7px 7px 1px rgb(9, 98, 70)"}} onSubmit={handleSubmit} >
+      <Form
+        className="form bg-white box-shadow p-5 rounded"
+        style={{ boxShadow: "7px 7px 1px rgb(9, 98, 70)" }}
+        onSubmit={handleSubmit}
+      >
         <Form.Control
           type="text"
           name="email"
-          placeholder="Email"
+          placeholder="Mail"
           value={loginData.email}
           onChange={handleChange}
           className="form-control mb-3"
@@ -76,7 +45,7 @@ const LoginForm = () => {
         <Form.Control
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Contraseña"
           value={loginData.password}
           onChange={handleChange}
           className="form-control mb-3"
@@ -86,7 +55,7 @@ const LoginForm = () => {
           variant="primary"
           className="btn btn-primary mb-3 w-100"
         >
-          Login
+          Ingresar
         </Button>
         <Button
           type="button"
@@ -94,7 +63,7 @@ const LoginForm = () => {
           className="btn btn-danger mb-3 w-100"
           onClick={handleLoginWithGmail}
         >
-          Login with Google
+          Ingresar con Google
         </Button>
       </Form>
 

@@ -10,7 +10,9 @@ const AddComensalModal = ({
   handleAddChild,
   handleChildChange,
   errors,
-  setFormData, // Función para actualizar el estado formData del padre
+  setFormData,
+  savedComensalsCount,
+  setSavedComensalsCount,
 }) => {
   const handleSave = () => {
     // Validar cada hijo antes de guardar
@@ -30,7 +32,8 @@ const AddComensalModal = ({
       children: [...childrens],
     }));
 
-    console.log(childrens);
+    // Incrementar el contador de comensales guardados
+    setSavedComensalsCount(savedComensalsCount + 1);
 
     // Cerrar el modal después de guardar
     closeModal();
@@ -99,6 +102,9 @@ const AddComensalModal = ({
             </Form.Group>
           </div>
         ))}
+        <div>
+          <strong>Comensales guardados:</strong> {savedComensalsCount}
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleSave}>
