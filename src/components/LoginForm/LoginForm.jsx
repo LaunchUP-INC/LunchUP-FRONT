@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./LoginForm.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/actions";
 const LoginForm = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const { loginWithRedirect, getAccessTokenSilently, isAuthenticated } =
     useAuth0();
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginData((prev) => ({ ...prev, [name]: value }));
@@ -17,22 +18,7 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3001/login", {
-        email: loginData.email,
-        password: loginData.password,
-      });
-
-      if (response.data.access) {
-        alert("Bienvenido a LunchUp");
-        navigate("/home");
-      } else {
-        alert("Contraseña o mail incorrectos");
-      }
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      alert("Contraseña o mail incorrectos");
-    }
+    dispatch(loginUser(loginData))
   };
 
   const handleLoginWithGmail = async () => {
