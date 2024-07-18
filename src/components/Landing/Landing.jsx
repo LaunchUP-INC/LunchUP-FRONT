@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import comedorEscolar from "./image/comedorescolar.jpg";
 import LandingHeader from "../LandingHeader/LandingHeader";
@@ -8,7 +8,40 @@ import TypingEffect from "../TypingEffect"; // Importa el nuevo componente
 import styles from "./Landing.module.css";
 import BlinkingCursor from "../BlinkingCursor";
 import ReviewCarrusel from "../ReviewCarrusel/ReviewCarrusel";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const LandingPage = () => {
+  const { isAuthenticated, user } = useAuth0();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkRegistration = async () => {
+      if (isAuthenticated && user) {
+        try {
+          const response = await axios.post(
+            "http://localhost:3001/register/check",
+            {
+              email: user.email,
+            }
+          );
+
+          if (response.status === 200) {
+            const isRegistered = response.data.isRegistered;
+            navigate(isRegistered ? "/home" : "/signup");
+          } else {
+            alert("Error en la verificación.");
+          }
+        } catch (error) {
+          console.error("Error al verificar el usuario:", error);
+        }
+      } else {
+        console.log("nop");
+      }
+    };
+
+    checkRegistration();
+  }, [isAuthenticated, user, navigate]);
   const dynamicText = [
     "alimentación escolar saludable.",
     "supervición efectiva.",

@@ -19,7 +19,7 @@ const Rating = () => {
                     type="radio"
                     onClick={handleClick}
                 />
-                5
+                
             </label>
             <label className={styles.label} htmlFor="star4">
                 <input
@@ -30,7 +30,7 @@ const Rating = () => {
                     type="radio"
                     onClick={handleClick}
                 />
-                4
+                
             </label>
             <label className={styles.label} htmlFor="star3">
                 <input
@@ -41,7 +41,7 @@ const Rating = () => {
                     type="radio"
                     onClick={handleClick}
                 />
-                3
+                
             </label>
             <label className={styles.label} htmlFor="star2">
                 <input
@@ -52,7 +52,7 @@ const Rating = () => {
                     type="radio"
                     onClick={handleClick}
                 />
-                2
+                
             </label>
             <label className={styles.label} htmlFor="star1">
                 <input
@@ -63,7 +63,7 @@ const Rating = () => {
                     type="radio"
                     onClick={handleClick}
                 />
-                1
+                
             </label>
         </div>
     );

@@ -1,78 +1,73 @@
 export const validate = (formData) => {
-  const errors = {};
+  let errors = {};
 
   if (!formData.name) {
     errors.name = "El nombre es obligatorio";
-  } else if (!/^[a-zA-Z\s]+$/.test(formData.name)) {
-    errors.name = "El nombre solo puede contener letras y espacios";
+  } else if (!/^[a-zA-Z\s-]+$/.test(formData.name)) {
+    errors.name = "El nombre no puede contener simbolos";
   }
 
   if (!formData.lastName) {
     errors.lastName = "El apellido es obligatorio";
-  } else if (!/^[a-zA-Z\s]+$/.test(formData.lastName)) {
-    errors.lastName = "El apellido solo puede contener letras y espacios";
-  }
-
-  if (!formData.email) {
-    errors.email = "El email es obligatorio";
-  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-    errors.email = "El email es inválido";
+  } else if (!/^[a-zA-Z\s-]+$/.test(formData.lastName)) {
+    errors.lastName = "El apellido no puede contener simbolos";
   }
 
   if (!formData.phone) {
     errors.phone = "El teléfono es obligatorio";
-  } else if (!/^[0-9]+$/.test(formData.phone)) {
-    errors.phone = "El teléfono solo puede contener números";
-  } else if (formData.phone.length > 15) {
-    errors.phone = "El teléfono no debe superar los 15 caracteres";
-  } else if (formData.phone.length < 10) {
-    errors.phone = "El teléfono no debe tener menos de 11 caracteres";
+  } else if (!/^[0-9]{7,15}$/.test(formData.phone)) {
+    errors.phone = "El número de teléfono no es válido";
+  }
+
+  if (!formData.email) {
+    errors.email = "El correo electrónico es obligatorio";
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    errors.email = "El correo electrónico no es válido";
   }
 
   if (!formData.password) {
-    errors.password = "La contraseña es obligatoria";
-  } else if (formData.password.length < 6) {
-    errors.password = "La contraseña debe tener al menos 6 caracteres";
+    errors.password = "La contraseña es obligatoria";
+  } else if (formData.password.length < 8) {
+    errors.password = "La contraseña debe tener al menos 8 caracteres";
+  } else if (
+    !/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/.test(
+      formData.password
+    )
+  ) {
+    errors.password =
+      "La contraseña debe contener al menos un número, una letra mayúscula, una letra minúscula y un caracter especial";
   }
 
-  if (!formData.confirmPassword) {
-    errors.confirmPassword = "La confirmación es obligatoria";
-  } else if (formData.confirmPassword !== formData.password) {
-    errors.confirmPassword = "Las contraseñas no coinciden";
+  if (formData.password !== formData.confirmPassword) {
+    errors.confirmPassword = "Las contraseñas no coinciden";
   }
 
-  if (formData.children) {
-    formData.children.forEach((child) => {
+  // Validación de los campos de los comensales (niños)
+  if (formData.children.length > 0) {
+    formData.children.forEach((child, index) => {
+      if (!child.name || !child.age || !child.school || !child.grade) {
+        errors.children = `Debe añadir al menos un comensal`;
+      }
       if (!child.name) {
-        errors.childName = "La escuela es obligatoria";
-        errors.children = "Debe agregar al menos un comensal";
-      } else if (!/^[a-zA-Z\s]+$/.test(child.school)) {
-        errors.childName = "La escuela solo puede contener letras y espacios";
+        errors.childName = "El nombre del niño/a es obligatorio";
+      } else if (!/^[a-zA-Z\s-]+$/.test(child.name)) {
+        errors.childName = "El nombre del niño/a no puede contener símbolos";
       }
-
+    
       if (!child.age) {
-        errors.childAge = "La edad es obligatoria";
-        errors.children = "Debe agregar al menos un comensal";
-      } else if (!/^[0-9]+$/.test(child.age)) {
-        errors.childAge = "La edad solo puede contener números";
+        errors.childAge = "La edad del niño/a es obligatoria";
+      } else if (child.age < 0 || child.age > 18) {
+        errors.childAge = "La edad del niño/a debe estar entre 0 y 18 años";
       }
-
+    
       if (!child.school) {
-        errors.childSchool = "La escuela es obligatoria";
-        errors.children = "Debe agregar al menos un comensal";
-      } else if (!/^[a-zA-Z\s]+$/.test(child.school)) {
-        errors.childSchool = "La escuela solo puede contener letras y espacios";
+        errors.childSchool = "El nombre de la escuela es obligatorio";
       }
-
+    
       if (!child.grade) {
-        errors.childGrade = "El grado es obligatorio";
-        errors.children = "Debe agregar al menos un comensal";
-      } else if (!/^[0-9]+$/.test(child.age)) {
-        errors.childAge = "La edad solo puede contener números";
+        errors.childGrade = "El grado/año del niño/a es obligatorio";
       }
     });
-  } else {
-    errors.children = "Debe agregar al menos un comensal";
   }
 
   return errors;

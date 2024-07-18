@@ -21,6 +21,8 @@ export const SEARCH = "SEARCH";
 export const FETCH_REVIEWS = "FETCH_REVIEWS";
 export const POST_REVIEWS = "POST_REVIEWS";
 export const HANDLE_ERROR = "HANDLE_ERROR";
+export const LOGIN = "LOGIN";
+export const GET_SCHOOLS = "GET_SCHOOLS";
 
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
@@ -37,16 +39,17 @@ export const handleError = (error) => {
   };
 };
 
+
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
-
       const products = await axios.get(`${URLD}/dishes`);
-      const {allDishes} = products.data;
-
+      const { allDishes } = products.data;
 
       for (let i = 0; i < allDishes.length; i++) {
-        const {data} = await axios.get(`${URLD}/dishes/${allDishes[i].id}/stock`);
+        const { data } = await axios.get(
+          `${URLD}/dishes/${allDishes[i].id}/stock`
+        );
         allDishes[i].stock = data.stock;
       }
 
@@ -84,7 +87,22 @@ export const fetchUsers = () =>{
   }
 
 };
-
+export const loginUser = (loginData) =>{
+  console.log(loginData);
+  return async (dispatch) =>{
+    try {
+      const response = await axios.post(`${URLD}/login`, loginData);
+      console.log(response);
+      dispatch({
+        type:LOGIN,
+        payload: response.data.user,
+      })
+      
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  }
+}
 export const setUserAdminBan = (id, user) =>{
   return async (dispatch) =>{
     try {
@@ -228,8 +246,7 @@ export const updateDish = (id, dish) => {
         formData.append("Meal_Types", mealType);
       });
       // console.log("llega");
-      const response = await axios.put(`${URLD}/dishes/${id}`, formData
-      , {
+      const response = await axios.put(`${URLD}/dishes/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -239,6 +256,7 @@ export const updateDish = (id, dish) => {
         type: POST_DISH_SUCCESS,
         payload: response.data.dish,
       });
+      dispatch(fetchProducts());
     } catch (error) {
       dispatch({
         type: POST_DISH_ERROR,
@@ -247,6 +265,7 @@ export const updateDish = (id, dish) => {
     }
   };
 };
+
 
 export const updateStock = (id, quantity) =>{
   return async (dispatch)=>{
@@ -260,6 +279,7 @@ export const updateStock = (id, quantity) =>{
     }
   }
 }
+
 
 export const deleteDish = (id) => {
   return async (dispatch) => {
@@ -400,3 +420,17 @@ export const postReviews = (review) => {
     }
   };
 };
+
+export const getSchools = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/school`);
+      dispatch({
+        type: GET_SCHOOLS,
+        payload: response.data.schools,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+}

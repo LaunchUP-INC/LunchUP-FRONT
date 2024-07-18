@@ -20,9 +20,11 @@ import {
   FETCH_REVIEWS,
   POST_REVIEWS,
   FETCH_ALL_USERS,
+  LOGIN,
+  GET_SCHOOLS,
 } from "./actions";
 
-const initialState = { 
+const initialState = {
   isAdmin: false,
   allUsers: [],
   allProducts: [],
@@ -30,6 +32,7 @@ const initialState = {
   productDetail: [],
   mealTypes: [],
   reviews: [],
+  schools: [],
   newreviews: [],
   user: {},
   newDishId: null,
@@ -57,10 +60,10 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case FETCH_PRODUCTS_ERROR:
-        return {
-          ...state,
-          error: action.payload,
-        };
+      return {
+        ...state,
+        error: action.payload,
+      };
 
     case GET_PRODUCT_DETAIL:
       return {
@@ -91,7 +94,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-
+    case LOGIN:
+      return {
+        ...state,
+        user: action.payload,
+      };
     case POST_DISH_SUCCESS:
       return {
         ...state,
@@ -164,6 +171,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         newreviews: [...state.newreviews, action.payload],
+      };
+
+    case GET_SCHOOLS:
+      return {
+        ...state,
+        schools: action.payload,
       };
 
     default:
