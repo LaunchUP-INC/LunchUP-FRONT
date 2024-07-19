@@ -15,7 +15,7 @@ const SingForm = () => {
     phone: "",
     password: "",
     confirmPassword: "",
-    children: [{ name: "", lastName: "", school: "", grade: "" }],
+    children: [{ id: 1, name: "", lastName: "", school: "", grade: "" }],
   });
 
   const [errors, setErrors] = useState({});
@@ -23,9 +23,6 @@ const SingForm = () => {
   const [savedComensalsCount, setSavedComensalsCount] = useState(0);
 
   const openModal = () => {
-    if (formData.children.length === 0) {
-      handleAddChild();
-    }
     setModalIsOpen(true);
   };
 
@@ -43,7 +40,6 @@ const SingForm = () => {
     event.preventDefault();
     const validationErrors = validate(formData);
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
       alert("Por favor, corrija los errores antes de enviar el formulario.");
       return;
     }
@@ -72,7 +68,13 @@ const SingForm = () => {
       ...prevFormData,
       children: [
         ...prevFormData.children,
-        { name: "", lastName: "", school: "", grade: "" },
+        {
+          id: prevFormData.children.length + 1,
+          name: "",
+          lastName: "",
+          school: "",
+          grade: "",
+        },
       ],
     }));
   };
@@ -204,7 +206,7 @@ const SingForm = () => {
         </div>
 
         <span className="text-danger" type="invalid">
-          {errors.children}
+          {savedComensalsCount === 0 && errors.children}
         </span>
 
         <div>

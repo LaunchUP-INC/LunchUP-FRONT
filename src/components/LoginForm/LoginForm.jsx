@@ -8,7 +8,7 @@ import axios from "axios";
 
 const LoginForm = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+  const { loginWitnpmhRedirect, isAuthenticated, user } = useAuth0();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
