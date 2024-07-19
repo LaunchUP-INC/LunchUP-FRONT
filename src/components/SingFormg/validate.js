@@ -54,10 +54,10 @@ export const validate = (formData) => {
         errors.childName = "El nombre del niño/a no puede contener símbolos";
       }
     
-      if (!child.age) {
-        errors.childAge = "La edad del niño/a es obligatoria";
-      } else if (child.age < 0 || child.age > 18) {
-        errors.childAge = "La edad del niño/a debe estar entre 0 y 18 años";
+      if (!child.lastName) {
+        errors.childLastName = "El apellido del niño/a es obligatorio";
+      } else if (!/^[a-zA-Z\s-]+$/.test(child.name)) {
+        errors.childLastName = "El apellido del niño/a no puede contener símbolos";
       }
     
       if (!child.school) {

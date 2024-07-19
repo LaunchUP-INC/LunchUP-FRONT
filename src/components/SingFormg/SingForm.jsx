@@ -15,7 +15,7 @@ const SingForm = () => {
     phone: "",
     password: "",
     confirmPassword: "",
-    children: [{ name: "", age: "", school: "", grade: "" }],
+    children: [{ name: "", lastName: "", school: "", grade: "" }],
   });
 
   const [errors, setErrors] = useState({});
@@ -72,7 +72,7 @@ const SingForm = () => {
       ...prevFormData,
       children: [
         ...prevFormData.children,
-        { name: "", age: "", school: "", grade: "" },
+        { name: "", lastName: "", school: "", grade: "" },
       ],
     }));
   };
@@ -96,7 +96,7 @@ const SingForm = () => {
       <Form
         onSubmit={handleSubmit}
         className="bg-white p-5 rounded"
-        style={{ boxShadow: "7px 7px 1px rgb(9, 98, 70)" }}
+        style={{ boxShadow: "7px 7px 1px rgb(9, 98, 70)", maxWidth: "700px" }}
       >
         <Row className="mb-3">
           <Form.Group as={Col} controlId="name">
@@ -108,6 +108,7 @@ const SingForm = () => {
               value={formData.name}
               onChange={handleChange}
               isInvalid={!!errors.name}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.name}
@@ -123,6 +124,7 @@ const SingForm = () => {
               value={formData.lastName}
               onChange={handleChange}
               isInvalid={!!errors.lastName}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.lastName}
@@ -140,6 +142,7 @@ const SingForm = () => {
               value={formData.email}
               onChange={handleChange}
               isInvalid={!!errors.email}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.email}
@@ -155,6 +158,7 @@ const SingForm = () => {
               value={formData.phone}
               onChange={handleChange}
               isInvalid={!!errors.phone}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.phone}
@@ -172,6 +176,7 @@ const SingForm = () => {
               value={formData.password}
               onChange={handleChange}
               isInvalid={!!errors.password}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.password}
@@ -187,6 +192,7 @@ const SingForm = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               isInvalid={!!errors.confirmPassword}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.confirmPassword}

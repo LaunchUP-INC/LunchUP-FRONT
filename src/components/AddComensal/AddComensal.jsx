@@ -70,17 +70,17 @@ const AddComensalModal = ({
                 {errors.childName}
               </Form.Control.Feedback>
 
-              <Form.Label>Edad del Hijo/a</Form.Label>
+              <Form.Label>Apellido del Hijo/a</Form.Label>
               <Form.Control
-                type="number"
-                name="age"
+                type="text"
+                name="lastName"
                 placeholder="Edad del hijo/a"
-                value={child.age || ""}
+                value={child.lastName || ""}
                 onChange={(event) => handleChildChange(index, event)}
-                isInvalid={!!errors.childAge}
+                isInvalid={!!errors.childLastName}
               />
               <Form.Control.Feedback type="invalid">
-                {errors.childAge}
+                {errors.childLastName}
               </Form.Control.Feedback>
               <Form.Label>Escuela</Form.Label>
               <Form.Control
@@ -103,7 +103,7 @@ const AddComensalModal = ({
 
               <Form.Label>Grado/Año</Form.Label>
               <Form.Control
-                type="number"
+                type="text"
                 name="grade"
                 placeholder="Grado o Año"
                 value={child.grade || ""}
