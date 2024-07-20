@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
+import { loginUser } from "../../redux/actions";
 
-
-const LoginForm = ({errorValidation}) => {
+const LoginForm = ({ errorValidation }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,12 +20,10 @@ const LoginForm = ({errorValidation}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     console.log(loginData); // Agrega esto para verificar los datos
-    dispatch(loginUser(loginData));
+    await dispatch(loginUser(loginData));
     errorValidation();
-
-
+  };
 
   const handleLoginWithGmail = async () => {
     await loginWithRedirect();
@@ -36,9 +35,7 @@ const LoginForm = ({errorValidation}) => {
         try {
           const response = await axios.post(
             "http://localhost:3001/register/check",
-            {
-              email: user.email,
-            }
+            { email: user.email }
           );
 
           if (response.status === 200) {

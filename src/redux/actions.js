@@ -188,12 +188,7 @@ export const filterProducts = (name, type, order) => {
       if (type) params.push(`filterMealTypeBy=${encodeURIComponent(type)}`);
       if (order) params.push(`orderBy=${encodeURIComponent(order)}`);
 
-      // Uniendo todos los parámetros con '&' y agregándolos a la URL base
       url += params.join("&");
-
-      // const response = await axios.get(
-      //   `http://localhost:3001/dishes?filterMealTypeBy=${type}&orderBy=${order}`
-      // );
 
       const response = await axios.get(url);
       dispatch({

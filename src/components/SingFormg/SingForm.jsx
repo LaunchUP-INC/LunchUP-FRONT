@@ -54,13 +54,13 @@ const SingForm = () => {
     event.preventDefault();
 
     const validationErrors = validate(formData);
-    if (Object.keys(validationErrors).length > 0) {
-      alert("Por favor, corrija los errores antes de enviar el formulario.");
-      return;
-    }
+    // if (Object.keys(validationErrors).length > 0) {
+    //   alert("Por favor, corrija los errores antes de enviar el formulario.");
+    //   return;
+    // }
 
-    // Validar datos en el frontend
-    const validationErrors = validate(formData);   
+    // // Validar datos en el frontend
+    // const validationErrors = validate(formData);   
 
     // Si no hay errores en el frontend, enviar datos al backend
     const success = await dispatch(registerUser(formData));

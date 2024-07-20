@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Form, Button, Container, Row, Col, Card } from "react-bootstrap";
 import SearchBar from "../SearchBar/SearchBar";
-import { filterProducts, fetchProducts } from "../../redux/actions";
+import { fetchProducts } from "../../redux/actions";
 import {
   FaHamburger,
   FaLeaf,
@@ -12,9 +11,7 @@ import {
 } from "react-icons/fa"; 
 import styles from "./Filters.module.css";
 
-const Filters = () => {
-  const dispatch = useDispatch();
-
+const Filters = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
     name: "",
     type: "0",
@@ -22,8 +19,8 @@ const Filters = () => {
   });
 
   useEffect(() => {
-    dispatch(filterProducts(filters.name, Number(filters.type), filters.price));
-  }, [filters, dispatch]);
+    onFilterChange(filters);
+  }, [filters, onFilterChange]);
 
   const handleFilterChange = (name, value) => {
     setFilters((prevFilters) => ({
@@ -38,7 +35,7 @@ const Filters = () => {
       type: "0",
       price: "price-asc",
     });
-    dispatch(fetchProducts());
+    fetchProducts();
   };
 
   const foodTypes = [
