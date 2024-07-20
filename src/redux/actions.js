@@ -4,7 +4,7 @@ export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const FETCH_PRODUCTS_ERROR = "FETCH_PRODUCTS_ERROR";
 export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
-export const GET_PRODUCT_DETAIL_ERROR = 'GET_PRODUCT_DETAIL_ERROR';
+export const GET_PRODUCT_DETAIL_ERROR = "GET_PRODUCT_DETAIL_ERROR";
 export const GET_MEAL_TYPE = "GET_MEAL_TYPE";
 export const FILTERS_TYPE = "FILTERS_TYPE";
 export const REGISTER = "REGISTER";
@@ -23,16 +23,14 @@ export const POST_REVIEWS = "POST_REVIEWS";
 export const HANDLE_ERROR = "HANDLE_ERROR";
 export const LOGIN = "LOGIN";
 export const GET_SCHOOLS = "GET_SCHOOLS";
-
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const CLEAR_ERROR = "CLEAR_ERROR";
-
+export const FETCH_USER_DATA = "FETCH_USER_DATA";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
-
 // export const URLD = "https://lunchup-back.onrender.com";
-export const URLD = "http://localhost:3001"; 
+export const URLD = "http://localhost:3001";
 
 export const handleError = (error) => {
   const errorMessage = error.response?.data?.message;
@@ -58,7 +56,10 @@ export const registerUser = (userData) => {
         password: userData.password,
         isAdmin: false,
       });
+
+      console.log(response.data);
       dispatch({ type: REGISTER_SUCCESS, payload: response.data });
+      localStorage.setItem("userId", response.data.newId);
       return true;
     } catch (error) {
       console.log(error);
@@ -96,56 +97,83 @@ export const fetchProducts = () => {
   };
 };
 
-export const fetchUsers = () =>{
-  return async (dispatch) =>{
+export const fetchUsers = () => {
+  return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/user`);
-      const {users} = response.data;
+      const { users } = response.data;
       console.log(users);
 
       dispatch({
-        type:FETCH_ALL_USERS,
+        type: FETCH_ALL_USERS,
         payload: users,
-      })
-      
+      });
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
-  }
-
+  };
 };
-export const loginUser = (loginData) =>{
-  console.log(loginData);
-  return async (dispatch) =>{
+
+export const fetchUserData = () => {
+  return async (dispatch, getState) => {
+    const token = getState().token;
+    const userId = getState().userId;
+
+    try {
+      const response = await axios.get(`${URLD}/user/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      dispatch({
+        type: FETCH_USER_DATA,
+        payload: response.data.user,
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+};
+
+export const loginUser = (loginData) => {
+  return async (dispatch) => {
     try {
       const response = await axios.post(`${URLD}/login`, loginData);
-      console.log(response);
-      dispatch({
-        type:LOGIN,
-        payload: response.data.user,
-      })
-      
+      if (response.data.access) {
+        localStorage.setItem("token", response.data.token);
+        dispatch({
+          type: LOGIN,
+          payload: {
+            user: response.data.user,
+            token: response.data.token,
+          },
+        });
+        return true; // Retorna true si el inicio de sesión es exitoso
+      } else {
+        alert("Contraseña o email incorrectos");
+        return false; // Retorna false si el inicio de sesión falla
+      }
     } catch (error) {
-      dispatch(handleError(error));
       console.error("Error fetching data: ", error);
+      alert("Contraseña o email incorrectos");
+      return false; // Retorna false si ocurre un error
     }
-  }
-}
-export const setUserAdminBan = (id, user) =>{
-  return async (dispatch) =>{
+  };
+};
+
+export const setUserAdminBan = (id, user) => {
+  return async (dispatch) => {
     try {
       const response = await axios.put(`${URLD}/user/${id}`, user);
       console.log(response);
       dispatch(fetchUsers());
 
       return "success";
-
     } catch (error) {
       console.error(error);
       return "error";
     }
-  }
-}
+  };
+};
 
 export const getMealType = () => {
   return async (dispatch) => {
@@ -172,7 +200,6 @@ export const getProductDetail = (id) => {
         payload: productDetail.data.dishDetail,
       });
     } catch (error) {
-      
       dispatch(handleError(error));
     }
   };
@@ -204,13 +231,6 @@ export const filterProducts = (name, type, order) => {
       console.error("Error fetching data:", error);
       dispatch(handleError(error));
     }
-  };
-};
-
-export const register = (email, password) => {
-  return {
-    type: REGISTER,
-    payload: { email, password },
   };
 };
 
@@ -289,20 +309,19 @@ export const updateDish = (id, dish) => {
   };
 };
 
-
-export const updateStock = (id, quantity) =>{
-  return async (dispatch)=>{
+export const updateStock = (id, quantity) => {
+  return async (dispatch) => {
     try {
-      const {data} = await axios.put(`${URLD}/dishes/${id}/stock`, {"quantity": Number(quantity)});
+      const { data } = await axios.put(`${URLD}/dishes/${id}/stock`, {
+        quantity: Number(quantity),
+      });
       dispatch(fetchProducts());
       return data.stock;
-      
     } catch (error) {
-      console.error(error); 
+      console.error(error);
     }
-  }
-}
-
+  };
+};
 
 export const deleteDish = (id) => {
   return async (dispatch) => {
@@ -456,4 +475,4 @@ export const getSchools = () => {
       console.error("Error fetching data:", error);
     }
   };
-}
+};
