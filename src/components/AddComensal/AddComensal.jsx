@@ -74,7 +74,7 @@ const AddComensalModal = ({
               <Form.Control
                 type="text"
                 name="lastName"
-                placeholder="Edad del hijo/a"
+                placeholder="Apellido del hijo/a"
                 value={child.lastName || ""}
                 onChange={(event) => handleChildChange(index, event)}
                 isInvalid={!!errors.childLastName}

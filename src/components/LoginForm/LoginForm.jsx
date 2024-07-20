@@ -4,13 +4,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
+import { loginUser } from "../../redux/actions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-
-const LoginForm = ({errorValidation}) => {
+const LoginForm = ({ errorValidation }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
 
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,14 +23,19 @@ const LoginForm = ({errorValidation}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(loginData); // Agrega esto para verificar los datos
-    dispatch(loginUser(loginData));
-    errorValidation();
-
-
+    const success = await dispatch(loginUser(loginData));
+    if (success) {
+      alert("¡Bienvenido de nuevo!");
+      navigate("/profile"); 
+    } else {
+      errorValidation();
+    }
+  };
 
   const handleLoginWithGmail = async () => {
-    await loginWithRedirect();
+    await loginWithRedirect({
+      redirectUri: window.location.origin + "/profile",
+    });
   };
 
   useEffect(() => {
@@ -43,7 +51,7 @@ const LoginForm = ({errorValidation}) => {
 
           if (response.status === 200) {
             const isRegistered = response.data.isRegistered;
-            navigate(isRegistered ? "/home" : "/signup");
+            navigate(isRegistered ? "/profile" : "/signup");
           } else {
             alert("Error en la verificación.");
           }
