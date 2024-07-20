@@ -20,7 +20,7 @@ const SingForm = () => {
     phone: "",
     password: "",
     confirmPassword: "",
-    children: [{ name: "", age: "", school: "", grade: "" }],
+    children: [{ id: 1, name: "", lastName: "", school: "", grade: "" }],
   });
 
   const error = useSelector((state)=> state.error);
@@ -30,9 +30,6 @@ const SingForm = () => {
   const [savedComensalsCount, setSavedComensalsCount] = useState(0);
 
   const openModal = () => {
-    if (formData.children.length === 0) {
-      handleAddChild();
-    }
     setModalIsOpen(true);
   };
 
@@ -56,6 +53,12 @@ const SingForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    const validationErrors = validate(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      alert("Por favor, corrija los errores antes de enviar el formulario.");
+      return;
+    }
+
     // Validar datos en el frontend
     const validationErrors = validate(formData);   
 
@@ -77,7 +80,13 @@ const SingForm = () => {
       ...prevFormData,
       children: [
         ...prevFormData.children,
-        { name: "", age: "", school: "", grade: "" },
+        {
+          id: prevFormData.children.length + 1,
+          name: "",
+          lastName: "",
+          school: "",
+          grade: "",
+        },
       ],
     }));
   };
@@ -101,7 +110,7 @@ const SingForm = () => {
       <Form
         onSubmit={handleSubmit}
         className="bg-white p-5 rounded"
-        style={{ boxShadow: "7px 7px 1px rgb(9, 98, 70)" }}
+        style={{ boxShadow: "7px 7px 1px rgb(9, 98, 70)", maxWidth: "700px" }}
       >
         <Row className="mb-3">
           <Form.Group as={Col} controlId="name">
@@ -113,6 +122,7 @@ const SingForm = () => {
               value={formData.name}
               onChange={handleChange}
               isInvalid={!!errors.name}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.name}
@@ -128,6 +138,7 @@ const SingForm = () => {
               value={formData.lastName}
               onChange={handleChange}
               isInvalid={!!errors.lastName}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.lastName}
@@ -145,6 +156,7 @@ const SingForm = () => {
               value={formData.email}
               onChange={handleChange}
               isInvalid={!!errors.email}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.email}
@@ -160,6 +172,7 @@ const SingForm = () => {
               value={formData.phone}
               onChange={handleChange}
               isInvalid={!!errors.phone}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.phone}
@@ -177,6 +190,7 @@ const SingForm = () => {
               value={formData.password}
               onChange={handleChange}
               isInvalid={!!errors.password}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.password}
@@ -192,6 +206,7 @@ const SingForm = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               isInvalid={!!errors.confirmPassword}
+              style={{ backgroundColor: "#E5D4FF" }}
             />
             <Form.Control.Feedback type="invalid">
               {errors.confirmPassword}
@@ -203,7 +218,7 @@ const SingForm = () => {
         </div>
 
         <span className="text-danger" type="invalid">
-          {errors.children}
+          {savedComensalsCount === 0 && errors.children}
         </span>
 
         <div>

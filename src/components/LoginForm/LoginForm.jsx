@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
 
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/actions";
 
 const LoginForm = ({errorValidation}) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
+
   const { loginWithRedirect } = useAuth0();
   const dispatch = useDispatch();
 
@@ -20,14 +19,42 @@ const LoginForm = ({errorValidation}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     console.log(loginData); // Agrega esto para verificar los datos
     dispatch(loginUser(loginData));
     errorValidation();
-  };
+
+
 
   const handleLoginWithGmail = async () => {
     await loginWithRedirect();
   };
+
+  useEffect(() => {
+    const checkRegistration = async () => {
+      if (isAuthenticated && user) {
+        try {
+          const response = await axios.post(
+            "http://localhost:3001/register/check",
+            {
+              email: user.email,
+            }
+          );
+
+          if (response.status === 200) {
+            const isRegistered = response.data.isRegistered;
+            navigate(isRegistered ? "/home" : "/signup");
+          } else {
+            alert("Error en la verificación.");
+          }
+        } catch (error) {
+          console.error("Error al verificar el usuario:", error);
+        }
+      }
+    };
+
+    checkRegistration();
+  }, [isAuthenticated, user, navigate]);
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100 flex-column gap-5">
@@ -43,6 +70,7 @@ const LoginForm = ({errorValidation}) => {
           value={loginData.email}
           onChange={handleChange}
           className="form-control mb-3"
+          style={{ backgroundColor: "#E5D4FF" }}
         />
         <Form.Control
           type="password"
@@ -51,6 +79,7 @@ const LoginForm = ({errorValidation}) => {
           value={loginData.password}
           onChange={handleChange}
           className="form-control mb-3"
+          style={{ backgroundColor: "#E5D4FF" }}
         />
         <Button
           type="submit"
