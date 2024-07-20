@@ -116,11 +116,12 @@ export const fetchUsers = () => {
 
 export const fetchUserData = () => {
   return async (dispatch, getState) => {
+    const iDUser = localStorage.getItem("userId");
     const token = getState().token;
     const userId = getState().userId;
 
     try {
-      const response = await axios.get(`${URLD}/user/${userId}`, {
+      const response = await axios.get(`${URLD}/user/${iDUser}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -449,10 +450,11 @@ export const fetchReviews = () => {
 };
 
 export const postReviews = (review) => {
+ const userId = localStorage.getItem('userId');
   console.log(review);
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URLD}/reviews`, review);
+      const response = await axios.post(`${URLD}/user/${userId}/reviews/`, review);
       dispatch({
         type: POST_REVIEWS,
         payload: response.data,
