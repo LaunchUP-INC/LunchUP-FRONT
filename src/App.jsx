@@ -15,6 +15,10 @@ import ShoppingCartView from "./Views/ShoppingCartView";
 import ProfileUserView from "./Views/ProfileUserView";
 import AdminView from "./Views/AdminView";
 import ProfileEdit from "./Views/ProfileEdit";
+import PaymentSuccessView from "./Views/PaymentSuccessView";
+import PaymentErrorView from "./Views/PaymentErrorView";
+
+
 function App() {
   const location = useLocation();
   return (
@@ -29,8 +33,10 @@ function App() {
         <Route path="/shopping" element={<ShoppingCartView />} />
         <Route path="/profile" element={<ProfileUserView />} />
         <Route path="/profile/edit" element={<ProfileEdit />} />
+        <Route path="/payment-success" element={<PaymentSuccessView />} />
+        <Route path="/payment-error" element={<PaymentErrorView />} />
 
-        {/*Rtuas para ADMIN */}
+        {/*Rutas para ADMIN */}
         <Route path="/admin/*" element={<AdminView />} />        
       </Routes>
       <ToastContainer />
