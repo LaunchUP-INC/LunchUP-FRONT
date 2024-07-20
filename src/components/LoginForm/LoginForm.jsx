@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -8,10 +8,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/actions";
 
-const LoginForm = () => {
+const LoginForm = ({errorValidation}) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const { loginWithRedirect } = useAuth0();
   const dispatch = useDispatch();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginData((prev) => ({ ...prev, [name]: value }));
@@ -21,6 +22,7 @@ const LoginForm = () => {
     e.preventDefault();
     console.log(loginData); // Agrega esto para verificar los datos
     dispatch(loginUser(loginData));
+    errorValidation();
   };
 
   const handleLoginWithGmail = async () => {

@@ -24,21 +24,48 @@ export const HANDLE_ERROR = "HANDLE_ERROR";
 export const LOGIN = "LOGIN";
 export const GET_SCHOOLS = "GET_SCHOOLS";
 
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const CLEAR_ERROR = "CLEAR_ERROR";
+
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 
 
-export const URLD = "https://lunchup-back.onrender.com";
-// export const URLD = "http://localhost:3001"; 
+// export const URLD = "https://lunchup-back.onrender.com";
+export const URLD = "http://localhost:3001"; 
 
 export const handleError = (error) => {
-  const errorMessage = error.response?.data?.message || "Error inesperado al obtener los datos";
+  const errorMessage = error.response?.data?.message;
   return {
     type: HANDLE_ERROR,
     payload: errorMessage,
   };
 };
+export const clearError = () => {
+  return {
+    type: CLEAR_ERROR,
+  };
+};
 
+export const registerUser = (userData) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URLD}/register`, {
+        firstname: userData.name,
+        lastname: userData.lastName,
+        telephone: userData.phone,
+        email: userData.email,
+        password: userData.password,
+        isAdmin: false,
+      });
+      dispatch({ type: REGISTER_SUCCESS, payload: response.data });
+      return true;
+    } catch (error) {
+      console.log(error);
+      dispatch(handleError(error));
+    }
+  };
+};
 
 export const fetchProducts = () => {
   return async (dispatch) => {
@@ -99,6 +126,7 @@ export const loginUser = (loginData) =>{
       })
       
     } catch (error) {
+      dispatch(handleError(error));
       console.error("Error fetching data: ", error);
     }
   }
@@ -144,12 +172,7 @@ export const getProductDetail = (id) => {
         payload: productDetail.data.dishDetail,
       });
     } catch (error) {
-      // const errorMessage = error.response?.data?.message
-      // dispatch({
-      //   type: GET_PRODUCT_DETAIL_ERROR,
-      //   payload: errorMessage,
-      // });
-      // console.error("Error fetching data:", error);
+      
       dispatch(handleError(error));
     }
   };

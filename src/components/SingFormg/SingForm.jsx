@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import styles from "./SingForm.module.css";
 import AddComensalModal from "../AddComensal/AddComensal";
 import { validate } from "./validate";
+import { registerUser, clearError } from "../../redux/actions";
 
 const SingForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     name: "",
     lastName: "",
@@ -17,6 +22,8 @@ const SingForm = () => {
     confirmPassword: "",
     children: [{ name: "", age: "", school: "", grade: "" }],
   });
+
+  const error = useSelector((state)=> state.error);
 
   const [errors, setErrors] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -39,33 +46,31 @@ const SingForm = () => {
     setErrors(validate({ ...formData, [name]: value }));
   };
 
+   useEffect(() => {
+    if (error) {
+      toast.error(error)
+      dispatch(clearError()); 
+    }
+  }, [error, dispatch]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const validationErrors = validate(formData);
-    if (Object.keys(validationErrors).length > 0) {
+
+    // Validar datos en el frontend
+    const validationErrors = validate(formData);   
+
+    // Si no hay errores en el frontend, enviar datos al backend
+    const success = await dispatch(registerUser(formData));
+    if (success) {
+      navigate("/login");
+    } 
+    
+    else if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      alert("Por favor, corrija los errores antes de enviar el formulario.");
       return;
     }
-
-    try {
-      await axios.post("http://localhost:3001/register", {
-        firstname: formData.name,
-        lastname: formData.lastName,
-        telephone: formData.phone,
-        email: formData.email,
-        password: formData.password,
-        isAdmin: false,
-      });
-      alert("Formulario enviado correctamente");
-      navigate("/login");
-    } catch (error) {
-      console.error("Error registrando el usuario:", error);
-      alert(
-        "Hubo un error registrando el usuario. Por favor, inténtelo de nuevo."
-      );
-    }
   };
+
 
   const handleAddChild = () => {
     setFormData((prevFormData) => ({
