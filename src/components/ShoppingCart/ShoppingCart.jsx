@@ -105,25 +105,7 @@ const ShoppingCart = () => {
         if(id) setPrefereceId(id);
         setLoading(false);
     }
-
-    //Funcion que indica pago exitoso y limpia el carrito
-    const handlePaymentSuccess = () => {
-        Swal.fire({
-            icon: "success",
-            title: "Pago exitoso",
-            text: "El pago se ha realizado con éxito",
-        });
-        dispatch(clearShoppingCart());
-    };
-
-    //Funcion que indica que hubo un problema con el pago
-    const handlePaymentError = () => {
-        Swal.fire({
-            icon: "error",
-            title: "Error en el pago",
-            text: "Hubo un problema con el pago. Inténtalo de nuevo.",
-        });
-    };
+  
 
 
     return (
@@ -185,11 +167,7 @@ const ShoppingCart = () => {
                             </div>
                             <div className="mt-3">
                                 {preferenceId && (
-                                    <Wallet 
-                                    initialization={{ preferenceId, redirectMode: "blank" }}                                     
-                                    onSubmit={handlePaymentSuccess} 
-                                    onError={handlePaymentError}
-                                    />)}
+                                    <Wallet initialization={{ preferenceId, redirectMode: "modal" }} />)}
                             </div>
                         </div>}
                 </Col>

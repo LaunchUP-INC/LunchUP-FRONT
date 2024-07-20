@@ -11,18 +11,20 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Card = (props) => {
   const { id, name, images, price } = props;
   const { isAuthenticated } = useAuth0();
+  let isAuth = isAuthenticated;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
   const [disabled, setDisabled] = useState(false);
-
+console.log(isAuth);
   const handleOnClick = () => {
     dispatch(getProductDetail(id));
     navigate(`/products/detail/${id}`);
   };
+
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    if (isAuthenticated === true) {
+    if (isAuthenticated) {
       dispatch(addToShoppingCart(props));
     } else {
       alert("Por favor, inicia sesión para comprar.");
@@ -32,6 +34,10 @@ const Card = (props) => {
   const handleTouch = () => {
     setIsActive(!isActive);
   };
+
+  useEffect(()=>{
+    setDisabled(!isAuth);
+  },[])
 
   return (
     <div
@@ -47,7 +53,7 @@ const Card = (props) => {
         <button
           className={styles.cardButton}
           onClick={handleAddToCart}
-          disabled={isAuthenticated ? true : false}
+          disabled={disabled}
         >
           <FontAwesomeIcon icon={faCartPlus} />
         </button>
