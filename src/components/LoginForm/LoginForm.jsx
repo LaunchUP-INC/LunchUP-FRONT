@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
 
-const LoginForm = () => {
+const LoginForm = ({errorValidation}) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const { loginWitnpmhRedirect, isAuthenticated, user } = useAuth0();
-  const navigate = useNavigate();
+
+  const { loginWithRedirect } = useAuth0();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,24 +19,11 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3001/login", {
-        email: loginData.email,
-        password: loginData.password,
-      });
 
-      if (response.data.access) {
-        localStorage.setItem('token', response.data.token);
-        alert("Bienvenido a LunchUp");
-        navigate("/home");
-      } else {
-        alert("Contraseña o email incorrectos");
-      }
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      alert("Contraseña o email incorrectos");
-    }
-  };
+    console.log(loginData); // Agrega esto para verificar los datos
+    dispatch(loginUser(loginData));
+    errorValidation();
+
 
 
   const handleLoginWithGmail = async () => {

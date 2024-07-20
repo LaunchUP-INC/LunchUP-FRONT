@@ -7,6 +7,7 @@ import Cards from "../components/Cards/Cards";
 import SearchBar from "../components/SearchBar/SearchBar";
 import PaginationComponent  from "../components/Pagination/Pagination";
 import Filters from "../components/Filters/Filters";
+import { clearError } from "../redux/actions";
 
 const HomeView = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const HomeView = () => {
   useEffect(() => {
     if (error) {     
         toast.error(error);
+        dispatch(clearError()); 
     } 
   }, [error]);
 

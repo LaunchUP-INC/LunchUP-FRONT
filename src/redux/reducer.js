@@ -22,6 +22,8 @@ import {
   FETCH_ALL_USERS,
   LOGIN,
   GET_SCHOOLS,
+  REGISTER_SUCCESS,
+  CLEAR_ERROR
 } from "./actions";
 
 const initialState = {
@@ -39,11 +41,26 @@ const initialState = {
   postDishError: null,
   succesDishDelete: null,
   errorDishDelete: null,
+  error: null,
   shoppingCart: JSON.parse(localStorage.getItem("shoppingCart")) || [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+      
+        case CLEAR_ERROR: 
+          return {
+            ...state,
+            error: null,
+          };
+
     case FETCH_PRODUCTS:
       return {
         ...state,
