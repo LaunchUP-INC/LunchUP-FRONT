@@ -72,8 +72,8 @@ const Filters = ({ onFilterChange }) => {
         onReset={resetAllFilters}
       />
       <Container className={styles.container}>
-        <Row className="mb-3 justify-content-center">
-          <Col xs={12} md={6} className="d-flex justify-content-center">
+        <Row className="mb-3 justify-content-center d-md-none">
+          <Col xs={12} className="d-flex justify-content-center">
             <Form.Select
               name="type"
               value={filters.type}
@@ -82,12 +82,12 @@ const Filters = ({ onFilterChange }) => {
             >
               {foodTypes.map((type) => (
                 <option key={type.id} value={type.id}>
-                  {type.name}
+                  {type.icon} {type.name}
                 </option>
               ))}
             </Form.Select>
           </Col>
-          <Col xs={12} md={6} className="d-flex justify-content-center">
+          <Col xs={12} className="d-flex justify-content-center mt-2">
             <Form.Select
               name="price"
               value={filters.price}
@@ -99,38 +99,40 @@ const Filters = ({ onFilterChange }) => {
             </Form.Select>
           </Col>
         </Row>
-        <Row className="mb-3 justify-content-center">
-          <Col className="d-flex flex-wrap justify-content-center">
-            {foodTypes.map((type) => (
+        <div className="d-none d-md-block">
+          <Row className="mb-3 justify-content-center">
+            <Col className="d-flex flex-wrap justify-content-center">
+              {foodTypes.map((type) => (
+                <Card
+                  key={type.id}
+                  className={`m-2 ${styles.filterCard} ${filters.type === type.id ? styles.selected : ""}`}
+                  onClick={() => handleFilterChange("type", type.id)}
+                >
+                  <Card.Body className="text-center">
+                    {type.icon}
+                    <Card.Text>{type.name}</Card.Text>
+                  </Card.Body>
+                </Card>
+              ))}
               <Card
-                key={type.id}
-                className={`m-2 ${styles.filterCard} ${filters.type === type.id ? styles.selected : ""}`}
-                onClick={() => handleFilterChange("type", type.id)}
+                className={`m-2 ${styles.filterCard} ${filters.price === "price-desc" ? styles.selected : ""}`}
+                onClick={() => handleFilterChange("price", "price-desc")}
               >
                 <Card.Body className="text-center">
-                  {type.icon}
-                  <Card.Text>{type.name}</Card.Text>
+                  <Card.Text>Mayor precio</Card.Text>
                 </Card.Body>
               </Card>
-            ))}
-            <Card
-              className={`m-2 ${styles.filterCard} ${filters.price === "price-desc" ? styles.selected : ""}`}
-              onClick={() => handleFilterChange("price", "price-desc")}
-            >
-              <Card.Body className="text-center">
-                <Card.Text>Mayor precio</Card.Text>
-              </Card.Body>
-            </Card>
-            <Card
-              className={`m-2 ${styles.filterCard} ${filters.price === "price-asc" ? styles.selected : ""}`}
-              onClick={() => handleFilterChange("price", "price-asc")}
-            >
-              <Card.Body className="text-center">
-                <Card.Text>Menor precio</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+              <Card
+                className={`m-2 ${styles.filterCard} ${filters.price === "price-asc" ? styles.selected : ""}`}
+                onClick={() => handleFilterChange("price", "price-asc")}
+              >
+                <Card.Body className="text-center">
+                  <Card.Text>Menor precio</Card.Text>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </div>
         <Row className="justify-content-center">
           <Button variant="outline-secondary" onClick={resetAllFilters}>
             Reiniciar Filtros

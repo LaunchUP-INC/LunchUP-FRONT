@@ -9,7 +9,7 @@
 
 .container {
   margin: 0 auto;
-  margin-top: 70px;
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -71,5 +71,19 @@
 
   .icon {
     font-size: 15px;
+  }
+
+  .d-md-block {
+    display: none;
+  }
+
+  .d-md-none {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .d-md-none {
+    display: none;
   }
 }
