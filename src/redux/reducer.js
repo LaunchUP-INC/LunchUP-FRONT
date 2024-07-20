@@ -186,7 +186,7 @@ const rootReducer = (state = initialState, action) => {
     case POST_REVIEWS:
       return {
         ...state,
-        newreviews: [...state.newreviews, action.payload],
+        newreviews: action.payload,
       };
 
     case GET_SCHOOLS:

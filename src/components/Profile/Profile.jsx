@@ -51,8 +51,8 @@ const Profile = () => {
       }
     }
   }, [isAuthenticated]);
-
-  console.log(userManual); // Añade `isAuthenticated` como dependencia
+  const { nombre, apellido, email, id: userId } = userManual;
+  console.log(id); // Añade `isAuthenticated` como dependencia
   const handleChange = (event) => {
     setComensal({
       ...comensal,
@@ -296,7 +296,7 @@ const Profile = () => {
           Mis publicaciones
         </Button>
       </div>
-      <ReviewAlert />
+      <ReviewAlert user={userId}/>
     </div>
   );
 };
