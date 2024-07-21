@@ -122,9 +122,14 @@ export const fetchUserData = (userData) => {
     const token = getState().token;
     console.log(userData);
     try {
-      const response = await axios.get(`${URLD}/user/${userData.email}`, token ?{
-        headers: { Authorization: `Bearer ${token.token}` },
-      }:null);
+      const response = await axios.get(
+        `${URLD}/user/${userData.email}`,
+        token
+          ? {
+              headers: { Authorization: `Bearer ${token.token}` },
+            }
+          : null
+      );
       // console.log(response);
       localStorage.setItem("user", JSON.stringify(response.data.users));
       dispatch({
@@ -157,10 +162,8 @@ export const loginUser = (loginData) => {
         return false; // Retorna false si el inicio de sesión falla
       }
     } catch (error) {
-
       dispatch(handleError(error));
       return false; // Retorna false si ocurre un error
-
     }
   };
 };
@@ -449,11 +452,14 @@ export const fetchReviews = () => {
 };
 
 export const postReviews = (review) => {
- const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem("userId");
   console.log(review);
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URLD}/user/${userId}/reviews/`, review);
+      const response = await axios.post(
+        `${URLD}/user/${userId}/reviews/`,
+        review
+      );
       dispatch({
         type: POST_REVIEWS,
         payload: response.data,
