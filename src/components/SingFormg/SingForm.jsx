@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import styles from "./SingForm.module.css";
@@ -53,11 +52,14 @@ const SingForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+
     const validationErrors = validate(formData);
     // if (Object.keys(validationErrors).length > 0) {
     //   alert("Por favor, corrija los errores antes de enviar el formulario.");
     //   return;
     // }
+
+
 
     // // Validar datos en el frontend
     // const validationErrors = validate(formData);   

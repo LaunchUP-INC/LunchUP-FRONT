@@ -18,21 +18,23 @@ const customStyles = {
   },
 };
 
-const ReviewModal = ({ isOpen, onRequestClose }) => {
+const ReviewModal = ({ isOpen, onRequestClose, userId }) => {
   const [comment, setComment] = useState('');
   const [score, setScore] = useState(0);
   const dispatch = useDispatch();
-
+  const review = {comment, score};
+  /* const {id } = userId; */
+  console.log(userId);
 const { user } = useAuth0();
   const handleSubmit = (event) => {
     event.preventDefault();
-    const review = { comment, score };
+    
     dispatch(postReviews(review));
     /* localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado */
     onRequestClose(); // Cierra el modal después de enviar la reseña
   };
-  const id = user.name;
-  console.log(user);
+  // const id = user.name;
+  console.log(review);
   const handleTextChange = (event) => {
     setComment(event.target.value);
   };

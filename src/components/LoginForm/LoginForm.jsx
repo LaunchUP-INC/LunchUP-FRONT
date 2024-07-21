@@ -6,7 +6,6 @@ import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { loginUser } from "../../redux/actions";
-
 const LoginForm = ({ errorValidation }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const { loginWithRedirect, isAuthenticated, user } = useAuth0();
@@ -23,10 +22,13 @@ const LoginForm = ({ errorValidation }) => {
     console.log(loginData); // Agrega esto para verificar los datos
     await dispatch(loginUser(loginData));
     errorValidation();
+
   };
 
   const handleLoginWithGmail = async () => {
-    await loginWithRedirect();
+    await loginWithRedirect({
+      redirectUri: window.location.origin + "/profile",
+    });
   };
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const LoginForm = ({ errorValidation }) => {
 
           if (response.status === 200) {
             const isRegistered = response.data.isRegistered;
-            navigate(isRegistered ? "/home" : "/signup");
+            navigate(isRegistered ? "/profile" : "/signup");
           } else {
             alert("Error en la verificación.");
           }

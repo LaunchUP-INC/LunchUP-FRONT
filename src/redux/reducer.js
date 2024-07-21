@@ -23,7 +23,8 @@ import {
   LOGIN,
   GET_SCHOOLS,
   REGISTER_SUCCESS,
-  CLEAR_ERROR
+  FETCH_USER_DATA,
+  CLEAR_ERROR,
 } from "./actions";
 
 const initialState = {
@@ -36,7 +37,7 @@ const initialState = {
   reviews: [],
   schools: [],
   newreviews: [],
-  user: {},
+  user: null,
   newDishId: null,
   postDishError: null,
   succesDishDelete: null,
@@ -47,19 +48,17 @@ const initialState = {
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-
     case REGISTER_SUCCESS:
       return {
         ...state,
         user: action.payload,
       };
 
-      
-        case CLEAR_ERROR: 
-          return {
-            ...state,
-            error: null,
-          };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
 
     case FETCH_PRODUCTS:
       return {
@@ -92,7 +91,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
-      }
+      };
 
     case GET_MEAL_TYPE:
       return {
@@ -114,7 +113,7 @@ const rootReducer = (state = initialState, action) => {
     case LOGIN:
       return {
         ...state,
-        user: action.payload,
+        token: action.payload,
       };
     case POST_DISH_SUCCESS:
       return {
@@ -187,7 +186,7 @@ const rootReducer = (state = initialState, action) => {
     case POST_REVIEWS:
       return {
         ...state,
-        newreviews: [...state.newreviews, action.payload],
+        newreviews: action.payload,
       };
 
     case GET_SCHOOLS:

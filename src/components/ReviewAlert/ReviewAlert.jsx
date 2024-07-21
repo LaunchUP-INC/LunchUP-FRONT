@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import ReviewModal from '../ReviewModal/ReviewModal';
 
-const ReviewAlert = () => {
+const ReviewAlert = ( userId ) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const ReviewAlert = () => {
             setIsModalOpen(true);
           }
         });
-      }, 50000); // 10 minutos
+      }, 5000); // 10 minutos = 600000 milisegundos
 
       return () => clearInterval(reviewRequestInterval);
     }
@@ -28,7 +28,7 @@ const ReviewAlert = () => {
 
   return (
     <>
-      <ReviewModal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} />
+      <ReviewModal isOpen={isModalOpen} onRequestClose={() => setIsModalOpen(false)} userId={userId}/>
     </>
   );
 };
