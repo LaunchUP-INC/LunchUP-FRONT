@@ -55,6 +55,7 @@ export const registerUser = (userData) => {
         telephone: userData.phone,
         email: userData.email,
         password: userData.password,
+        isAdmin: false,
       });
 
       console.log(response.data);
