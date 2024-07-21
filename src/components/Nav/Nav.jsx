@@ -9,53 +9,27 @@ import { Navbar, Nav, Container, NavDropdown, Badge } from "react-bootstrap";
 import { useState, useEffect } from "react";
 
 const NavigationBar = () => {
-  // const navigate = useNavigate();
-  // const location = useLocation();
-
-  // const shoppingCart = useSelector(state => state.shoppingCart);
-
-  // const pathToHideNav = ["/", "/login", "/signup"];
-  // const shouldHideNav = pathToHideNav.includes(location.pathname);
-  // const { isAuthenticated } = useAuth0();
-
-  // return shouldHideNav ? null :(
-  //     <div className={styles.navContainer} >
-  //         <div className={styles.nav}>
-  //             <h2 className={styles.logo} onClick={() => navigate("/home")} >LunchUP <BagIcon className={styles.icon} /></h2>
-  //             <div className={styles.navLinks}>
-  //                 <ul className={styles.navLinks} >
-  //                     {!isAuthenticated && <li><a onClick={() => navigate("/login")} >Inicar Sesión</a></li>}
-  //                     <li><a onClick={() => navigate("/home")} >Inicio</a></li>
-  //                     <li><a onClick={() => navigate("/shopping")} >
-  //                         <FontAwesomeIcon icon={faShoppingCart} className={styles.cartIcon} />{shoppingCart.length > 0 && <span className={styles.cartCount}>{shoppingCart.length}</span>}</a>
-  //                     </li>
-  //                     {isAuthenticated && <li><a onClick={() => navigate("/profile")} >Mi Perfil</a></li>}
-  //                 </ul>
-  //             </div>
-  //         </div>
-
-  //     </div>
-  // )
-
-  // BOOTSTRAP
+  
   const navigate = useNavigate();
   const location = useLocation();
+  const user = useSelector((state) => state.user);
   const shoppingCart = useSelector((state) => state.shoppingCart);
   const pathToHideNav = ["/", "/login", "/signup", "/admin"];
   const shouldHideNav = pathToHideNav.includes(location.pathname);
   const { isAuthenticated } = useAuth0();
-  const [isLoged, setIsLogged] = useState(false);
+  const [isLoged, setIsLoged] = useState(false);
+  console.log(isAuthenticated);
 
   useEffect(() => {
     if (!isAuthenticated) {
-      const userId = localStorage.getItem("userId");
-      if (userId) {
-        setIsLogged(true);
+      // const userId = localStorage.getItem("userId");
+      if (user) {
+        setIsLoged(true);
       } else {
-        setIsLogged(false);
+        setIsLoged(false);
       }
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user]);
 
   return shouldHideNav ? null : (
     <Navbar bg="light" expand="lg">
@@ -91,15 +65,14 @@ const NavigationBar = () => {
               )}
             </Nav.Link>
             {isAuthenticated ||
-              (isLoged && (
+              isLoged ? (
                 <Nav.Link
                   onClick={() => navigate("/profile")}
                   className={styles["nav-link"]}
                 >
                   Mi Perfil
                 </Nav.Link>
-              ))}
-            {!isAuthenticated && !isLoged && (
+              ):(
               <Nav.Link
                 onClick={() => navigate("/login")}
                 className={styles["nav-link"]}

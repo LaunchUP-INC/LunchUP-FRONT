@@ -11,9 +11,12 @@ import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import ReviewAlert from "../ReviewAlert/ReviewAlert";
 import axios from "axios";
+import { useSelector } from "react-redux";
+
 const Profile = () => {
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
   const [id, setId] = useState(0);
+  const manualUser = useSelector((state) => state.user);
   const [userManual, setUserManual] = useState({
     nombre: "",
     apellido: "",
@@ -30,7 +33,7 @@ const Profile = () => {
   });
 
   const navigate = useNavigate();
-  console.log(comensal);
+  console.log(manualUser);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -51,6 +54,7 @@ const Profile = () => {
       }
     }
   }, [isAuthenticated]);
+
   const { nombre, apellido, email, id: userId } = userManual;
   console.log(id); // Añade `isAuthenticated` como dependencia
   const handleChange = (event) => {
@@ -190,8 +194,8 @@ const Profile = () => {
       <Card style={{ width: "15rem" }} bg="light" border="dark">
         <Image src={userManual.picture ? userManual.picture : "/no-avatar.png" } alt={userManual.name} roundedCircle />
         <Card.Body>
-          <Card.Title>{userManual.firstname}</Card.Title>
-          <Card.Text>{userManual.email}.</Card.Text>
+          <Card.Title>{`${manualUser.firstname} ${manualUser.lastname}`}</Card.Title>
+          <Card.Text>{manualUser.email}.</Card.Text>
         </Card.Body>
         <Button variant="success" onClick={handleShow} className={styles.btn}>
           Agregar comensal

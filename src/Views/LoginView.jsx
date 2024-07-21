@@ -24,7 +24,7 @@ const LoginView = () => {
 
     return (
         <div>
-            <LoginForm errorValidation={errorValidation}/>
+            <LoginForm errorValidation={errorValidation} />
         </div>
     )
 
