@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { fetchUserData, loginUser } from "../../redux/actions";
 
-
 const LoginForm = ({ errorValidation }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const { loginWithRedirect, isAuthenticated, user } = useAuth0();
@@ -25,17 +24,16 @@ const LoginForm = ({ errorValidation }) => {
     const access = await dispatch(loginUser(loginData));
     // console.log(access);
 
-    if(access.access){
+    if (access.access) {
       await dispatch(fetchUserData(loginData));
       navigate("/home");
     }
     errorValidation();
-
   };
 
   const handleLoginWithGmail = async () => {
     await loginWithRedirect({
-      redirectUri: window.location.origin,
+      redirectUri: `${window.location.origin}/login`,
     });
   };
 
@@ -52,10 +50,10 @@ const LoginForm = ({ errorValidation }) => {
           if (response.status === 200) {
             const isRegistered = response.data.isRegistered;
             console.log(isRegistered);
-            if(isRegistered) {
-              dispatch(fetchUserData(user))
-            };
-            navigate(isRegistered ? "/home" : "/signup");
+            if (isRegistered) {
+              dispatch(fetchUserData(user));
+            }
+            navigate(isRegistered ? "/profile" : "/signup");
           } else {
             alert("Error en la verificación.");
           }

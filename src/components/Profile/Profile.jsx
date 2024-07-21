@@ -8,14 +8,14 @@ import Card from "react-bootstrap/Card";
 import Loader from "../Loader/Loader";
 import Image from "react-bootstrap/Image";
 import Table from "react-bootstrap/Table";
-import { useNavigate } from "react-router-dom";
+
 import ReviewAlert from "../ReviewAlert/ReviewAlert";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import ProfileActions from "./ProfileActions"; // Importa el componente de acciones de perfil
 
 const Profile = () => {
-  const { user, isAuthenticated, isLoading, logout } = useAuth0();
-  const [id, setId] = useState(0);
+  const { user, isAuthenticated, isLoading } = useAuth0();
   const manualUser = useSelector((state) => state.user);
   const [userManual, setUserManual] = useState({
     nombre: "",
@@ -32,14 +32,10 @@ const Profile = () => {
     escuela: "",
   });
 
-  const navigate = useNavigate();
-  console.log(manualUser);
-
   useEffect(() => {
     if (!isAuthenticated) {
       const userId = localStorage.getItem("userId");
       if (userId) {
-        setId(userId); // Asegúrate de que `userId` sea un valor válido
         const fetchUser = async () => {
           try {
             const response = await axios.get(
@@ -55,8 +51,6 @@ const Profile = () => {
     }
   }, [isAuthenticated]);
 
-  const { nombre, apellido, email, id: userId } = userManual;
-  console.log(id); // Añade `isAuthenticated` como dependencia
   const handleChange = (event) => {
     setComensal({
       ...comensal,
@@ -68,28 +62,44 @@ const Profile = () => {
     return <Loader />;
   }
 
-  const handleShowModal = () => {
-    setShow(true);
-  };
-
-  const handleClose = () => {
-    setShow(false);
-  };
-
-  return isAuthenticated ? (
+  return (
     <div className={styles.container}>
-      <Card style={{ width: "15rem" }} bg="secondary" border="dark">
-        <Image src={user.picture} alt={user.name} roundedCircle />
+      <Card
+        style={{ width: "15rem" }}
+        bg={isAuthenticated ? "secondary" : "light"}
+        border="dark"
+      >
+        <Image
+          src={
+            isAuthenticated
+              ? user.picture
+              : userManual.picture
+              ? userManual.picture
+              : "/no-avatar.png"
+          }
+          alt={
+            isAuthenticated
+              ? user.name
+              : `${manualUser.firstname} ${manualUser.lastname}`
+          }
+          roundedCircle
+        />
         <Card.Body>
-          <Card.Title>{user.name}</Card.Title>
-          <Card.Text>{user.email}.</Card.Text>
+          <Card.Title>
+            {isAuthenticated
+              ? user.name
+              : `${manualUser.firstname} ${manualUser.lastname}`}
+          </Card.Title>
+          <Card.Text>
+            {isAuthenticated ? user.email : manualUser.email}.
+          </Card.Text>
         </Card.Body>
         <Button variant="success" onClick={handleShow} className={styles.btn}>
           Agregar comensal
         </Button>
       </Card>
       <div>
-        <Modal show={show} onHide={handleClose} animation={true}>
+        <Modal show={show} onHide={handleClosed} animation={true}>
           <Modal.Header closeButton closeVariant="dark">
             <Modal.Title>Nuevo Comensal</Modal.Title>
           </Modal.Header>
@@ -104,6 +114,8 @@ const Profile = () => {
                   type="text"
                   placeholder="Pepito Honguito"
                   autoFocus
+                  name="nombreApellido"
+                  onChange={handleChange}
                 />
               </Form.Group>
               <Form.Group
@@ -111,14 +123,26 @@ const Profile = () => {
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Curso</Form.Label>
-                <Form.Control type="number" placeholder="1" min={1} max={6} />
+                <Form.Control
+                  type="number"
+                  placeholder="1"
+                  min={1}
+                  max={6}
+                  name="curso"
+                  onChange={handleChange}
+                />
               </Form.Group>
               <Form.Group
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
                 <Form.Label>Nombre de la escuela</Form.Label>
-                <Form.Control type="text" placeholder="Escuela" />
+                <Form.Control
+                  type="text"
+                  placeholder="Escuela"
+                  name="escuela"
+                  onChange={handleChange}
+                />
               </Form.Group>
             </Form>
           </Modal.Body>
@@ -126,7 +150,7 @@ const Profile = () => {
             <Button variant="danger" onClick={handleClosed}>
               Cancelar
             </Button>
-            <Button variant="success" onClick={handleClose}>
+            <Button variant="success" onClick={handleClosed}>
               Añadir
             </Button>
           </Modal.Footer>
@@ -164,143 +188,8 @@ const Profile = () => {
           </tbody>
         </Table>
       </div>
-      <div className={styles.btnContainer}>
-        <Button
-          variant="info"
-          className={styles.btn}
-          onClick={() => navigate("/profile/edit")}
-        >
-          Editar Perfil
-        </Button>
-        <Button
-          variant="danger"
-          onClick={() => logout()}
-          className={styles.btn}
-        >
-          Cerrar sesión
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => navigate("/admin")}
-          className={styles.btn}
-        >
-          Mis publicaciones
-        </Button>
-      </div>
-      <ReviewAlert />
-    </div>
-  ) : (
-    <div className={styles.container}>
-      <Card style={{ width: "15rem" }} bg="light" border="dark">
-        <Image src={userManual.picture ? userManual.picture : "/no-avatar.png" } alt={userManual.name} roundedCircle />
-        <Card.Body>
-          <Card.Title>{`${manualUser.firstname} ${manualUser.lastname}`}</Card.Title>
-          <Card.Text>{manualUser.email}.</Card.Text>
-        </Card.Body>
-        <Button variant="success" onClick={handleShow} className={styles.btn}>
-          Agregar comensal
-        </Button>
-      </Card>
-      <div>
-        <Modal show={show} onHide={handleClose} animation={true}>
-          <Modal.Header closeButton closeVariant="dark">
-            <Modal.Title>Nuevo Comensal</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Nombre y Apellido</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Pepito Honguito"
-                  autoFocus
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Curso</Form.Label>
-                <Form.Control type="number" placeholder="1" min={1} max={6} />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Nombre de la escuela</Form.Label>
-                <Form.Control type="text" placeholder="Escuela" />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="danger" onClick={handleClosed}>
-              Cancelar
-            </Button>
-            <Button variant="success" onClick={handleClose}>
-              Añadir
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
-      <div>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nombre completo</th>
-              <th>Curso</th>
-              <th>Escuela</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark Zuckerberg</td>
-              <td>6 A</td>
-              <td>Escuela Ejemplo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Elon Musk</td>
-              <td>5 B</td>
-              <td>Escuela Ejemplo</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Bill Gates</td>
-              <td>4 C</td>
-              <td>Escuela Ejemplo</td>
-            </tr>
-          </tbody>
-        </Table>
-      </div>
-      <div className={styles.btnContainer}>
-        <Button
-          variant="info"
-          className={styles.btn}
-          onClick={() => navigate("/profile/edit")}
-        >
-          Editar Perfil
-        </Button>
-        <Button
-          variant="danger"
-          onClick={() => logout()}
-          className={styles.btn}
-        >
-          Cerrar sesión
-        </Button>
-        <Button
-          variant="primary"
-          onClick={() => navigate("/admin")}
-          className={styles.btn}
-        >
-          Mis publicaciones
-        </Button>
-      </div>
-      <ReviewAlert user={userId}/>
+      <ProfileActions />
+      <ReviewAlert user={isAuthenticated ? user.sub : userManual.id} />
     </div>
   );
 };
