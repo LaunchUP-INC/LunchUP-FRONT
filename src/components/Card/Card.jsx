@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProductDetail, addToShoppingCart } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -16,7 +16,8 @@ const Card = (props) => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(false);
   const [disabled, setDisabled] = useState(false);
-console.log(isAuth);
+  const user = useSelector((state) => state.user);
+
   const handleOnClick = () => {
     dispatch(getProductDetail(id));
     navigate(`/products/detail/${id}`);
@@ -24,7 +25,7 @@ console.log(isAuth);
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    if (isAuthenticated) {
+    if (isAuthenticated || user) {
       dispatch(addToShoppingCart(props));
     } else {
       alert("Por favor, inicia sesión para comprar.");
@@ -36,7 +37,7 @@ console.log(isAuth);
   };
 
   useEffect(()=>{
-    setDisabled(!isAuth);
+    setDisabled(!isAuth && !user);
   },[])
 
   return (
@@ -57,7 +58,7 @@ console.log(isAuth);
         >
           <FontAwesomeIcon icon={faCartPlus} />
         </button>
-        {!isAuthenticated && <p className={styles.loginPrompt}>Please log in to purchase</p>}
+        {!isAuthenticated && !user && <p className={styles.loginPrompt}>Please log in to purchase</p>}
       </div>
     </div>
   );

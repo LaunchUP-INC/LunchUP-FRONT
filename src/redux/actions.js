@@ -39,6 +39,7 @@ export const handleError = (error) => {
     payload: errorMessage,
   };
 };
+
 export const clearError = () => {
   return {
     type: CLEAR_ERROR,
@@ -54,7 +55,6 @@ export const registerUser = (userData) => {
         telephone: userData.phone,
         email: userData.email,
         password: userData.password,
-        isAdmin: false,
       });
 
       console.log(response.data);
@@ -102,7 +102,7 @@ export const fetchUsers = () => {
     try {
       const response = await axios.get(`${URLD}/user`);
       const { users } = response.data;
-      console.log(users);
+      // console.log(users);
 
       dispatch({
         type: FETCH_ALL_USERS,
@@ -114,20 +114,21 @@ export const fetchUsers = () => {
   };
 };
 
-export const fetchUserData = () => {
+export const fetchUserData = (userData) => {
   return async (dispatch, getState) => {
-    const iDUser = localStorage.getItem("userId");
+    // const iDUser = localStorage.getItem("userId");
+    // const userId = getState().userId;
     const token = getState().token;
-    const userId = getState().userId;
-
+    console.log(userData);
     try {
-      const response = await axios.get(`${URLD}/user/${iDUser}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+      const response = await axios.get(`${URLD}/user/${userData.email}`, token ?{
+        headers: { Authorization: `Bearer ${token.token}` },
+      }:null);
+      // console.log(response);
+      localStorage.setItem("user", JSON.stringify(response.data.users));
       dispatch({
         type: FETCH_USER_DATA,
-        payload: response.data.user,
+        payload: response.data.users,
       });
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -139,24 +140,26 @@ export const loginUser = (loginData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(`${URLD}/login`, loginData);
+      console.log(response);
       if (response.data.access) {
         localStorage.setItem("token", response.data.token);
         dispatch({
           type: LOGIN,
           payload: {
-            user: response.data.user,
+            access: response.data.access,
             token: response.data.token,
           },
         });
-        return true; // Retorna true si el inicio de sesión es exitoso
+        return response.data; // Retorna true si el inicio de sesión es exitoso
       } else {
         alert("Contraseña o email incorrectos");
         return false; // Retorna false si el inicio de sesión falla
       }
     } catch (error) {
-      console.error("Error fetching data: ", error);
-      alert("Contraseña o email incorrectos");
+
+      dispatch(handleError(error));
       return false; // Retorna false si ocurre un error
+
     }
   };
 };
@@ -433,7 +436,7 @@ export const fetchReviews = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/reviews`);
-      console.log(response.data);
+      // console.log(response.data);
       dispatch({
         type: FETCH_REVIEWS,
         payload: response.data.reviews,

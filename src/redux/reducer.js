@@ -37,7 +37,8 @@ const initialState = {
   reviews: [],
   schools: [],
   newreviews: [],
-  user: null,
+  token: null,
+  user: JSON.parse(localStorage.getItem("user")) || null,
   newDishId: null,
   postDishError: null,
   succesDishDelete: null,
@@ -110,17 +111,26 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
+
     case LOGIN:
       return {
         ...state,
         token: action.payload,
       };
+
+    case FETCH_USER_DATA:
+      return {
+        ...state,
+        user:action.payload,
+      }
+
     case POST_DISH_SUCCESS:
       return {
         ...state,
         newDishId: action.payload,
         postDishError: null,
       };
+
     case POST_DISH_ERROR:
       return {
         ...state,

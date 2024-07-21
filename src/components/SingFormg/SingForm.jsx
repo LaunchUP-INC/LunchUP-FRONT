@@ -42,7 +42,7 @@ const SingForm = () => {
     setErrors(validate({ ...formData, [name]: value }));
   };
 
-   useEffect(() => {
+  useEffect(() => {
     if (error) {
       toast.error(error)
       dispatch(clearError()); 

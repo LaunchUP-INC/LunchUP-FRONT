@@ -5,7 +5,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { loginUser } from "../../redux/actions";
+import { fetchUserData, loginUser } from "../../redux/actions";
+
+
 const LoginForm = ({ errorValidation }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const { loginWithRedirect, isAuthenticated, user } = useAuth0();
@@ -20,20 +22,27 @@ const LoginForm = ({ errorValidation }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(loginData); // Agrega esto para verificar los datos
-    await dispatch(loginUser(loginData));
+    const access = await dispatch(loginUser(loginData));
+    // console.log(access);
+
+    if(access.access){
+      await dispatch(fetchUserData(loginData));
+      navigate("/home");
+    }
     errorValidation();
 
   };
 
   const handleLoginWithGmail = async () => {
     await loginWithRedirect({
-      redirectUri: window.location.origin + "/profile",
+      redirectUri: window.location.origin,
     });
   };
 
   useEffect(() => {
     const checkRegistration = async () => {
       if (isAuthenticated && user) {
+        console.log(user);
         try {
           const response = await axios.post(
             "http://localhost:3001/register/check",
@@ -42,7 +51,11 @@ const LoginForm = ({ errorValidation }) => {
 
           if (response.status === 200) {
             const isRegistered = response.data.isRegistered;
-            navigate(isRegistered ? "/profile" : "/signup");
+            console.log(isRegistered);
+            if(isRegistered) {
+              dispatch(fetchUserData(user))
+            };
+            navigate(isRegistered ? "/home" : "/signup");
           } else {
             alert("Error en la verificación.");
           }
