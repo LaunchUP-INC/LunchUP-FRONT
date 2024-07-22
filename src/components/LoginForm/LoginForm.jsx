@@ -5,7 +5,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
-import { fetchUserData, loginUser } from "../../redux/actions";
+import { checkUser, fetchUserData, loginUser } from "../../redux/actions";
 
 const LoginForm = ({ errorValidation }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -40,25 +40,13 @@ const LoginForm = ({ errorValidation }) => {
   useEffect(() => {
     const checkRegistration = async () => {
       if (isAuthenticated && user) {
-        console.log(user);
-        try {
-          const response = await axios.post(
-            "http://localhost:3001/register/check",
-            { email: user.email }
-          );
+        const access = await dispatch(checkUser(user));
 
-          if (response.status === 200) {
-            const isRegistered = response.data.isRegistered;
-            console.log(isRegistered);
-            if (isRegistered) {
-              dispatch(fetchUserData(user));
-            }
-            navigate(isRegistered ? "/profile" : "/signup");
-          } else {
-            alert("Error en la verificación.");
-          }
-        } catch (error) {
-          console.error("Error al verificar el usuario:", error);
+        if (access.access) {
+          await dispatch(fetchUserData(user));
+          navigate("/home");
+        }else{
+          navigate("/signup");
         }
       }
     };

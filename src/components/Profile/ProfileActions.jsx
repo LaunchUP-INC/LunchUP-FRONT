@@ -10,6 +10,8 @@ const ProfileActions = () => {
 
   const handleLogout = () => {
     if (isAuthenticated) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       logout();
     } else {
       localStorage.removeItem("user");
