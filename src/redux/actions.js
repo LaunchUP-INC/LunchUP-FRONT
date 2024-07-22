@@ -167,6 +167,30 @@ export const loginUser = (loginData) => {
   };
 };
 
+export const checkUser = (checkUser) =>{
+  console.log(checkUser);
+  return async (dispatch) =>{
+    try {
+      const response = await axios.post("http://localhost:3001/register/check",{ email: checkUser.email });
+      console.log(response.data);
+      if (response.data.isRegistered.access) {
+        localStorage.setItem("token", response.data.isRegistered.token);
+        dispatch({
+          type: LOGIN,
+          payload: {
+            access: response.data.isRegistered.access,
+            token: response.data.isRegistered.token,
+          },
+        });
+        return response.data.isRegistered; // Retorna true si el inicio de sesión es exitoso
+      }
+    } catch (error) {
+      dispatch(handleError(error));
+      return false;
+    }
+  }
+} 
+
 export const setUserAdminBan = (id, user) => {
   return async (dispatch) => {
     try {

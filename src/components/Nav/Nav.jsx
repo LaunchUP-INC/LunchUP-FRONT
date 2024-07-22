@@ -18,7 +18,6 @@ const NavigationBar = () => {
     const shouldHideNav = pathToHideNav.includes(location.pathname);
     const { isAuthenticated } = useAuth0();
     const [isLoged, setIsLoged] = useState(false);
-    console.log(isAuthenticated);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -80,7 +79,7 @@ const NavigationBar = () => {
                                 Iniciar Sesión
                             </Nav.Link>
                         )}
-                        {user.isAdmin ?
+                        {user && user.isAdmin ?
                             <Nav.Link
                                 onClick={() => navigate("/admin")}
                                 className={styles["nav-link"]}
