@@ -31,14 +31,7 @@ const ProfileActions = () => {
       </Button>
       <Button variant="danger" onClick={handleLogout} >
         Cerrar sesión
-      </Button>
-      <Button
-        variant="primary"
-        onClick={() => navigate("/admin")}
-       
-      >
-        Mis publicaciones
-      </Button>
+      </Button>      
       <Button
         variant="success"
         onClick={() => navigate("/history")}
