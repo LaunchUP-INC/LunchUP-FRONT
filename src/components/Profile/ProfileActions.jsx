@@ -39,6 +39,14 @@ const ProfileActions = () => {
       >
         Mis publicaciones
       </Button>
+      <Button
+        variant="success"
+        onClick={() => navigate("/history")}
+       
+      >
+        Mis Compras
+      </Button>
+      
     </div>
   );
 };
