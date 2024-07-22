@@ -82,7 +82,7 @@ const Filters = ({ onFilterChange }) => {
             >
               {foodTypes.map((type) => (
                 <option key={type.id} value={type.id}>
-                  {type.icon} {type.name}
+                  {type.name}
                 </option>
               ))}
             </Form.Select>
