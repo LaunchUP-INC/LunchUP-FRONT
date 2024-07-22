@@ -30,7 +30,7 @@ const { user } = useAuth0();
     event.preventDefault();
     
     dispatch(postReviews(review));
-    /* localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado */
+    localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado
     onRequestClose(); // Cierra el modal después de enviar la reseña
   };
   // const id = user.name;
@@ -48,6 +48,8 @@ const { user } = useAuth0();
     >
       <h2>Deja tu Reseña</h2>
       <form onSubmit={handleSubmit}>
+        <h3>Puntua con una calificación de 1 a 5.
+          Cuentanos como fue tu experienca con nuestra plataforma. </h3>
         <RatingModal rating={score} setRating={setScore} />
         <textarea
           className={styles.textarea}

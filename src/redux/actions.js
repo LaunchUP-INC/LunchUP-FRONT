@@ -28,8 +28,7 @@ export const CLEAR_ERROR = "CLEAR_ERROR";
 export const FETCH_USER_DATA = "FETCH_USER_DATA";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
-
-// export const URLD = "https://lunchup-back.onrender.com";
+ //export const URLD = "https://lunchup-back.onrender.com";
 export const URLD = "http://localhost:3001";
 
 export const handleError = (error) => {
@@ -452,10 +451,14 @@ export const fetchReviews = () => {
 };
 
 export const postReviews = (review) => {
-  const userId = localStorage.getItem("userId");
-  console.log(review);
+
+
   return async (dispatch) => {
     try {
+      const userString = localStorage.getItem("user");
+      const user = userString ? JSON.parse(userString) : null;
+      const userId = user.id;
+      console.log (userId);
       const response = await axios.post(
         `${URLD}/user/${userId}/reviews/`,
         review
