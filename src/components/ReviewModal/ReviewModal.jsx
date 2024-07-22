@@ -30,7 +30,7 @@ const { user } = useAuth0();
     event.preventDefault();
     
     dispatch(postReviews(review));
-    /* localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado */
+    localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado
     onRequestClose(); // Cierra el modal después de enviar la reseña
   };
   // const id = user.name;
