@@ -7,6 +7,8 @@ import { postReviews } from '../../redux/actions';
 import { useParams } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
+Modal.setAppElement('#root');
+
 const customStyles = {
   content: {
     top: '50%',
