@@ -28,7 +28,8 @@ const HomeView = () => {
   }, [error, dispatch]);
 
   useEffect(() => {
-    setFilteredDishes(dishes);
+    const dishesToShow = dishes.filter((dish) => dish.isDeleted === false)
+    setFilteredDishes(dishesToShow);
   }, [dishes]);
 
   const handleFilterChange = useCallback((filters) => {
