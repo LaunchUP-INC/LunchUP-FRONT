@@ -17,7 +17,7 @@ import PaymentSuccessView from "./Views/PaymentSuccessView";
 import PaymentErrorView from "./Views/PaymentErrorView";
 import { ProtectedRoute, ProtectAdminRoutes } from "./Views/RoutesProtection/RoutesProtection";
 import BuyHistory from "./Views/BuyHistory";
-
+import ChildViewDetails from "./Views/ChildViewDetails";
 function App() {
     
   
@@ -33,7 +33,8 @@ function App() {
         <Route path="/shopping" element={<ProtectedRoute><ShoppingCartView /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><ProfileUserView /></ProtectedRoute>} />
         <Route path="/profile/edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
-        <Route path="/history" element={<BuyHistory />} />
+        <Route path="/profile/children" element={<ProtectedRoute><ChildViewDetails /></ProtectedRoute>} />
+        <Route path="/history" element={<ProtectedRoute><BuyHistory /></ProtectedRoute>} />
         <Route path="/payment-success" element={<PaymentSuccessView />} />
         <Route path="/payment-error" element={<PaymentErrorView />} />
 

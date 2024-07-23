@@ -80,6 +80,8 @@ const ShoppingCart = () => {
     //Funcion que crea la orden de compra pasando por el back
     const handleCheckout = async () => {
         const items = shoppingCart.map(item => ({
+            id: item.id,
+            stock: item.stock,
             title: item.name,
             unit_price: item.price,
             quantity: item.quantity,
