@@ -483,3 +483,16 @@ export const getSchools = () => {
     }
   };
 };
+export const addComensal = (comensal) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URLD}/user`, comensal);
+      dispatch({
+        type: REGISTER_SUCCESS,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+}

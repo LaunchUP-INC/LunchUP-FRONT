@@ -11,7 +11,8 @@ import Table from "react-bootstrap/Table";
 
 import ReviewAlert from "../ReviewAlert/ReviewAlert";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getSchools, addComensal } from "../../redux/actions";
 import ProfileActions from "./ProfileActions"; // Importa el componente de acciones de perfil
 
 const Profile = () => {
@@ -26,11 +27,32 @@ const Profile = () => {
   const handleClosed = () => setShow(false);
   const handleShow = () => setShow(true);
   const [comensal, setComensal] = useState({
-    nombre: "",
-    apellido: "",
-    curso: "",
-    escuela: "",
+    firstname: "",
+    lastname: "",
+    gradeLevel: "",
+    school: ""
   });
+
+  const dispatch = useDispatch();
+  const schools = useSelector((state) => state.schools);
+
+  useEffect(() => {
+    dispatch(getSchools()); // Asegúrate de que se obtengan las escuelas
+  }, [dispatch]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setComensal({
+      ...comensal,
+      [name]: value
+    });
+  };
+
+   const handleAddComensal = (e) => {
+     e.preventDefault();
+     dispatch(addComensal(comensal)); // Llama a la acción con el comensal como argumento
+     handleClose(); // Cierra el modal después de añadir el comensal
+   };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -51,12 +73,12 @@ const Profile = () => {
     }
   }, [isAuthenticated]);
 
-  const handleChange = (event) => {
-    setComensal({
-      ...comensal,
-      [event.target.name]: event.target.value,
-    });
-  };
+  /*   const handleChange = (event) => {
+      setComensal({
+        ...comensal,
+        [event.target.name]: event.target.value,
+      });
+    }; */
 
   if (isLoading) {
     return <Loader />;
@@ -74,8 +96,8 @@ const Profile = () => {
             isAuthenticated
               ? user.picture
               : userManual.picture
-              ? userManual.picture
-              : "/no-avatar.png"
+                ? userManual.picture
+                : "/no-avatar.png"
           }
           alt={
             isAuthenticated
@@ -104,45 +126,54 @@ const Profile = () => {
             <Modal.Title>Nuevo Comensal</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Nombre y Apellido</Form.Label>
+            <Form onSubmit={handleAddComensal}>
+              <Form.Group className="mb-3" controlId="comensalName">
+                <Form.Label>Nombre</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Pepito Honguito"
-                  autoFocus
-                  name="nombreApellido"
+                  name="firstname"
+                  value={comensal.firstname}
                   onChange={handleChange}
+                  placeholder="Pepito"
+                  autoFocus
                 />
               </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
+              <Form.Group className="mb-3" controlId="comensalLastname">
+                <Form.Label>Apellido</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="lastname"
+                  value={comensal.lastname}
+                  onChange={handleChange}
+                  placeholder="Honguito"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="comensalCourse">
                 <Form.Label>Curso</Form.Label>
                 <Form.Control
                   type="number"
+                  name="gradeLevel"
+                  value={comensal.gradeLevel}
+                  onChange={handleChange}
                   placeholder="1"
                   min={1}
                   max={6}
-                  name="curso"
-                  onChange={handleChange}
                 />
               </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
+              <Form.Group className="mb-3" controlId="comensalSchool">
                 <Form.Label>Nombre de la escuela</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Escuela"
-                  name="escuela"
+                <Form.Select
+                  name="school"
+                  value={comensal.school}
                   onChange={handleChange}
-                />
+                >
+                  <option value="">Seleccionar escuela</option>
+                  {schools.map((school) => (
+                    <option key={school.id} value={school.name}>
+                      {school.name}
+                    </option>
+                  ))}
+                </Form.Select>
               </Form.Group>
             </Form>
           </Modal.Body>
