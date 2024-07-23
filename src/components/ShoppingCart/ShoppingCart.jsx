@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setShoppingCart, removeFromShoppingCart, clearShoppingCart, addToShoppingCart, URLD } from "../../redux/actions";
-import styles from "./ShoppingCart.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
 import {Container, Col, Row, Card, Button, Spinner} from 'react-bootstrap';
-import Swal from "sweetalert2";
 
 
 

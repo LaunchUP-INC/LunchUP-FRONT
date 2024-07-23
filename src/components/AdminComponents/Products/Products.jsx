@@ -50,10 +50,10 @@ const Products = (props) => {
         </div>
       </Row>
       <Row className="mb-2">
-        <Col style={{ fontSize: "18px" }}>Nombre</Col>
-        <Col style={{ fontSize: "18px" }}>Precio</Col>
-        <Col style={{ fontSize: "18px" }}>Stock</Col>
-        <Col style={{ textAlign: "center", fontSize: "18px" }}>Acciones</Col>
+        <Col lg={6} style={{ fontSize: "18px" }}>Nombre</Col>
+        <Col lg={2} style={{ fontSize: "18px" }}>Precio</Col>
+        <Col lg={1} style={{ fontSize: "18px" }}>Stock</Col>
+        <Col lg={3} style={{ textAlign: "center", fontSize: "18px" }}>Acciones</Col>
       </Row>
       <Row className="mb-1 bg-light" style={{ border: "1px solid black" }}>
         {products.map((item) => {
@@ -69,9 +69,9 @@ const Products = (props) => {
               }}
             >
               <Row className="align-items-center">
-                <Col>{item.name}</Col>
-                <Col>$ {item.price}</Col>
-                <Col>
+                <Col lg={6}>{item.name}</Col>
+                <Col lg={2}>$ {item.price}</Col>
+                <Col lg={1}>
                   {item.stock}{" "}
                   <Button
                     variant="link"
@@ -81,6 +81,7 @@ const Products = (props) => {
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </Button></Col>
                 <Col
+                lg={3}
                   style={{
                     display: "flex",
                     gap: "10px",
