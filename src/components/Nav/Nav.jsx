@@ -14,7 +14,7 @@ const NavigationBar = () => {
     const location = useLocation();
     const user = useSelector((state) => state.user);
     const shoppingCart = useSelector((state) => state.shoppingCart);
-    const pathToHideNav = ["/", "/login", "/signup", "/admin"];
+    const pathToHideNav = ["/", "/login", "/signup", "/admin" , "/banned"];
     const shouldHideNav = pathToHideNav.includes(location.pathname);
     const { isAuthenticated } = useAuth0();
     const [isLoged, setIsLoged] = useState(false);
