@@ -13,12 +13,15 @@ import { getChild, postChild } from "../../redux/actions";
 import ProfileActions from "./ProfileActions";
 import { validate } from "./validate";
 import AddComensal from "./AddComensalProfile";
+import PlusIcon from "../Icons/PlusIcon";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
   const children = useSelector((state) => state.children);
   const dispatch = useDispatch();
   const manualUser = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [userManual, setUserManual] = useState({
     nombre: "",
     apellido: "",
@@ -38,8 +41,6 @@ const Profile = () => {
   const openModal = () => {
     setModalIsOpen(true);
   };
-
-
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -92,9 +93,13 @@ const Profile = () => {
   return (
     <div className={styles.container}>
       <Card
-        style={{ width: "15rem" }}
-        bg={"#FFBF78"}
-        border="dark"
+        style={{
+          width: "26rem",
+          textAlign: "center",
+          boxShadow: "0 0 0 5px #4d4d4d",
+          marginBottom: "2rem",
+          backgroundColor: "white",
+        }}
       >
         <Image
           src={
@@ -109,6 +114,7 @@ const Profile = () => {
               ? user.name
               : `${manualUser.firstname} ${manualUser.lastname}`
           }
+          style={{ width: "15rem", height: "15rem", margin: "0 auto" }}
           roundedCircle
         />
         <Card.Body>
@@ -121,9 +127,7 @@ const Profile = () => {
             {isAuthenticated ? user.email : manualUser.email}.
           </Card.Text>
         </Card.Body>
-        <Button variant="success" onClick={openModal} className={styles.btn}>
-          Agregar comensal
-        </Button>
+        <ProfileActions />
       </Card>
       <AddComensal
         modalIsOpen={modalIsOpen}
@@ -133,14 +137,19 @@ const Profile = () => {
         errors={errors}
         handleSaveComensal={handleSaveComensal}
       />
-      <div>
-        <Table striped bordered hover>
+      <div className={styles.table}>
+        <h4>Comensales</h4>{" "}
+        <Table
+          striped
+          bordered
+          hover
+          style={{ width: "26rem", border: "1px solid #45474B" }}
+        >
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Apellido</th>
-              <th>Grado</th>
-              <th>Escuela</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -148,14 +157,29 @@ const Profile = () => {
               <tr key={index}>
                 <td>{child.firstname}</td>
                 <td>{child.lastname}</td>
-                <td>{child.gradeLevel}</td>
-                <td>{child.SchoolId}</td>
+                <td>
+                  <Button
+                    style={{ width: "100%" }}
+                    className="d-flex align-items-center justify-content-center gap-1"
+                    variant="outline-primary"
+                    onClick={() => navigate(`/profile/children`)}
+                  >
+                    Ver detalles <PlusIcon />
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>
         </Table>
+        <Button
+          className="d-flex align-items-center justify-content-center gap-1 mt-3"
+          variant="success"
+          onClick={openModal}
+        >
+          Agregar comensal <PlusIcon />
+        </Button>
       </div>
-      <ProfileActions />
+
       <ReviewAlert user={isAuthenticated ? user.sub : userManual.id} />
     </div>
   );

@@ -3,7 +3,6 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
-
 const ProfileActions = () => {
   const { logout, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
@@ -23,25 +22,28 @@ const ProfileActions = () => {
   };
 
   return (
-    <div >
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        gap: "5px",
+        alignItems: "center",
+        margin: "0 auto",
+        padding: "5px",
+      }}
+    >
       <Button
-        variant="info"
-
+        variant="primary"
         onClick={() => navigate("/profile/edit")}
       >
         Editar Perfil
       </Button>
-      <Button variant="danger" onClick={handleLogout} >
-        Cerrar sesión
-      </Button>      
-      <Button
-        variant="success"
-        onClick={() => navigate("/history")}
-       
-      >
+      <Button variant="success" onClick={() => navigate("/history")}>
         Mis Compras
       </Button>
-      
+      <Button variant="danger" onClick={handleLogout}>
+        Cerrar sesión
+      </Button>
     </div>
   );
 };
