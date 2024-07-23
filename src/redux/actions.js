@@ -119,12 +119,9 @@ export const fetchUserData = (userData) => {
     const token = getState().token;
     try {
       const response = await axios.get(
-        `${URLD}/user/${userData.email}`,
-        token
-          ? {
-              headers: { Authorization: `Bearer ${token.token}` },
-            }
-          : null
+        `${URLD}/user/${userData.email}`,{
+          headers: { Authorization: `Bearer ${token.token}`}
+        }
       );
       localStorage.setItem("user", JSON.stringify(response.data.users));
       dispatch({
