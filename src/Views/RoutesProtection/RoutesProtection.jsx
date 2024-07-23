@@ -10,7 +10,7 @@ export const ProtectedRoute = ({ children }) => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
 
-    console.log(isAuthenticated);
+    // console.log(isAuthenticated);
     useEffect(() => {
         if (!authLoading) {
             setIsLoading(false);
@@ -21,9 +21,14 @@ export const ProtectedRoute = ({ children }) => {
         return <Loader />;
     }
 
+    
     if (!isAuthenticated && !user && !["/", "/login", "/signup"].includes(location.pathname)) {
-       return  <Navigate to="/login" state={{ from: location }} />;
+        return  <Navigate to="/login" state={{ from: location }} />;
         
+    }
+    
+    if(user && user.banned){
+        return  <Navigate to="/banned" state={{ from: location }} />;
     }
 
     return children;
@@ -53,6 +58,10 @@ export const ProtectAdminRoutes = ({ children }) => {
 
     if (!isAdmin && auth) {
         return <Navigate to="/home" state={{ from: location }} />;
+    }
+
+    if(user.banned){
+        return  <Navigate to="/banned" state={{ from: location }} />;
     }
 
     return children;

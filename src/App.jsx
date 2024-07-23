@@ -18,6 +18,7 @@ import PaymentErrorView from "./Views/PaymentErrorView";
 import { ProtectedRoute, ProtectAdminRoutes } from "./Views/RoutesProtection/RoutesProtection";
 import BuyHistory from "./Views/BuyHistory";
 import ChildViewDetails from "./Views/ChildViewDetails";
+import BannedView from "./Views/BannedView";
 function App() {
     
   
@@ -35,8 +36,9 @@ function App() {
         <Route path="/profile/edit" element={<ProtectedRoute><ProfileEdit /></ProtectedRoute>} />
         <Route path="/profile/children" element={<ProtectedRoute><ChildViewDetails /></ProtectedRoute>} />
         <Route path="/history" element={<ProtectedRoute><BuyHistory /></ProtectedRoute>} />
-        <Route path="/payment-success" element={<PaymentSuccessView />} />
-        <Route path="/payment-error" element={<PaymentErrorView />} />
+        <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccessView /></ProtectedRoute>} />
+        <Route path="/payment-error" element={<ProtectedRoute><PaymentErrorView /></ProtectedRoute>} />
+        <Route path="/banned" element={<BannedView />} />
 
         {/*Rutas para ADMIN */}
         <Route path="/admin/*" element={<ProtectAdminRoutes><AdminView /></ProtectAdminRoutes>} />        
