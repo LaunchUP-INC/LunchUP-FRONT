@@ -57,7 +57,6 @@ export const registerUser = (userData) => {
         isAdmin: false,
       });
 
-      console.log(response.data);
       dispatch({ type: REGISTER_SUCCESS, payload: response.data });
       localStorage.setItem("userId", response.data.newId);
       return true;
@@ -102,7 +101,6 @@ export const fetchUsers = () => {
     try {
       const response = await axios.get(`${URLD}/user`);
       const { users } = response.data;
-      // console.log(users);
 
       dispatch({
         type: FETCH_ALL_USERS,
@@ -119,17 +117,12 @@ export const fetchUserData = (userData) => {
     // const iDUser = localStorage.getItem("userId");
     // const userId = getState().userId;
     const token = getState().token;
-    console.log(userData);
     try {
       const response = await axios.get(
-        `${URLD}/user/${userData.email}`,
-        token
-          ? {
-              headers: { Authorization: `Bearer ${token.token}` },
-            }
-          : null
+        `${URLD}/user/${userData.email}`,{
+          headers: { Authorization: `Bearer ${token.token}`}
+        }
       );
-      // console.log(response);
       localStorage.setItem("user", JSON.stringify(response.data.users));
       dispatch({
         type: FETCH_USER_DATA,
@@ -145,7 +138,6 @@ export const loginUser = (loginData) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(`${URLD}/login`, loginData);
-      console.log(response);
       if (response.data.access) {
         localStorage.setItem("token", response.data.token);
         dispatch({
@@ -168,11 +160,9 @@ export const loginUser = (loginData) => {
 };
 
 export const checkUser = (checkUser) =>{
-  console.log(checkUser);
   return async (dispatch) =>{
     try {
       const response = await axios.post("http://localhost:3001/register/check",{ email: checkUser.email });
-      console.log(response.data);
       if (response.data.isRegistered.access) {
         localStorage.setItem("token", response.data.isRegistered.token);
         dispatch({
@@ -195,7 +185,6 @@ export const setUserAdminBan = (id, user) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(`${URLD}/user/${id}`, user);
-      console.log(response);
       dispatch(fetchUsers());
 
       return "success";
@@ -352,12 +341,12 @@ export const updateStock = (id, quantity) => {
 export const deleteDish = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.delete(`${URLD}/dishes/${id}`);
-
+      const response = await axios.put(`${URLD}/dishes/${id}/logical`);
       dispatch({
         type: DELETE_DISH_SUCCESS,
         payload: response.data,
       });
+      dispatch(fetchProducts());
     } catch (error) {
       dispatch({
         type: DELETE_DISH_ERROR,

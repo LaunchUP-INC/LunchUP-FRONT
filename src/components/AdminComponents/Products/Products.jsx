@@ -10,11 +10,14 @@ import BasketIcon from "../../Icons/BasketIcon";
 import styles from "./Products.module.css";
 import { useState } from "react";
 import EditStockModal from "./EditStockModal";
+import { useDispatch } from "react-redux";
+import { deleteDish } from "../../../redux/actions";
 
 
 const Products = (props) => {
   const { products } = props;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
   
@@ -27,6 +30,11 @@ const Products = (props) => {
     setShowModal(false);
     setSelectedProduct(null);
   };
+
+  const handleActiveProduct = (item) =>{
+    console.log(item);
+    dispatch(deleteDish(item.id));
+  }
 
 
   return (
@@ -82,19 +90,20 @@ const Products = (props) => {
                   <Button
                     variant="success"
                     onClick={() => navigate(`/admin/product/modify/${item.id}`)}
-                    style={{ height: "35px", fontSize: "15px" }}
+                    style={{ height: "35px", fontSize: "15px", width: "100px" }}
                   >
                     <FontAwesomeIcon icon={faPenToSquare} /> Editar
                   </Button>
                   <Button
-                    variant="danger"
-                    style={{ height: "35px", fontSize: "15px" }}
+                    variant={item.isDeleted ? "success" : "danger"}
+                    style={{ height: "35px", fontSize: "15px", width: "150px" }}
+                    onClick={() => handleActiveProduct(item)}
                   >
                     <FontAwesomeIcon
                       icon={faArrowsRotate}
-                      style={{ fontSize: "12px", marginRight: "3px" }}
+                      style={{ fontSize: "12px", marginRight: "3px" }}                      
                     />
-                    Desactivar
+                    {item.isDeleted ? "activar" : "Desactivar"}
                   </Button>
                 </Col>
               </Row>
