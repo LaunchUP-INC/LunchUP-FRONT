@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 
 const ShoppingCart = () => {
     const shoppingCart = useSelector(state => state.shoppingCart);
+    const userId = useSelector((state) => state.user.id);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalProducts, setTotalProducts] = useState(0);
     const [preferenceId, setPrefereceId] = useState(null);
@@ -88,7 +89,10 @@ const ShoppingCart = () => {
         }));
 
         try {
-            const response = await axios.post(`${URLD}/payment`, items);
+            const response = await axios.post(`${URLD}/user/${userId}/payment`,{
+                items,
+                totalAmount : totalPrice
+            });
             const { id } = response.data;
             
             return id;
