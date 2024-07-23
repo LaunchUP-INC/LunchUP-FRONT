@@ -44,7 +44,7 @@ const Users = (props) => {
       Swal.fire({
         icon: "success",
         title: "Admin",
-        text: `${updatedUser.isAdmin ? "El usuario ahora es admin" : "El usuario ya no es admin"}`,
+        text: `${updatedUser.banned ? "El usuario ahora esta baneado" : "El usuario ya no esta baneado"}`,
       })
     } else {
       Swal.fire({
