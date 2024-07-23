@@ -2,57 +2,69 @@ import styles from "./Profile.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
 import Card from "react-bootstrap/Card";
 import Loader from "../Loader/Loader";
 import Image from "react-bootstrap/Image";
 import Table from "react-bootstrap/Table";
-
 import ReviewAlert from "../ReviewAlert/ReviewAlert";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { getSchools, addComensal } from "../../redux/actions";
-import ProfileActions from "./ProfileActions"; // Importa el componente de acciones de perfil
+import { getChild, postChild } from "../../redux/actions";
+import ProfileActions from "./ProfileActions";
+import { validate } from "./validate";
+import AddComensal from "./AddComensalProfile";
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
+  const children = useSelector((state) => state.children);
+  const dispatch = useDispatch();
   const manualUser = useSelector((state) => state.user);
   const [userManual, setUserManual] = useState({
     nombre: "",
     apellido: "",
     email: "",
   });
-  const [show, setShow] = useState(false);
-  const handleClosed = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const [comensal, setComensal] = useState({
-    firstname: "",
-    lastname: "",
-    gradeLevel: "",
-    school: ""
-  });
+  const [errors, setErrors] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [newChildren, setNewChildren] = useState([
+    {
+      name: "",
+      lastName: "",
+      schoolId: "",
+      grade: "",
+    },
+  ]);
 
-  const dispatch = useDispatch();
-  const schools = useSelector((state) => state.schools);
-
-  useEffect(() => {
-    dispatch(getSchools()); // Asegúrate de que se obtengan las escuelas
-  }, [dispatch]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setComensal({
-      ...comensal,
-      [name]: value
-    });
+  const openModal = () => {
+    setModalIsOpen(true);
   };
 
-   const handleAddComensal = (e) => {
-     e.preventDefault();
-     dispatch(addComensal(comensal)); // Llama a la acción con el comensal como argumento
-     handleClose(); // Cierra el modal después de añadir el comensal
-   };
+
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleChildChange = (index, event) => {
+    const { name, value } = event.target;
+    const updatedChildren = [...newChildren];
+    updatedChildren[index] = { ...updatedChildren[index], [name]: value };
+    setNewChildren(updatedChildren);
+
+    // Actualizar los errores específicos para este campo
+    const updatedErrors = [...errors];
+    updatedErrors[index] = validate(updatedChildren[index]);
+    setErrors(updatedErrors);
+  };
+
+  const handleSaveComensal = (comensal) => {
+    dispatch(postChild(comensal));
+    closeModal();
+  };
+
+  useEffect(() => {
+    dispatch(getChild());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -73,13 +85,6 @@ const Profile = () => {
     }
   }, [isAuthenticated]);
 
-  /*   const handleChange = (event) => {
-      setComensal({
-        ...comensal,
-        [event.target.name]: event.target.value,
-      });
-    }; */
-
   if (isLoading) {
     return <Loader />;
   }
@@ -88,7 +93,7 @@ const Profile = () => {
     <div className={styles.container}>
       <Card
         style={{ width: "15rem" }}
-        bg={isAuthenticated ? "secondary" : "light"}
+        bg={"#FFBF78"}
         border="dark"
       >
         <Image
@@ -96,8 +101,8 @@ const Profile = () => {
             isAuthenticated
               ? user.picture
               : userManual.picture
-                ? userManual.picture
-                : "/no-avatar.png"
+              ? userManual.picture
+              : "/no-avatar.png"
           }
           alt={
             isAuthenticated
@@ -116,106 +121,37 @@ const Profile = () => {
             {isAuthenticated ? user.email : manualUser.email}.
           </Card.Text>
         </Card.Body>
-        <Button variant="success" onClick={handleShow} className={styles.btn}>
+        <Button variant="success" onClick={openModal} className={styles.btn}>
           Agregar comensal
         </Button>
       </Card>
-      <div>
-        <Modal show={show} onHide={handleClosed} animation={true}>
-          <Modal.Header closeButton closeVariant="dark">
-            <Modal.Title>Nuevo Comensal</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleAddComensal}>
-              <Form.Group className="mb-3" controlId="comensalName">
-                <Form.Label>Nombre</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="firstname"
-                  value={comensal.firstname}
-                  onChange={handleChange}
-                  placeholder="Pepito"
-                  autoFocus
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="comensalLastname">
-                <Form.Label>Apellido</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="lastname"
-                  value={comensal.lastname}
-                  onChange={handleChange}
-                  placeholder="Honguito"
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="comensalCourse">
-                <Form.Label>Curso</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="gradeLevel"
-                  value={comensal.gradeLevel}
-                  onChange={handleChange}
-                  placeholder="1"
-                  min={1}
-                  max={6}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="comensalSchool">
-                <Form.Label>Nombre de la escuela</Form.Label>
-                <Form.Select
-                  name="school"
-                  value={comensal.school}
-                  onChange={handleChange}
-                >
-                  <option value="">Seleccionar escuela</option>
-                  {schools.map((school) => (
-                    <option key={school.id} value={school.name}>
-                      {school.name}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="danger" onClick={handleClosed}>
-              Cancelar
-            </Button>
-            <Button variant="success" onClick={handleClosed}>
-              Añadir
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </div>
+      <AddComensal
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        childrens={newChildren}
+        handleChildChange={handleChildChange}
+        errors={errors}
+        handleSaveComensal={handleSaveComensal}
+      />
       <div>
         <Table striped bordered hover>
           <thead>
             <tr>
-              <th>#</th>
-              <th>Nombre completo</th>
-              <th>Curso</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Grado</th>
               <th>Escuela</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark Zuckerberg</td>
-              <td>6 A</td>
-              <td>Escuela Ejemplo</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Elon Musk</td>
-              <td>5 B</td>
-              <td>Escuela Ejemplo</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Bill Gates</td>
-              <td>4 C</td>
-              <td>Escuela Ejemplo</td>
-            </tr>
+            {children.map((child, index) => (
+              <tr key={index}>
+                <td>{child.firstname}</td>
+                <td>{child.lastname}</td>
+                <td>{child.gradeLevel}</td>
+                <td>{child.SchoolId}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>

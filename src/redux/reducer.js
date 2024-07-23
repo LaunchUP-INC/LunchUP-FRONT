@@ -25,6 +25,8 @@ import {
   REGISTER_SUCCESS,
   FETCH_USER_DATA,
   CLEAR_ERROR,
+  GET_CHILD,
+  POST_CHILD,
 } from "./actions";
 
 const initialState = {
@@ -36,9 +38,11 @@ const initialState = {
   mealTypes: [],
   reviews: [],
   schools: [],
+  children: [],
   newreviews: [],
   token: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
+  userId: null,
   newDishId: null,
   postDishError: null,
   succesDishDelete: null,
@@ -116,13 +120,14 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         token: action.payload,
+        userId: action.payload.userId,
       };
 
     case FETCH_USER_DATA:
       return {
         ...state,
-        user:action.payload,
-      }
+        user: action.payload,
+      };
 
     case POST_DISH_SUCCESS:
       return {
@@ -203,6 +208,18 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         schools: action.payload,
+      };
+
+    case GET_CHILD:
+      return {
+        ...state,
+        children: action.payload,
+      };
+
+    case POST_CHILD:
+      return {
+        ...state,
+        children: [...state.children, action.payload],
       };
 
     default:

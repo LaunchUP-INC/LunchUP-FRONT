@@ -26,9 +26,11 @@ export const GET_SCHOOLS = "GET_SCHOOLS";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const CLEAR_ERROR = "CLEAR_ERROR";
 export const FETCH_USER_DATA = "FETCH_USER_DATA";
+export const GET_CHILD = "GET_CHILD";
+export const POST_CHILD = "POST_CHILD";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
- //export const URLD = "https://lunchup-back.onrender.com";
+//export const URLD = "https://lunchup-back.onrender.com";
 export const URLD = "http://localhost:3001";
 
 export const handleError = (error) => {
@@ -55,6 +57,7 @@ export const registerUser = (userData) => {
         email: userData.email,
         password: userData.password,
         isAdmin: false,
+        children: userData.children
       });
 
       dispatch({ type: REGISTER_SUCCESS, payload: response.data });
@@ -118,11 +121,9 @@ export const fetchUserData = (userData) => {
     // const userId = getState().userId;
     const token = getState().token;
     try {
-      const response = await axios.get(
-        `${URLD}/user/${userData.email}`,{
-          headers: { Authorization: `Bearer ${token.token}`}
-        }
-      );
+      const response = await axios.get(`${URLD}/user/${userData.email}`, {
+        headers: { Authorization: `Bearer ${token.token}` },
+      });
       localStorage.setItem("user", JSON.stringify(response.data.users));
       dispatch({
         type: FETCH_USER_DATA,
@@ -159,10 +160,13 @@ export const loginUser = (loginData) => {
   };
 };
 
-export const checkUser = (checkUser) =>{
-  return async (dispatch) =>{
+export const checkUser = (checkUser) => {
+  return async (dispatch) => {
     try {
-      const response = await axios.post("http://localhost:3001/register/check",{ email: checkUser.email });
+      const response = await axios.post(
+        "http://localhost:3001/register/check",
+        { email: checkUser.email }
+      );
       if (response.data.isRegistered.access) {
         localStorage.setItem("token", response.data.isRegistered.token);
         dispatch({
@@ -178,8 +182,8 @@ export const checkUser = (checkUser) =>{
       dispatch(handleError(error));
       return false;
     }
-  }
-} 
+  };
+};
 
 export const setUserAdminBan = (id, user) => {
   return async (dispatch) => {
@@ -464,14 +468,12 @@ export const fetchReviews = () => {
 };
 
 export const postReviews = (review) => {
-
-
   return async (dispatch) => {
     try {
       const userString = localStorage.getItem("user");
       const user = userString ? JSON.parse(userString) : null;
       const userId = user.id;
-      console.log (userId);
+      console.log(userId);
       const response = await axios.post(
         `${URLD}/user/${userId}/reviews/`,
         review
@@ -499,16 +501,38 @@ export const getSchools = () => {
     }
   };
 };
-export const addComensal = (comensal) => {
-  return async (dispatch) => {
+export const getChild = () => {
+  return async (dispatch, getState) => {
+    const { id } = getState().user;
     try {
-      const response = await axios.post(`${URLD}/user`, comensal);
-      dispatch({
-        type: REGISTER_SUCCESS,
+      const response = await axios.get(`${URLD}/user/${id}/child`);
+      return dispatch({
+        type: GET_CHILD,
         payload: response.data,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.log(error);
     }
   };
-}
+};
+export const postChild = (child) => {
+  return async (dispatch, getState) => {
+    const { id } = getState().user;
+    try {
+      const response = await axios.post(`${URLD}/user/${id}/child`, {
+        firstname: child.name,
+        lastname: child.lastName,
+        gradeLevel: child.grade,
+        schoolId: child.schoolId,
+      });
+
+      console.log(response.data.child);
+      return dispatch({
+        type: POST_CHILD,
+        payload: response.data.child,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
