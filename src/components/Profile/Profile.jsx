@@ -29,32 +29,30 @@ const Profile = () => {
   });
   const [errors, setErrors] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [newChildren, setNewChildren] = useState([
-    {
+  const [newChildren, setNewChildren] = useState({
       name: "",
       lastName: "",
       schoolId: "",
       grade: "",
-    },
-  ]);
+  });
 
   const openModal = () => {
     setModalIsOpen(true);
   };
 
+  console.log(errors);
   const closeModal = () => {
     setModalIsOpen(false);
   };
 
-  const handleChildChange = (index, event) => {
+  const handleChildChange = (event) => {
     const { name, value } = event.target;
-    const updatedChildren = [...newChildren];
-    updatedChildren[index] = { ...updatedChildren[index], [name]: value };
+    let updatedChildren = {...newChildren, [name]: value};
     setNewChildren(updatedChildren);
 
     // Actualizar los errores específicos para este campo
-    const updatedErrors = [...errors];
-    updatedErrors[index] = validate(updatedChildren[index]);
+    const updatedErrors = validate(updatedChildren);
+    console.log(updatedErrors);
     setErrors(updatedErrors);
   };
 
@@ -132,7 +130,7 @@ const Profile = () => {
       <AddComensal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
-        childrens={newChildren}
+        children={newChildren}
         handleChildChange={handleChildChange}
         errors={errors}
         handleSaveComensal={handleSaveComensal}
