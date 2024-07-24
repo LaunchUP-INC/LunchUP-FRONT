@@ -526,7 +526,6 @@ export const postChild = (child) => {
         schoolId: child.schoolId,
       });
 
-      console.log(response.data.child);
       return dispatch({
         type: POST_CHILD,
         payload: response.data.child,

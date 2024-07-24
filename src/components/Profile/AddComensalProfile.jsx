@@ -9,7 +9,7 @@ import { getSchools } from "../../redux/actions";
 const AddComensal = ({
   modalIsOpen,
   closeModal,
-  childrens,
+  children,
   handleChildChange,
   errors,
   handleSaveComensal,
@@ -20,22 +20,20 @@ const AddComensal = ({
   useEffect(() => {
     dispatch(getSchools());
   }, [dispatch]);
-  
+
 
   const handleSave = () => {
-    const newChild = childrens[childrens.length - 1]; // Obtener el último hijo añadido
+    const newChild = children; // Obtener el último hijo añadido
 
     if (
       errors.childName ||
-      errors.childAge ||
+      errors.childLastName ||
       errors.childSchool ||
       errors.childGrade
     ) {
       alert("Por favor, corrija los errores antes de guardar.");
       return;
     }
-
-    console.log(newChild);
 
     handleSaveComensal(newChild);
   };
@@ -46,69 +44,68 @@ const AddComensal = ({
         <Modal.Title>Añadir Comensal</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {childrens.map((child, index) => (
-          <div key={index} className="mb-3">
-            <Form.Group controlId={`child-${index}`}>
-              <Form.Label>Nombre del Hijo/a</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                placeholder="Nombre del hijo/a"
-                value={child.name}
-                onChange={(event) => handleChildChange(index, event)}
-                isInvalid={!!errors[index]?.childName}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors[index]?.childName}
-              </Form.Control.Feedback>
+        <div className="mb-3">
+          <Form.Group >
+            <Form.Label>Nombre del Hijo/a</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              placeholder="Nombre del hijo/a"
+              value={children.name}
+              onChange={(event) => handleChildChange(event)}
+              isInvalid={!!errors.childName}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.childName}
+            </Form.Control.Feedback>
 
-              <Form.Label>Apellido del Hijo/a</Form.Label>
-              <Form.Control
-                type="text"
-                name="lastName"
-                placeholder="Apellido del hijo/a"
-                value={child.lastName}
-                onChange={(event) => handleChildChange(index, event)}
-                isInvalid={!!errors[index]?.childLastName}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors[index]?.childLastName}
-              </Form.Control.Feedback>
+            <Form.Label>Apellido del Hijo/a</Form.Label>
+            <Form.Control
+              type="text"
+              name="lastName"
+              placeholder="Apellido del hijo/a"
+              value={children.lastName}
+              onChange={(event) => handleChildChange(event)}
+              isInvalid={!!errors.childLastName}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.childLastName}
+            </Form.Control.Feedback>
 
-              <Form.Label>Escuela</Form.Label>
-              <Form.Control
-                as="select"
-                name="schoolId"
-                value={child.schoolId || ""}
-                onChange={(event) => handleChildChange(index, event)}
-                isInvalid={!!errors[index]?.childSchool}
-              >
-                <option value="">Seleccione una escuela</option>
-                {schools.map((school) => (
-                  <option key={school.id} value={school.id}>
-                    {school.name}
-                  </option>
-                ))}
-              </Form.Control>
-              <Form.Control.Feedback type="invalid">
-                {errors[index]?.childSchool}
-              </Form.Control.Feedback>
+            <Form.Label>Escuela</Form.Label>
+            <Form.Control
+              as="select"
+              name="schoolId"
+              value={children.schoolId || ""}
+              onChange={(event) => handleChildChange(event)}
+              isInvalid={!!errors.childSchool}
+            >
+              <option value="">Seleccione una escuela</option>
+              {schools.map((school) => (
+                <option key={school.id} value={school.id}>
+                  {school.name}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              {errors.childSchool}
+            </Form.Control.Feedback>
 
-              <Form.Label>Grado/Año</Form.Label>
-              <Form.Control
-                type="text"
-                name="grade"
-                placeholder="Grado o Año"
-                value={child.grade || ""}
-                onChange={(event) => handleChildChange(index, event)}
-                isInvalid={!!errors[index]?.childGrade}
-              />
-              <Form.Control.Feedback type="invalid">
-                {errors[index]?.childGrade}
-              </Form.Control.Feedback>
-            </Form.Group>
-          </div>
-        ))}
+            <Form.Label>Grado/Año</Form.Label>
+            <Form.Control
+              type="text"
+              name="grade"
+              placeholder="Grado o Año"
+              value={children.grade || ""}
+              onChange={(event) => handleChildChange(event)}
+              isInvalid={!!errors.childGrade}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.childGrade}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </div>
+
       </Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={handleSave}>
