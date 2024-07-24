@@ -8,6 +8,7 @@ import TypingEffect from "../TypingEffect"; // Importa el nuevo componente
 import styles from "./Landing.module.css";
 import BlinkingCursor from "../BlinkingCursor";
 import ReviewCarrusel from "../ReviewCarrusel/ReviewCarrusel";
+import Footer from './Footer/Footer'; // Importa el nuevo componente Footer
 
 const LandingPage = () => {
   const dynamicText = [
@@ -84,6 +85,8 @@ const LandingPage = () => {
       <div className={styles.reviews}>
         <ReviewCarrusel />
       </div>
+
+      <Footer /> {/* Añadir el componente Footer */}
     </>
   );
 };

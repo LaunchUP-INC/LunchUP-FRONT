@@ -7,11 +7,15 @@
   padding-bottom: 100px;
 }
 
+.bold-text {
+  font-weight: bold;
+}
+
+
 .carouselCustom {
   position: relative;
   max-width: 600px;
   margin: 0 auto;
-  
 }
 
 .carouselItem {
@@ -35,7 +39,7 @@
   color: white;
 }
 
-.carouselButtons{
+.carouselButtons {
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -43,9 +47,6 @@
 }
 
 .carouselButton {
-  
-  top: 50%;
-  transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;

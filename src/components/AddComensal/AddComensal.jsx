@@ -34,6 +34,7 @@ const AddComensalModal = ({
     setNewChild((prevNewChild) => ({ ...prevNewChild, [name]: value }));
     setErrors(validate({ ...newChild, [name]: value }));
   };
+
   const handleSave = () => {
     // Validar cada hijo antes de guardar
     if (
