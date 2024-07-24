@@ -34,7 +34,6 @@ const ProductForm = () => {
     Meal_Types: []
   });
 
-  console.log(dish)
   const [errors, setErrors] = useState({
     name: "",
     price: "",
@@ -46,7 +45,6 @@ const ProductForm = () => {
         const {data}= await axios.get(`${URLD}/dishes/${id}`);
         const types = data.dishDetail.Meal_Types.map(type => type.id.toString());
         data.dishDetail.Meal_Types = types;
-        // console.log(data.dishDetail);
 
         setDish(data.dishDetail);
       }

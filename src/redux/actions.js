@@ -353,11 +353,13 @@ export const deleteDish = (id) => {
         payload: response.data,
       });
       dispatch(fetchProducts());
+      return "success";
     } catch (error) {
       dispatch({
         type: DELETE_DISH_ERROR,
         payload: error.message,
       });
+      return "error";
     }
   };
 };
