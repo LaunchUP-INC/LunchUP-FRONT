@@ -193,3 +193,14 @@
         font-size: 8px;
     }
 }
+
+
+
+.modalContainer {
+    padding: 20px; /* Espacio alrededor del modal */
+  }
+  
+  .formGroup {
+    margin-bottom: 20px; /* Espacio entre los campos del formulario */
+  }
+  
