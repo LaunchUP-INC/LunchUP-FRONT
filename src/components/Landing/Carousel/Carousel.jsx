@@ -21,8 +21,6 @@ const FunctionCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalImages = images.length;
 
- 
-
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + totalImages) % totalImages);
   };
@@ -38,11 +36,20 @@ const FunctionCarousel = () => {
     >
       <Row className="justify-content-center">
         <Col xs={12} className="mb-4">
-          <h2>
-            <Badge pill bg="success">
-              ¿Cómo funciona?
-            </Badge>
-          </h2>
+          <div className="d-none d-md-block">
+            <h1>
+              <Badge pill bg="success">
+                ¿Cómo funciona?
+              </Badge>
+            </h1>
+          </div>
+          <div className="d-block d-md-none">
+            <h2>
+              <Badge pill bg="success">
+                ¿Cómo funciona?
+              </Badge>
+            </h2>
+          </div>
         </Col>
         <Col xs={12} md={8}>
           <div className={styles.carouselCustom}>
@@ -52,18 +59,17 @@ const FunctionCarousel = () => {
                 alt={`Paso ${currentIndex + 1}`}
               />
               <div className={styles.carouselButtons}>
-              <button onClick={handlePrev} className={styles.carouselButton}>
-                ❮
-              </button>
-              <button onClick={handleNext} className={styles.carouselButton}>
-                ❯
-              </button>
-            </div>
+                <button onClick={handlePrev} className={styles.carouselButton}>
+                  ❮
+                </button>
+                <button onClick={handleNext} className={styles.carouselButton}>
+                  ❯
+                </button>
+              </div>
               <div className={styles.carouselCaption}>
-                <h5>{images[currentIndex].caption}</h5>
+                <h6>{images[currentIndex].caption}</h6>
               </div>
             </div>
-            
           </div>
         </Col>
       </Row>

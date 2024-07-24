@@ -2,15 +2,16 @@ import styles from "./ChildDetail.module.css"
 import { Table } from "react-bootstrap"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
-import { getChild } from "../../redux/actions";
-
+import { getChild, getSchools  } from "../../redux/actions";
 
 const ChildDetail = () => {
     const children = useSelector((state) => state.children);
     const schools = useSelector((state) => state.schools);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(getChild());
+        dispatch(getSchools());
       }, [dispatch]);
     console.log(children);
     console.log(schools);

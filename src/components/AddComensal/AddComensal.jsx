@@ -23,6 +23,8 @@ const AddComensalModal = ({
   useEffect(() => {
     dispatch(getSchools());
   }, []);
+
+  
   const handleSave = () => {
     // Validar cada hijo antes de guardar
     if (
