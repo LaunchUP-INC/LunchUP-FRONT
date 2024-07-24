@@ -30,10 +30,10 @@ const Profile = () => {
   const [errors, setErrors] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newChildren, setNewChildren] = useState({
-      name: "",
-      lastName: "",
-      schoolId: "",
-      grade: "",
+    name: "",
+    lastName: "",
+    schoolId: "",
+    grade: "",
   });
 
   const openModal = () => {
@@ -47,7 +47,7 @@ const Profile = () => {
 
   const handleChildChange = (event) => {
     const { name, value } = event.target;
-    let updatedChildren = {...newChildren, [name]: value};
+    let updatedChildren = { ...newChildren, [name]: value };
     setNewChildren(updatedChildren);
 
     // Actualizar los errores específicos para este campo
