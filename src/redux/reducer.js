@@ -27,6 +27,7 @@ import {
   CLEAR_ERROR,
   GET_CHILD,
   POST_CHILD,
+  GET_ORDERS,
 } from "./actions";
 
 const initialState = {
@@ -40,6 +41,7 @@ const initialState = {
   schools: [],
   children: [],
   newreviews: [],
+  orders: [],
   token: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   userId: null,
@@ -220,6 +222,12 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         children: [...state.children, action.payload],
+      };
+
+    case GET_ORDERS:
+      return {
+        ...state,
+        orders: action.payload,
       };
 
     default:
