@@ -28,7 +28,12 @@ export const CLEAR_ERROR = "CLEAR_ERROR";
 export const FETCH_USER_DATA = "FETCH_USER_DATA";
 export const GET_CHILD = "GET_CHILD";
 export const POST_CHILD = "POST_CHILD";
+
 export const GET_ORDERS = "GET_ORDERS";
+
+export const PUT_CHILD = "PUT_CHILD";
+export const DELETE_CHILD = "DELETE_CHILD";
+
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 export const URLD = "https://lunchup-back.onrender.com";
@@ -58,7 +63,7 @@ export const registerUser = (userData) => {
         email: userData.email,
         password: userData.password,
         isAdmin: false,
-        children: userData.children
+        children: userData.children,
       });
 
       dispatch({ type: REGISTER_SUCCESS, payload: response.data });
@@ -352,11 +357,13 @@ export const deleteDish = (id) => {
         payload: response.data,
       });
       dispatch(fetchProducts());
+      return "success";
     } catch (error) {
       dispatch({
         type: DELETE_DISH_ERROR,
         payload: error.message,
       });
+      return "error";
     }
   };
 };
@@ -545,6 +552,43 @@ export const postChild = (child) => {
       return dispatch({
         type: POST_CHILD,
         payload: response.data.child,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const putChild = (child) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`${URLD}/user/child/${child.id}`, {
+        firstname: child.firstname,
+        lastname: child.lastname,
+        gradeLevel: child.gradeLevel,
+        SchoolId: child.schoolId, // Verifica que esto coincida con el backend
+      });
+
+      console.log(response.data);
+
+      return dispatch({
+        type: PUT_CHILD,
+        payload: response.data.child,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteChild = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.delete(`${URLD}/user/child/${id}`);
+      console.log(response.data);
+      return dispatch({
+        type: DELETE_CHILD,
+        payload: id,
       });
     } catch (error) {
       console.log(error);
