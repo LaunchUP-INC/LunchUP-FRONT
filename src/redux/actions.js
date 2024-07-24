@@ -28,12 +28,16 @@ export const CLEAR_ERROR = "CLEAR_ERROR";
 export const FETCH_USER_DATA = "FETCH_USER_DATA";
 export const GET_CHILD = "GET_CHILD";
 export const POST_CHILD = "POST_CHILD";
+
+export const GET_ORDERS = "GET_ORDERS";
+
 export const PUT_CHILD = "PUT_CHILD";
 export const DELETE_CHILD = "DELETE_CHILD";
 
+
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
-//export const URLD = "https://lunchup-back.onrender.com";
-export const URLD = "http://localhost:3001";
+export const URLD = "https://lunchup-back.onrender.com";
+/* export const URLD = "http://localhost:3001"; */
 
 export const handleError = (error) => {
   const errorMessage = error.response?.data?.message;
@@ -166,7 +170,7 @@ export const checkUser = (checkUser) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/register/check",
+        "https://lunchup-back.onrender.com/register/check",
         { email: checkUser.email }
       );
       if (response.data.isRegistered.access) {
@@ -491,7 +495,22 @@ export const postReviews = (review) => {
     }
   };
 };
-
+export const fetchOrders = () => {
+  const userString = localStorage.getItem("user");
+  const user = userString ? JSON.parse(userString) : null;
+  const userId = user.id;
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/user/${userId}/orders`);
+      dispatch({
+        type: GET_ORDERS,
+        payload: response.data.orders,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+}
 export const getSchools = () => {
   return async (dispatch) => {
     try {
