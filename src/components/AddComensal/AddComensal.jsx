@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getSchools } from "../../redux/actions";
-import { validate } from "../Profile/validate";
+import { validate } from "../ChildDetail/validate";
 
 const AddComensalModal = ({
   modalIsOpen,
