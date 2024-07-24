@@ -19,10 +19,10 @@ const SingForm = () => {
     phone: "",
     password: "",
     confirmPassword: "",
-    children: [{ id: 1, name: "", lastName: "", school: "", grade: "" }],
+    children: [],
   });
 
-  const error = useSelector((state)=> state.error);
+  const error = useSelector((state) => state.error);
 
   const [errors, setErrors] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -44,14 +44,13 @@ const SingForm = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error(error)
-      dispatch(clearError()); 
+      toast.error(error);
+      dispatch(clearError());
     }
   }, [error, dispatch]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
 
     const validationErrors = validate(formData);
     // if (Object.keys(validationErrors).length > 0) {
@@ -59,49 +58,25 @@ const SingForm = () => {
     //   return;
     // }
 
-
-
     // // Validar datos en el frontend
-    // const validationErrors = validate(formData);   
+    // const validationErrors = validate(formData);
 
     // Si no hay errores en el frontend, enviar datos al backend
+    console.log(formData);
     const success = await dispatch(registerUser(formData));
     if (success) {
       navigate("/login");
-    } 
-    
-    else if (Object.keys(validationErrors).length > 0) {
+    } else if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
   };
 
-
-  const handleAddChild = () => {
+  const handleAddChild = (child) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      children: [
-        ...prevFormData.children,
-        {
-          id: prevFormData.children.length + 1,
-          name: "",
-          lastName: "",
-          school: "",
-          grade: "",
-        },
-      ],
+      children: [...prevFormData.children, child],
     }));
-  };
-
-  const handleChildChange = (index, event) => {
-    const { name, value } = event.target;
-    const updatedChildren = [...formData.children];
-    updatedChildren[index][name] = value;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      children: updatedChildren,
-    }));
-    setErrors(validate({ ...formData, children: updatedChildren }));
   };
 
   return (
@@ -248,8 +223,8 @@ const SingForm = () => {
         closeModal={closeModal}
         childrens={formData.children}
         handleAddChild={handleAddChild}
-        handleChildChange={handleChildChange}
         errors={errors}
+        setErrors={setErrors}
         setFormData={setFormData}
         savedComensalsCount={savedComensalsCount}
         setSavedComensalsCount={setSavedComensalsCount}
