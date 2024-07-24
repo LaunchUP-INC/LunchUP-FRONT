@@ -1,6 +1,8 @@
 import { Navbar, Nav, Button } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import BagIcon from '../../Icons/BagIcon';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -39,9 +41,9 @@ const TopNavbar = ({ toggleSidebar }) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
           <LinkContainer to="../profile">
-            <Nav.Link className='me-3'>Volver a LunchUP</Nav.Link>
+            <Nav.Link className='me-3'><FontAwesomeIcon icon={faArrowLeft} /> Volver a LunchUP</Nav.Link>
           </LinkContainer>
-          <Nav.Link onClick={handleLogout} className='me-3'>Cerrar sesion</Nav.Link>
+          <Nav.Link onClick={handleLogout} className='me-3'><FontAwesomeIcon icon={faArrowRightFromBracket} /> Cerrar sesion</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
