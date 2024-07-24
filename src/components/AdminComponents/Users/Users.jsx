@@ -23,7 +23,9 @@ const Users = (props) => {
       Swal.fire({
         icon: "success",
         title: "Admin",
-        text: `${updatedUser.isAdmin ? `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ahora es admin` : `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ya no es admin`}`,
+        text: `${updatedUser.isAdmin ? 
+          `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ahora es admin` : 
+          `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ya no es admin`}`,
       })
     } else {
       Swal.fire({
@@ -44,7 +46,9 @@ const Users = (props) => {
       Swal.fire({
         icon: "success",
         title: "Admin",
-        text: `${updatedUser.banned ? `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ahora esta baneado` : `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ya no esta baneado`}`,
+        text: `${updatedUser.banned ?
+          `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ahora esta baneado` : 
+          `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ya no esta baneado`}`,
       })
     } else {
       Swal.fire({

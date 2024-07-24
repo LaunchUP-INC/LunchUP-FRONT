@@ -18,13 +18,13 @@ const Success = () => {
             showConfirmButton: false,
         }).then(() => {
             dispatch(clearShoppingCart());
-            navigate('/shopping'); 
+            navigate('/history'); 
         });
     }, [navigate]);
 
     return (
         <Container className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
-            <h1>Pago exitoso</h1>
+            <h2>Pago exitoso</h2>
         </Container>
     );
 }

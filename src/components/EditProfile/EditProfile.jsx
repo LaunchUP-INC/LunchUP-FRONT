@@ -95,7 +95,7 @@ const EditProfile = () => {
           </>
         )}
         <button type="submit" className={styles.submitButton}>
-          Update
+          Guardar cambios
         </button>
       </form>
     </div>

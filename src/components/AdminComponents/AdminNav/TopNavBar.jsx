@@ -27,7 +27,14 @@ const TopNavbar = ({ toggleSidebar }) => {
       <Button variant="dark" onClick={toggleSidebar} className="mr-2">
         ☰ Menu
       </Button>
-      <Navbar.Brand style={{backgroundColor: "#90ee90",color: "black"  ,border: "1px", borderRadius: "10px", padding: "5px"}} ><BagIcon/> LunchUP </Navbar.Brand>
+      <Navbar.Brand style={{
+        backgroundColor: "#90ee90",
+        color: "black",
+        border: "1px",
+        borderRadius: "10px",
+        padding: "5px"
+      }} >
+        <BagIcon /> LunchUP </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
