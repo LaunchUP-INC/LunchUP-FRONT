@@ -12,7 +12,7 @@ import { useState } from "react";
 import EditStockModal from "./EditStockModal";
 import { useDispatch } from "react-redux";
 import { deleteDish } from "../../../redux/actions";
-
+import Swal from "sweetalert2";
 
 const Products = (props) => {
   const { products } = props;
@@ -20,7 +20,7 @@ const Products = (props) => {
   const dispatch = useDispatch();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  
+
   const handleShowModal = (product) => {
     setSelectedProduct(product);
     setShowModal(true);
@@ -31,11 +31,26 @@ const Products = (props) => {
     setSelectedProduct(null);
   };
 
-  const handleActiveProduct = (item) =>{
+  const handleActiveProduct = async (item) => {
     console.log(item);
-    dispatch(deleteDish(item.id));
-  }
+    const response = await dispatch(deleteDish(item.id));
+    console.log(response);
 
+    if (response === "success") {
+      Swal.fire({
+        icon: "success",
+        title: `${item.isDeleted ? "Publicacion activada" : "Publicacion desactivada"}`,
+        text: `${item.isDeleted ? `Los usuarios podran comprar "${item.name}"` : `Los usuarios ya no podran comprar "${item.name}"`}`,
+      })
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ha ocurrido un error",
+      })
+    }
+
+  };
 
   return (
     <Container>
@@ -81,7 +96,7 @@ const Products = (props) => {
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </Button></Col>
                 <Col
-                lg={3}
+                  lg={3}
                   style={{
                     display: "flex",
                     gap: "10px",
@@ -102,7 +117,7 @@ const Products = (props) => {
                   >
                     <FontAwesomeIcon
                       icon={faArrowsRotate}
-                      style={{ fontSize: "12px", marginRight: "3px" }}                      
+                      style={{ fontSize: "12px", marginRight: "3px" }}
                     />
                     {item.isDeleted ? "activar" : "Desactivar"}
                   </Button>
