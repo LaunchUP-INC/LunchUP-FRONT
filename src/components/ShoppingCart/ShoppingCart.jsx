@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
-import {Container, Col, Row, Card, Button, Spinner} from 'react-bootstrap';
+import { Container, Col, Row, Card, Button, Spinner } from 'react-bootstrap';
+import { toast } from "react-toastify";
 
 
 
@@ -18,11 +19,11 @@ const ShoppingCart = () => {
     const [preferenceId, setPrefereceId] = useState(null);
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    
 
-    useEffect(()=>{
-        initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6",{locale:"es-AR"});
-    },[]);
+
+    useEffect(() => {
+        initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6", { locale: "es-AR" });
+    }, []);
 
     useEffect(() => {
         dispatch(setShoppingCart);
@@ -62,9 +63,9 @@ const ShoppingCart = () => {
 
 
     //Funcion para agregar 1 a la cantidad que se quiere comprar de un producto
-    const addOneProduct = (e) => {
-        const { value } = e.target;
-        const productToAdd = shoppingCart.find(prod => prod.id === Number(value));
+    const addOneProduct = (id) => {
+        // const { value } = e.target;
+        const productToAdd = shoppingCart.find(prod => prod.id === id);
 
         dispatch(addToShoppingCart(productToAdd));
     }
@@ -87,12 +88,12 @@ const ShoppingCart = () => {
         }));
 
         try {
-            const response = await axios.post(`${URLD}/user/${userId}/payment`,{
+            const response = await axios.post(`${URLD}/user/${userId}/payment`, {
                 items,
-                totalAmount : totalPrice
+                totalAmount: totalPrice
             });
             const { id } = response.data;
-            
+
             return id;
 
         } catch (error) {
@@ -102,14 +103,14 @@ const ShoppingCart = () => {
 
 
     //Funcion que ejecuta handleCheckout y setea el id de compra para el boton de MP
-    const handleBuy = async () =>{
+    const handleBuy = async () => {
         setLoading(true);
         const id = await handleCheckout();
 
-        if(id) setPrefereceId(id);
+        if (id) setPrefereceId(id);
         setLoading(false);
     }
-  
+
 
 
     return (
@@ -125,7 +126,7 @@ const ShoppingCart = () => {
                         : shoppingCart.map((item) => {
                             return (
                                 <Card key={item.id} className="mb-3">
-                                    <Row noGutters>
+                                    <Row >
                                         <Col md={2}>
                                             <Card.Img variant="top" src={item.images[0]} alt={item.name} />
                                         </Col>
@@ -139,13 +140,19 @@ const ShoppingCart = () => {
                                                         }
                                                     }}>-</Button>
                                                     <h3 className="mx-3">{item.quantity}</h3>
-                                                    <Button variant="secondary" value={item.id} onClick={addOneProduct}>+</Button>
+                                                    <Button variant="secondary" value={item.id} onClick={() => {
+                                                        if (item.quantity < item.stock) {
+                                                            addOneProduct(item.id)
+                                                        }else{
+                                                            toast.error("Maximo de stock alcanzado.");
+                                                        }
+                                                    }}>+</Button>
                                                 </div>
                                                 <Card.Text>$&nbsp;{item.price}</Card.Text>
                                                 <Button variant="danger" className="ml-auto" onClick={() => handleRemoveProduct(item.id)}>
                                                     <FontAwesomeIcon icon={faX} />
                                                 </Button>
-                                                
+
                                             </Card.Body>
                                         </Col>
                                     </Row>
@@ -153,7 +160,7 @@ const ShoppingCart = () => {
                             );
                         })}
                 </Col>
-            
+
                 <Col lg={3}>
                     <h2>Resumen de compra</h2>
                     {shoppingCart.length === 0
@@ -176,7 +183,7 @@ const ShoppingCart = () => {
                         </div>}
                 </Col>
             </Row>
-        </Container>        
+        </Container>
     )
 
 }
