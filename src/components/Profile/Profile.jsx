@@ -59,6 +59,12 @@ const Profile = () => {
 
   const handleSaveComensal = (comensal) => {
     dispatch(postChild(comensal));
+    setNewChildren({
+      firstname: "",
+      lastname: "",
+      schoolId: "",
+      gradeLevel: "",
+  })
     closeModal();
   };
 
