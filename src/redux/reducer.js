@@ -29,6 +29,10 @@ import {
   POST_CHILD,
   GET_ORDERS,
   UPDATE_RATING,
+  PUT_CHILD,
+  DELETE_CHILD,
+
+
 } from "./actions";
 
 const initialState = {
@@ -224,6 +228,20 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         children: [...state.children, action.payload],
+      };
+    case PUT_CHILD:
+      return {
+        ...state,
+        children: state.children.map((child) =>
+          child.id === action.payload.id ? action.payload : child
+        ),
+      };
+    case DELETE_CHILD:
+      return {
+        ...state,
+        children: [
+          ...state.children.filter((child) => child.id !== action.payload),
+        ],
       };
 
     case GET_ORDERS:

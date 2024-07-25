@@ -7,9 +7,10 @@ import styles from "./Card.module.css";
 import Rating from "../Rating/Rating";
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { toast } from "react-toastify";
 
 const Card = (props) => {
-  const { id, name, images, price } = props;
+  const { id, name, images, price, stock } = props;
   const { isAuthenticated } = useAuth0();
   let isAuth = isAuthenticated;
   const dispatch = useDispatch();
@@ -25,10 +26,12 @@ const Card = (props) => {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    if (isAuthenticated || user) {
+    if ((isAuthenticated || user) && stock) {
       dispatch(addToShoppingCart(props));
-    } else {
-      alert("Por favor, inicia sesión para comprar.");
+    } else if(!stock){
+      toast.error("No hay stock disponible de momento")
+    }else{
+      toast.error("Por favor, inicia sesión para comprar.");
     }
   };
 
@@ -37,7 +40,7 @@ const Card = (props) => {
   };
 
   useEffect(()=>{
-    setDisabled(!isAuth && !user);
+    setDisabled(!isAuth && !user || !stock);
   },[])
 
   return (
@@ -54,11 +57,14 @@ const Card = (props) => {
         <button
           className={styles.cardButton}
           onClick={handleAddToCart}
-          disabled={disabled}
+          // disabled={disabled}
         >
           <FontAwesomeIcon icon={faCartPlus} />
         </button>
-        {!isAuthenticated && !user && <p className={styles.loginPrompt}>Please log in to purchase</p>}
+        {!isAuthenticated && !user ? 
+          <p className={styles.loginPrompt}>Inicie sesion para poder comprar</p> :
+          <p>Disponibles: {stock ? stock : "Sin stock"}</p>
+        }
       </div>
     </div>
   );

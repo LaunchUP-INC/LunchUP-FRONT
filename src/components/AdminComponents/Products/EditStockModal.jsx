@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { updateStock } from "../../../redux/actions";
+import Swal from "sweetalert2";
 
 const EditStockModal = ({ show, handleClose, product }) => {
   const [newStock, setNewStock] = useState(product.quantity);
@@ -11,14 +12,26 @@ const EditStockModal = ({ show, handleClose, product }) => {
   const handleSave = async () => {
     const item = await dispatch(updateStock(product.id, newStock));
     
-    console.log(item);
-    handleClose();
+    if (item) {
+      Swal.fire({
+        icon: "success",
+        title: "Stock actualizado",
+        text: `Ahora hay ${item} en stock`,
+      })
+      handleClose();
+    }else{
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ha ocurrido un error",
+      })
+    }
   };
 
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Edit Stock for {product.name}</Modal.Title>
+        <Modal.Title>Editar Stock de {product.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -34,10 +47,10 @@ const EditStockModal = ({ show, handleClose, product }) => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Close
+          Cerrar
         </Button>
         <Button variant="primary" onClick={handleSave}>
-          Save Changes
+          Guardar cambios
         </Button>
       </Modal.Footer>
     </Modal>

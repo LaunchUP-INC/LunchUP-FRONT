@@ -40,6 +40,7 @@ const Cards = (props) => {
           images={dish.images}
           description={dish.description}
           price={dish.price}
+          stock={dish.stock}
         />
       ))}
     </div>
