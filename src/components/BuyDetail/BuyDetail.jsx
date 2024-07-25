@@ -35,18 +35,14 @@ const BuyDetail = () => {
     };
 
     const handleRatingSubmit = () => {
-    
             dispatch(updateRating(orderId, selectedItem.id, score));
             setSelectedItem(null);
             setScore(0);
             setShowModal(false);
         }
-    };
-
     if (!order) {
         return <div>Cargando detalles de la compra...</div>;
     }
-
     return (
         <div className={styles.buydetail}>
             <h1 className={styles.title}>Productos comprados</h1>
@@ -89,7 +85,7 @@ const BuyDetail = () => {
                         <Button variant="danger" onClick={() => setShowModal(false)} className={styles.closeButton}>X</Button>
                         <h2>Calificar</h2>
                         <p>Dinos que te pareció el plato: {selectedItem && selectedItem.title}</p>
-                        <RatingModal rating={score} setRating={setScore} />
+                        <RatingModal  rating={score} setRating={setScore} />
                         <Button variant="primary" onClick={handleRatingSubmit}>Calificar</Button>
                     </div>
                 </Modal>
@@ -98,4 +94,5 @@ const BuyDetail = () => {
     );
 
 
+}
 export default BuyDetail;
