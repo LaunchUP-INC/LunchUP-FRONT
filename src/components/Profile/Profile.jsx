@@ -32,12 +32,10 @@ const Profile = () => {
       gradeLevel: "",
   });
 
-  // console.log(children);
   const openModal = () => {
     setModalIsOpen(true);
   };
 
-  console.log(errors);
   const closeModal = () => {
     setModalIsOpen(false);
   };

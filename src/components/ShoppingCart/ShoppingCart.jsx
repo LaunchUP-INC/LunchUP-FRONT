@@ -21,7 +21,6 @@ const ShoppingCart = () => {
     const dispatch = useDispatch();
 
 
-    console.log(user);
     useEffect(() => {
         initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6", { locale: "es-AR" });
     }, []);

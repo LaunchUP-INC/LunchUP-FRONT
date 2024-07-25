@@ -7,11 +7,12 @@ import styles from "./BuyHistorial.module.css";
 
 const BuyHistorial = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const orders = useSelector((state) => state.orders);
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchOrders());
+    dispatch(fetchOrders(user.id));
   }, [dispatch]);
 
   console.log(orders);
@@ -29,7 +30,11 @@ const BuyHistorial = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order, index) => (
+          {orders.length === 0 ? 
+          <tr>
+            <td colSpan="4">{"Aun no se han realizado compras, aqui podras ver los detalles de las mismas."}</td>
+          </tr> :
+          orders.map((order, index) => (
             <tr key={order.id}>
               <td>{index + 1}</td>
               <td>{new Date(order.createdAt).toLocaleDateString()}</td>
