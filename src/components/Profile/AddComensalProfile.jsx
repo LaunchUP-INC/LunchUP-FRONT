@@ -49,9 +49,9 @@ const AddComensal = ({
             <Form.Label>Nombre del Hijo/a</Form.Label>
             <Form.Control
               type="text"
-              name="name"
+              name="firstname"
               placeholder="Nombre del hijo/a"
-              value={children.name}
+              value={children.firstname}
               onChange={(event) => handleChildChange(event)}
               isInvalid={!!errors.childName}
             />
@@ -62,9 +62,9 @@ const AddComensal = ({
             <Form.Label>Apellido del Hijo/a</Form.Label>
             <Form.Control
               type="text"
-              name="lastName"
+              name="lastname"
               placeholder="Apellido del hijo/a"
-              value={children.lastName}
+              value={children.lastname}
               onChange={(event) => handleChildChange(event)}
               isInvalid={!!errors.childLastName}
             />
@@ -94,9 +94,9 @@ const AddComensal = ({
             <Form.Label>Grado/Año</Form.Label>
             <Form.Control
               type="text"
-              name="grade"
+              name="gradeLevel"
               placeholder="Grado o Año"
-              value={children.grade || ""}
+              value={children.gradeLevel || ""}
               onChange={(event) => handleChildChange(event)}
               isInvalid={!!errors.childGrade}
             />
