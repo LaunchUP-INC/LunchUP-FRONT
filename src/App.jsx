@@ -20,6 +20,7 @@ import BuyHistory from "./Views/BuyHistory";
 import ChildViewDetails from "./Views/ChildViewDetails";
 import BannedView from "./Views/BannedView";
 import BuyDetailView from "./Views/BuyDetailView";
+import NotFound from "./components/NotFound/NotFound";
 function App() {
     
   
@@ -41,7 +42,7 @@ function App() {
         <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccessView /></ProtectedRoute>} />
         <Route path="/payment-error" element={<ProtectedRoute><PaymentErrorView /></ProtectedRoute>} />
         <Route path="/banned" element={<BannedView />} />
-
+        <Route path="*" element={<NotFound />} />
         {/*Rutas para ADMIN */}
         <Route path="/admin/*" element={<ProtectAdminRoutes><AdminView /></ProtectAdminRoutes>} />        
       </Routes>
