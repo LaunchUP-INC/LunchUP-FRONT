@@ -22,11 +22,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const manualUser = useSelector((state) => state.user);
   const navigate = useNavigate();
-  const [userManual, setUserManual] = useState({
-    nombre: "",
-    apellido: "",
-    email: "",
-  });
+ 
   const [errors, setErrors] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newChildren, setNewChildren] = useState({
@@ -72,25 +68,7 @@ const Profile = () => {
     dispatch(getChild());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      const userId = localStorage.getItem("userId");
-      if (userId) {
-        const fetchUser = async () => {
-          try {
-            const response = await axios.get(
-              `http://localhost:3001/user/${userId}`
-            );
-            setUserManual(response.data.users);
-          } catch (error) {
-            console.error("Error fetching user data:", error);
-          }
-        };
-        fetchUser();
-      }
-    }
-  }, [isAuthenticated]);
-
+  
   if (isLoading) {
     return <Loader />;
   }
