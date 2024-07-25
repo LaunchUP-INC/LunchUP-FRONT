@@ -5,6 +5,7 @@ import { fetchProducts, clearError } from "../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import Cards from "../components/Cards/Cards";
 import Filters from "../components/Filters/Filters";
+import Loader from "../components/Loader/Loader";
 import PaginationComponent from "../components/Pagination/Pagination";
 
 const HomeView = () => {
@@ -13,11 +14,17 @@ const HomeView = () => {
   const dishes = useSelector((state) => state.allProducts); 
   const error = useSelector((state) => state.error);
   const [filteredDishes, setFilteredDishes] = useState([]);
+  const [loading, setLoading] = useState(true); 
   const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage] = useState(3);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    const loadProducts = async () => {
+      setLoading(true); 
+      await dispatch(fetchProducts());
+      setLoading(false); 
+    };
+    loadProducts();
   }, [dispatch]);
 
   useEffect(() => {
@@ -53,7 +60,7 @@ const HomeView = () => {
     }
 
     setFilteredDishes(filtered);
-    setCurrentPage(1); // Reset pagination on filter change
+    setCurrentPage(1); 
   }, [dishes]);
 
   const indexOfLastCard = currentPage * cardsPerPage;
@@ -61,6 +68,10 @@ const HomeView = () => {
   const currentCards = filteredDishes.slice(indexOfFirstCard, indexOfLastCard);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div>
