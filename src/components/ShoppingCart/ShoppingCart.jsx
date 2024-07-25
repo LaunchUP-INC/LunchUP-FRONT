@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 
 const ShoppingCart = () => {
     const shoppingCart = useSelector(state => state.shoppingCart);
-    const userId = useSelector((state) => state.user.id);
+    const user = useSelector((state) => state.user);
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalProducts, setTotalProducts] = useState(0);
     const [preferenceId, setPrefereceId] = useState(null);
@@ -21,6 +21,7 @@ const ShoppingCart = () => {
     const dispatch = useDispatch();
 
 
+    console.log(user);
     useEffect(() => {
         initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6", { locale: "es-AR" });
     }, []);
@@ -88,7 +89,7 @@ const ShoppingCart = () => {
         }));
 
         try {
-            const response = await axios.post(`${URLD}/user/${userId}/payment`, {
+            const response = await axios.post(`${URLD}/user/${user.id}/payment`, {
                 items,
                 totalAmount: totalPrice
             });

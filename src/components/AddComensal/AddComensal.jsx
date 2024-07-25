@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getSchools } from "../../redux/actions";
 import { validate } from "../ChildDetail/validate";
+import { toast } from "react-toastify";
 
 const AddComensalModal = ({
   modalIsOpen,
@@ -19,10 +20,10 @@ const AddComensalModal = ({
   const dispatch = useDispatch();
   const schools = useSelector((state) => state.schools);
   const [newChild, setNewChild] = useState({
-    name: "",
-    lastName: "",
-    school: "",
-    grade: "",
+    firstname: "",
+    lastname: "",
+    schoolId: "",
+    gradeLevel: "",
   });
 
   useEffect(() => {
@@ -39,31 +40,32 @@ const AddComensalModal = ({
     // Validar cada hijo antes de guardar
     if (
       errors.childName ||
-      errors.childAge ||
+      errors.childLastName ||
       errors.childSchool ||
       errors.childGrade
     ) {
-      alert("Por favor, corrija los errores antes de guardar.");
+      toast.error("Por favor, corrija los errores antes de guardar.")
       return;
     }
     if (
-      newChild.name.trim() !== "" &&
+      newChild.firstname.trim() !== "" &&
+      newChild.lastname.trim() !== "" &&
       newChild.schoolId.trim() !== "" &&
-      newChild.grade.trim() !== ""
+      newChild.gradeLevel.trim() !== ""
     ) {
       handleAddChild(newChild);
       setNewChild({
-        name: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         schoolId: "",
-        grade: "",
+        gradeLevel: "",
       });
 
       setSavedComensalsCount(savedComensalsCount + 1);
 
       closeModal();
     } else {
-      alert("Por favor, complete todos los campos antes de guardar.");
+      toast.error("Por favor, complete todos los campos antes de guardar.")
     }
   };
 
@@ -79,8 +81,8 @@ const AddComensalModal = ({
             <Form.Control
               type="text"
               placeholder="Nombre del comensal"
-              name="name"
-              value={newChild.name}
+              name="firstname"
+              value={newChild.firstname}
               onChange={handleNewChildChange}
               isInvalid={!!errors.childName}
             />
@@ -94,8 +96,8 @@ const AddComensalModal = ({
             <Form.Control
               type="text"
               placeholder="Apellido del comensal"
-              name="lastName"
-              value={newChild.childLastName}
+              name="lastname"
+              value={newChild.lastname}
               onChange={handleNewChildChange}
               isInvalid={!!errors.childLastName}
             />
@@ -130,8 +132,8 @@ const AddComensalModal = ({
             <Form.Control
               type="text"
               placeholder="Grado del comensal"
-              name="grade"
-              value={newChild.grade}
+              name="gradeLevel"
+              value={newChild.gradeLevel}
               onChange={handleNewChildChange}
               isInvalid={!!errors.childGrade}
             />

@@ -46,27 +46,27 @@ export const validate = (formData) => {
   // Validación de los campos de los comensales (niños)
   if (formData.children.length > 0) {
     formData.children.forEach((child, index) => {
-      if (!child.name || !child.lastName || !child.school || !child.grade) {
+      if (!child.firstname || !child.lastname || !child.schoolId || !child.gradeLevel) {
         errors.children = `Debe añadir al menos un comensal`;
       }
-      if (!child.name) {
+      if (!child.firstname) {
         errors.childName = "El nombre del niño/a es obligatorio";
-      } else if (!/^[a-zA-Z\s-]+$/.test(child.name)) {
+      } else if (!/^[a-zA-Z\s-]+$/.test(child.firstname)) {
         errors.childName = "El nombre del niño/a no puede contener símbolos";
       }
 
-      if (!child.lastName) {
+      if (!child.lastname) {
         errors.childLastName = "El apellido del niño/a es obligatorio";
-      } else if (!/^[a-zA-Z\s-]+$/.test(child.lastName)) {
+      } else if (!/^[a-zA-Z\s-]+$/.test(child.lastname)) {
         errors.childLastName =
           "El apellido del niño/a no puede contener símbolos";
       }
 
-      if (!child.school) {
+      if (!child.schoolId) {
         errors.childSchool = "El nombre de la escuela es obligatorio";
       }
 
-      if (!child.grade) {
+      if (!child.gradeLevel) {
         errors.childGrade = "El grado/año del niño/a es obligatorio";
       }
     });
