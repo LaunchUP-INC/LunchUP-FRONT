@@ -7,21 +7,21 @@
   --color-white: #ffffff;
 }
 
-/* Nav.module.css */
+
 .navbar-brand {
-  font-size: 1.5rem; /* Ajusta el tamaño según sea necesario */
+  font-size: 1.5rem; 
 }
 
 .nav-link {
-  font-size: 1.2rem; /* Ajusta el tamaño según sea necesario */
+  font-size: 1.2rem; 
 }
 
 .navbar-icon {
-  font-size: 1.5rem; /* Ajusta el tamaño según sea necesario */
+  font-size: 1.5rem; 
 }
 
 .navbar-badge {
-  font-size: 1.2rem; /* Ajusta el tamaño según sea necesario */
+  font-size: 1.2rem; 
 }
 
 
