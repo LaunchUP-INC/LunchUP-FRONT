@@ -18,6 +18,19 @@ const NavigationBar = () => {
     const shouldHideNav = pathToHideNav.includes(location.pathname);
     const { isAuthenticated } = useAuth0();
     const [isLoged, setIsLoged] = useState(false);
+    const [totalProducts, setTotalProducts] = useState(0);
+
+    const calculateTotalProducts = (items) => {
+        const total = items.reduce(
+            (acc, item) => acc + item.quantity,
+            0
+        );
+        setTotalProducts(total);
+    }
+
+    useEffect(()=>{
+        calculateTotalProducts(shoppingCart);
+    },[shoppingCart])
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -34,7 +47,7 @@ const NavigationBar = () => {
         <Navbar bg="light" expand="lg">
             <Container>
                 <Navbar.Brand
-                    onClick={() => navigate("/home")}
+                    onClick={() => navigate("/")}
                     style={{ cursor: "pointer" }}
                     className={styles["navbar-brand"]}
                 >
@@ -59,7 +72,7 @@ const NavigationBar = () => {
                             />
                             {shoppingCart.length > 0 && (
                                 <Badge bg="secondary" className={styles["navbar-badge"]}>
-                                    {shoppingCart.length}
+                                    {totalProducts}
                                 </Badge>
                             )}
                         </Nav.Link>
