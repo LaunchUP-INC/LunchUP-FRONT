@@ -495,13 +495,11 @@ export const postReviews = (review) => {
     }
   };
 };
-export const fetchOrders = () => {
-  const userString = localStorage.getItem("user");
-  const user = userString ? JSON.parse(userString) : null;
-  const userId = user.id;
+export const fetchOrders = (id) => {
+  
   return async (dispatch) => {
     try {
-      const response = await axios.get(`${URLD}/user/${userId}/orders`);
+      const response = await axios.get(`${URLD}/user/${id}/orders`);
       dispatch({
         type: GET_ORDERS,
         payload: response.data.orders,
