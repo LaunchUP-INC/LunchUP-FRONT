@@ -117,7 +117,7 @@ const AddComensalModal = ({
             >
               <option value="">Selecciona una escuela</option>
               {schools.map((school) => (
-                <option key={school.id} value={school.name}>
+                <option key={school.id} value={school.id}>
                   {school.name}
                 </option>
               ))}
