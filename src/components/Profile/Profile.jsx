@@ -123,7 +123,7 @@ const Profile = () => {
               : `${manualUser.firstname} ${manualUser.lastname}`}
           </Card.Title>
           <Card.Text>
-            {isAuthenticated ? user.email : manualUser.email}.
+            {isAuthenticated ? user.email : manualUser.email}
           </Card.Text>
         </Card.Body>
         <ProfileActions />
