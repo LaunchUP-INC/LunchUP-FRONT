@@ -543,10 +543,10 @@ export const postChild = (child) => {
     const { id } = getState().user;
     try {
       const response = await axios.post(`${URLD}/user/${id}/child`, {
-        firstname: child.name,
-        lastname: child.lastName,
-        gradeLevel: child.grade,
-        schoolId: child.schoolId,
+        firstname: child.firstname,
+        lastname: child.lastname,
+        gradeLevel: child.gradeLevel,
+        SchoolId: child.schoolId,
       });
 
       return dispatch({

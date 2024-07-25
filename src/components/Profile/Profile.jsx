@@ -36,6 +36,7 @@ const Profile = () => {
       grade: "",
   });
 
+  console.log(children);
   const openModal = () => {
     setModalIsOpen(true);
   };
