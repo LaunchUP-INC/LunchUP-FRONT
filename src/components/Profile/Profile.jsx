@@ -30,13 +30,13 @@ const Profile = () => {
   const [errors, setErrors] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [newChildren, setNewChildren] = useState({
-      name: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       schoolId: "",
-      grade: "",
+      gradeLevel: "",
   });
 
-  console.log(children);
+  // console.log(children);
   const openModal = () => {
     setModalIsOpen(true);
   };
@@ -59,6 +59,12 @@ const Profile = () => {
 
   const handleSaveComensal = (comensal) => {
     dispatch(postChild(comensal));
+    setNewChildren({
+      firstname: "",
+      lastname: "",
+      schoolId: "",
+      gradeLevel: "",
+  })
     closeModal();
   };
 
@@ -104,8 +110,8 @@ const Profile = () => {
           src={
             isAuthenticated
               ? user.picture
-              : userManual.picture
-              ? userManual.picture
+              : manualUser.picture
+              ? manualUser.picture
               : "/no-avatar.png"
           }
           alt={
@@ -179,7 +185,7 @@ const Profile = () => {
         </Button>
       </div>
 
-      <ReviewAlert user={isAuthenticated ? user.sub : userManual.id} />
+      <ReviewAlert user={isAuthenticated ? user.sub : manualUser.id} />
     </div>
   );
 };
