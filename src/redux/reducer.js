@@ -47,7 +47,7 @@ const initialState = {
   children: [],
   newreviews: [],
   orders: [],
-  rating: 0,
+  rating: [],
   token: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   userId: null,

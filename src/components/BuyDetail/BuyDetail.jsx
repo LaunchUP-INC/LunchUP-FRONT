@@ -12,7 +12,7 @@ const BuyDetail = () => {
     const orders = useSelector((state) => state.orders);
     const dispatch = useDispatch();
     const [order, setOrder] = useState(null);
-    const [rating, setRating] = useState(0);
+    const [score, setScore] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
@@ -23,23 +23,26 @@ const BuyDetail = () => {
         }
     }, [orders, orderId]);
 
+    useEffect(() => {
+        if (selectedItem) {
+            setScore(selectedItem.rating || 0);
+        }
+    }, [selectedItem]);
+
     const handleClick = (item) => {
         setSelectedItem(item);
-        setRating(item.rating || 0); // Establece la calificación inicial si existe
         setShowModal(true);
     };
 
     const handleRatingSubmit = () => {
-        if (selectedItem) {
-            dispatch(updateRating(orderId, selectedItem.id, rating));
+            dispatch(updateRating(orderId, selectedItem.id, score));
+            setSelectedItem(null);
+            setScore(0);
             setShowModal(false);
         }
-    };
-
     if (!order) {
         return <div>Cargando detalles de la compra...</div>;
     }
-
     return (
         <div className={styles.buydetail}>
             <h1 className={styles.title}>Productos comprados</h1>
@@ -82,13 +85,14 @@ const BuyDetail = () => {
                         <Button variant="danger" onClick={() => setShowModal(false)} className={styles.closeButton}>X</Button>
                         <h2>Calificar</h2>
                         <p>Dinos que te pareció el plato: {selectedItem && selectedItem.title}</p>
-                        <RatingModal rating={rating} setRating={setRating} />
+                        <RatingModal  rating={score} setRating={setScore} />
                         <Button variant="primary" onClick={handleRatingSubmit}>Calificar</Button>
                     </div>
                 </Modal>
             </div>
         </div>
     );
-};
 
+
+}
 export default BuyDetail;

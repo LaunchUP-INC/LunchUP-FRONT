@@ -512,27 +512,27 @@ export const fetchOrders = () => {
     }
   };
 }
-export const updateRating = (orderId, itemId, rating) => {
+export const updateRating = (orderId, itemId, score) => {
   return async (dispatch) => {
-      try {
-          const response = await axios.post(`${URLD}/rating/${itemId}`, {
-              rating,
-          });
+    try {
+      const response = await axios.post(`${URLD}/dishes/${ itemId }`, {
+        score,
+      });
 
-          // Si la solicitud es exitosa, despacha la acción para actualizar el estado en Redux
-          dispatch({
-              type: "UPDATE_RATING",
-              payload: {
-                  orderId,
-                  itemId,
-                  rating,
-              },
-          });
+      // Si la solicitud es exitosa, despacha la acción para actualizar el estado en Redux
+      dispatch({
+        type: "UPDATE_RATING",
+        payload: {
+          orderId,
+          itemId,
+          score,
+        },
+      });
 
-          console.log("Rating actualizado exitosamente:", response.data);
-      } catch (error) {
-          console.error("Error al actualizar el rating:", error);
-      }
+      console.log("Rating actualizado exitosamente:", response.data);
+    } catch (error) {
+      console.error("Error al actualizar el rating:", error);
+    }
   };
 };
 export const getSchools = () => {
