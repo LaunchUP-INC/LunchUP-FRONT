@@ -29,6 +29,7 @@ export const FETCH_USER_DATA = "FETCH_USER_DATA";
 export const GET_CHILD = "GET_CHILD";
 export const POST_CHILD = "POST_CHILD";
 export const GET_ORDERS = "GET_ORDERS";
+export const UPDATE_RATING = "UPDATE_RATING";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 export const URLD = "https://lunchup-back.onrender.com";
@@ -504,6 +505,29 @@ export const fetchOrders = () => {
     }
   };
 }
+export const updateRating = (orderId, itemId, rating) => {
+  return async (dispatch) => {
+      try {
+          const response = await axios.post(`${URLD}/rating/${itemId}`, {
+              rating,
+          });
+
+          // Si la solicitud es exitosa, despacha la acción para actualizar el estado en Redux
+          dispatch({
+              type: "UPDATE_RATING",
+              payload: {
+                  orderId,
+                  itemId,
+                  rating,
+              },
+          });
+
+          console.log("Rating actualizado exitosamente:", response.data);
+      } catch (error) {
+          console.error("Error al actualizar el rating:", error);
+      }
+  };
+};
 export const getSchools = () => {
   return async (dispatch) => {
     try {

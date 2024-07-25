@@ -28,6 +28,7 @@ import {
   GET_CHILD,
   POST_CHILD,
   GET_ORDERS,
+  UPDATE_RATING,
 } from "./actions";
 
 const initialState = {
@@ -42,6 +43,7 @@ const initialState = {
   children: [],
   newreviews: [],
   orders: [],
+  rating: 0,
   token: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   userId: null,
@@ -228,6 +230,22 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         orders: action.payload,
+      };
+    case UPDATE_RATING:
+      return {
+        ...state,
+        orders: state.orders.map((order) =>
+          order.id === action.payload.orderId
+            ? {
+              ...order,
+              items: order.items.map((item) =>
+                item.id === action.payload.itemId
+                  ? { ...item, rating: action.payload.rating }
+                  : item
+              ),
+            }
+            : order
+        ),
       };
 
     default:
