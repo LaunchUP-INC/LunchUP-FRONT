@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import {fetchOrders} from "../../redux/actions";
+import { fetchOrders } from "../../redux/actions";
 import styles from "./BuyHistorial.module.css";
 
 const BuyHistorial = () => {

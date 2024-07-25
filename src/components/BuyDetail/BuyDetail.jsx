@@ -1,17 +1,43 @@
 import styles from "./BuyDetail.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
 import Modal from "react-modal";
 import RatingModal from "../RatingModal/RatingModal";
+import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateRating } from "../../redux/actions"; // Asegúrate de tener esta acción en tus acciones de redux
 
-const BuyDetail = ({ order }) => {
+const BuyDetail = () => {
+    const { orderId } = useParams();
+    const orders = useSelector((state) => state.orders);
+    const dispatch = useDispatch();
+    const [order, setOrder] = useState(null);
     const [rating, setRating] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
 
+    useEffect(() => {
+        if (orders && orders.length > 0) {
+            const foundOrder = orders.find(o => o.id === orderId);
+            setOrder(foundOrder);
+        }
+    }, [orders, orderId]);
+
     const handleClick = (item) => {
         setSelectedItem(item);
+        setRating(item.rating || 0); // Establece la calificación inicial si existe
         setShowModal(true);
+    };
+
+    const handleRatingSubmit = () => {
+        if (selectedItem) {
+            dispatch(updateRating(orderId, selectedItem.id, rating));
+            setShowModal(false);
+        }
+    };
+
+    if (!order) {
+        return <div>Cargando detalles de la compra...</div>;
     }
 
     return (
@@ -57,12 +83,12 @@ const BuyDetail = ({ order }) => {
                         <h2>Calificar</h2>
                         <p>Dinos que te pareció el plato: {selectedItem && selectedItem.title}</p>
                         <RatingModal rating={rating} setRating={setRating} />
-                        <Button variant="primary" onClick={() => setShowModal(false)}>Calificar</Button>
+                        <Button variant="primary" onClick={handleRatingSubmit}>Calificar</Button>
                     </div>
                 </Modal>
             </div>
         </div>
     );
-}
+};
 
 export default BuyDetail;
