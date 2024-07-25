@@ -38,7 +38,7 @@ export const DELETE_CHILD = "DELETE_CHILD";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 export const URLD = "https://lunchup-back.onrender.com";
-/* export const URLD = "http://localhost:3001"; */
+// export const URLD = "http://localhost:3001"; 
 
 export const handleError = (error) => {
   const errorMessage = error.response?.data?.message;
@@ -63,7 +63,6 @@ export const registerUser = (userData) => {
         telephone: userData.phone,
         email: userData.email,
         password: userData.password,
-        isAdmin: false,
         children: userData.children,
       });
 
@@ -124,8 +123,6 @@ export const fetchUsers = () => {
 
 export const fetchUserData = (userData) => {
   return async (dispatch, getState) => {
-    // const iDUser = localStorage.getItem("userId");
-    // const userId = getState().userId;
     const token = getState().token;
     try {
       const response = await axios.get(`${URLD}/user/${userData.email}`, {
@@ -171,7 +168,7 @@ export const checkUser = (checkUser) => {
   return async (dispatch) => {
     try {
       const response = await axios.post(
-        "https://lunchup-back.onrender.com/register/check",
+        `${URLD}/register/check`,
         { email: checkUser.email }
       );
       if (response.data.isRegistered.access) {
@@ -184,6 +181,8 @@ export const checkUser = (checkUser) => {
           },
         });
         return response.data.isRegistered; // Retorna true si el inicio de sesión es exitoso
+      }else{
+        return response.data.isRegistered;
       }
     } catch (error) {
       dispatch(handleError(error));
