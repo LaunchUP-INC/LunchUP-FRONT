@@ -32,7 +32,7 @@ const BuyHistorial = () => {
         <tbody>
           {orders.length === 0 ? 
           <tr>
-            <td colSpan="4">{"Aun no se han realizado compras, aqui podras ver los detalles de las mismas."}</td>
+            <td style={{ textAlign: "center", color: "#DD761C" }} colSpan="4">{"Aun no se han realizado compras, aqui podras ver los detalles de las mismas."}</td>
           </tr> :
           orders.map((order, index) => (
             <tr key={order.id}>

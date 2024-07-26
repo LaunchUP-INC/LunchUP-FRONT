@@ -80,7 +80,7 @@ const ChildDetail = () => {
   return (
     <div className={styles.container}>
       <h2>Detalles</h2>
-      <Table striped bordered hover className={styles.table}>
+      <Table striped bordered hover style={{ marginTop: "20px" }} className={styles.table}>
         <thead>
           <tr>
             <th>Nombre</th>
