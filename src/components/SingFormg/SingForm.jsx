@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { Form, Button, Container, Row, Col, InputGroup } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import styles from "./SingForm.module.css";
 import AddComensalModal from "../AddComensal/AddComensal";
 import { validate } from "./validate";
-import { registerUser} from "../../redux/actions";
+import { registerUser } from "../../redux/actions";
 
 const SingForm = () => {
   const navigate = useNavigate();
@@ -22,10 +24,11 @@ const SingForm = () => {
     children: [],
   });
 
-
   const [errors, setErrors] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [savedComensalsCount, setSavedComensalsCount] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -40,8 +43,6 @@ const SingForm = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
     setErrors(validate({ ...formData, [name]: value }));
   };
-
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -145,34 +146,44 @@ const SingForm = () => {
         <Row className="mb-3">
           <Form.Group as={Col} controlId="password">
             <Form.Label>Contraseña</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Contraseña"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              isInvalid={!!errors.password}
-              style={{ backgroundColor: "#E5D4FF" }}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.password}
-            </Form.Control.Feedback>
+            <InputGroup>
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                placeholder="Contraseña"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                isInvalid={!!errors.password}
+                style={{ backgroundColor: "#E5D4FF" }}
+              />
+              <InputGroup.Text onClick={() => setShowPassword(!showPassword)}>
+                <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+              </InputGroup.Text>
+              <Form.Control.Feedback type="invalid">
+                {errors.password}
+              </Form.Control.Feedback>
+            </InputGroup>
           </Form.Group>
 
           <Form.Group as={Col} controlId="confirmPassword">
             <Form.Label>Confirmar Contraseña</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirma tu contraseña"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              isInvalid={!!errors.confirmPassword}
-              style={{ backgroundColor: "#E5D4FF" }}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.confirmPassword}
-            </Form.Control.Feedback>
+            <InputGroup>
+              <Form.Control
+                type={showConfirmPassword ? "text" : "password"}
+                placeholder="Confirma tu contraseña"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                isInvalid={!!errors.confirmPassword}
+                style={{ backgroundColor: "#E5D4FF" }}
+              />
+              <InputGroup.Text onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+              </InputGroup.Text>
+              <Form.Control.Feedback type="invalid">
+                {errors.confirmPassword}
+              </Form.Control.Feedback>
+            </InputGroup>
           </Form.Group>
         </Row>
         <div className="mb-2">
