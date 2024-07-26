@@ -38,8 +38,8 @@ export const SELECT_CHILD = "SELECT_CHILD";
 export const CLEAR_SELECTED_CHILD = "CLEAR_SELECTED_CHILD";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
-// export const URLD = "https://lunchup-back.onrender.com";
-export const URLD = "http://localhost:3001";
+export const URLD = "https://lunchup-back.onrender.com";
+// export const URLD = "http://localhost:3001";
 
 export const handleError = (error) => {
   const errorMessage = error.response?.data?.message;
@@ -391,7 +391,7 @@ export const setShoppingCart =
 
     if (!Array.isArray(shoppingCart)) {
       try {
-        shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+        shoppingCart = localStorage.getItem("shoppingCart") !== 'undefined' ? JSON.parse(localStorage.getItem("shoppingCart")) : []
       } catch (error) {
         shoppingCart = [];
       }
