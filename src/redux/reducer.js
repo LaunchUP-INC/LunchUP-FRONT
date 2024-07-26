@@ -34,6 +34,7 @@ import {
   GET_RATING,
   UPDATE_PROFILE,
   SELECT_CHILD,
+  CLEAR_SELECTED_CHILD,
 } from "./actions";
 
 const initialState = {
@@ -280,6 +281,13 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         isSelected: action.payload,
       };
+    }
+
+    case CLEAR_SELECTED_CHILD: {
+      return{
+        ...state,
+        isSelected: false,
+      }
     }
 
     default:
