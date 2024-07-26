@@ -25,8 +25,7 @@ const ReviewModal = ({ isOpen, onRequestClose, userId }) => {
   const [score, setScore] = useState(0);
   const dispatch = useDispatch();
   const review = {comment, score};
-  /* const {id } = userId; */
-  console.log(userId);
+
 const { user } = useAuth0();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -35,8 +34,7 @@ const { user } = useAuth0();
     localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado
     onRequestClose(); // Cierra el modal después de enviar la reseña
   };
-  // const id = user.name;
-  console.log(review);
+  
   const handleTextChange = (event) => {
     setComment(event.target.value);
   };

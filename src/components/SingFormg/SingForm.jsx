@@ -6,7 +6,7 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import styles from "./SingForm.module.css";
 import AddComensalModal from "../AddComensal/AddComensal";
 import { validate } from "./validate";
-import { registerUser, clearError } from "../../redux/actions";
+import { registerUser} from "../../redux/actions";
 
 const SingForm = () => {
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ const SingForm = () => {
     children: [],
   });
 
-  const error = useSelector((state) => state.error);
 
   const [errors, setErrors] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -42,27 +41,13 @@ const SingForm = () => {
     setErrors(validate({ ...formData, [name]: value }));
   };
 
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(clearError());
-    }
-  }, [error, dispatch]);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const validationErrors = validate(formData);
-    // if (Object.keys(validationErrors).length > 0) {
-    //   alert("Por favor, corrija los errores antes de enviar el formulario.");
-    //   return;
-    // }
-
-    // // Validar datos en el frontend
-    // const validationErrors = validate(formData);
-
-    // Si no hay errores en el frontend, enviar datos al backend
-    console.log(formData);
+    
     const success = await dispatch(registerUser(formData));
     if (success) {
       navigate("/login");

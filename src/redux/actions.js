@@ -70,7 +70,6 @@ export const registerUser = (userData) => {
       localStorage.setItem("userId", response.data.newId);
       return true;
     } catch (error) {
-      console.log(error);
       dispatch(handleError(error));
     }
   };
@@ -102,17 +101,12 @@ export const fetchProducts = () => {
         allDishes[i].rating = response.data.rating;
       }
 
-      // const products = await axios.get(`${URLD}/dishes`);
-
       dispatch({
         type: FETCH_PRODUCTS,
         payload: allDishes,
       });
     } catch (error) {
-      // dispatch({
-      //   type: FETCH_PRODUCTS_ERROR,
-      //   payload: error.message,
-      // });
+      
       dispatch(handleError(error));
     }
   };
@@ -165,14 +159,14 @@ export const loginUser = (loginData) => {
             token: response.data.token,
           },
         });
-        return response.data; // Retorna true si el inicio de sesión es exitoso
+        return response.data; 
       } else {
         alert("Contraseña o email incorrectos");
-        return false; // Retorna false si el inicio de sesión falla
+        return false; 
       }
     } catch (error) {
       dispatch(handleError(error));
-      return false; // Retorna false si ocurre un error
+      return false; 
     }
   };
 };
@@ -477,7 +471,7 @@ export const fetchReviews = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/reviews`);
-      // console.log(response.data);
+     
       dispatch({
         type: FETCH_REVIEWS,
         payload: response.data.reviews,
@@ -571,6 +565,7 @@ export const getSchools = () => {
       });
     } catch (error) {
       console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -584,7 +579,7 @@ export const getChild = () => {
         payload: response.data,
       });
     } catch (error) {
-      console.log(error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -605,6 +600,7 @@ export const postChild = (child) => {
       });
     } catch (error) {
       console.log(error);
+      dispatch(handleError(error));
     }
   };
 };

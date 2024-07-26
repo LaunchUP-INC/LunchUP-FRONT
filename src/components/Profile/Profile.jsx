@@ -7,7 +7,7 @@ import Loader from "../Loader/Loader";
 import Image from "react-bootstrap/Image";
 import Table from "react-bootstrap/Table";
 import ReviewAlert from "../ReviewAlert/ReviewAlert";
-import axios from "axios";
+import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { getChild, postChild } from "../../redux/actions";
 import ProfileActions from "./ProfileActions";
@@ -22,6 +22,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const manualUser = useSelector((state) => state.user);
   const navigate = useNavigate();
+
  
   const [errors, setErrors] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
