@@ -16,8 +16,8 @@ export const validate = (child) => {
       "El apellido del niño/a no puede contener símbolos ni números";
   }
 
-  if (!child.schoolId) {
-    errors.childSchool = "El nombre de la escuela es obligatorio";
+  if (!child.SchoolId) {
+    errors.childSchool = "La escuela es obligatorio";
   }
 
   if (!child.gradeLevel) {
