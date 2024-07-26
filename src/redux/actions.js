@@ -35,6 +35,7 @@ export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const PUT_CHILD = "PUT_CHILD";
 export const DELETE_CHILD = "DELETE_CHILD";
 export const SELECT_CHILD = "SELECT_CHILD";
+export const CLEAR_SELECTED_CHILD = "CLEAR_SELECTED_CHILD";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 export const URLD = "https://lunchup-back.onrender.com";
@@ -688,3 +689,11 @@ export const selectChild = (id) => {
     }
   };
 };
+
+export const clearSelectedChild = () =>{
+  return async (dispatch) =>{
+    dispatch({
+      type: CLEAR_SELECTED_CHILD,      
+    })
+  }
+}

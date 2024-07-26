@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useSelector, useDispatch } from "react-redux";
 import { getChild, selectChild } from "../../redux/actions";
+import { toast } from "react-toastify";
 
 const WhichChild = ({ show, handleClose }) => {
   const dispatch = useDispatch();
@@ -25,16 +26,12 @@ const WhichChild = ({ show, handleClose }) => {
       setIsConfirmed(true); // Marca como confirmado
       handleClose();
     } else {
-      alert("Por favor, selecciona un comensal");
+      toast.error("Por favor, selecciona un comensal")
     }
   };
 
-  const handleCancel = () => {
-    if (!isConfirmed) {
-      alert("Debes confirmar la selección del comensal antes de cancelar.");
-    } else {
-      handleClose(); // Solo cierra el modal si se ha confirmado
-    }
+  const handleCancel = () => {   
+    handleClose(); // Solo cierra el modal si se ha confirmado    
   };
 
   return (
