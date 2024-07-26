@@ -6,10 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../redux/actions";
 import { toast } from "react-toastify";
 import { clearError } from "../../redux/actions";
+import { Form, Button, Container } from "react-bootstrap";
+
 const EditProfile = () => {
   const { user, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
-  const  error  = useSelector((state) => state.error);
+  const error = useSelector((state) => state.error);
 
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.user);
@@ -20,15 +22,17 @@ const EditProfile = () => {
   const [lastname, setLastname] = useState(profile?.lastName || "");
   const userID = localStorage.getItem('user');
   const storeUser =  JSON.parse(userID);
-  
- const id = storeUser.id;
- useEffect(() => {
-   if(error){
-     toast.error(error)
-     dispatch(clearError())
-   }
-   
- },[error])
+
+  const id = storeUser.id;
+
+  useEffect(() => {
+    if(error){
+      toast.error(error)
+      dispatch(clearError())
+    }
+
+  },[error])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedProfile = {
@@ -43,11 +47,11 @@ const EditProfile = () => {
   };
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
+    <Container className={styles.container}>
+      <Form className={styles.form} onSubmit={handleSubmit}>
         <h1 className={styles.title}>Edit Profile</h1>
-        <>
-          <input
+        <Form.Group controlId="firstname">
+          <Form.Control
             type="text"
             placeholder="Nombre"
             value={firstname}
@@ -55,7 +59,9 @@ const EditProfile = () => {
             className={styles.inputText}
             required
           />
-          <input
+        </Form.Group>
+        <Form.Group controlId="lastname">
+          <Form.Control
             type="text"
             placeholder="Apellido"
             value={lastname}
@@ -63,7 +69,9 @@ const EditProfile = () => {
             className={styles.inputText}
             required
           />
-          <input
+        </Form.Group>
+        <Form.Group controlId="email">
+          <Form.Control
             type="email"
             placeholder="Email"
             value={email}
@@ -71,7 +79,9 @@ const EditProfile = () => {
             className={styles.inputEmail}
             required
           />
-          <input
+        </Form.Group>
+        <Form.Group controlId="password">
+          <Form.Control
             type="password"
             placeholder="Contraseña"
             value={password}
@@ -79,7 +89,9 @@ const EditProfile = () => {
             className={styles.inputPassword}
             required
           />
-          <input
+        </Form.Group>
+        <Form.Group controlId="telephone">
+          <Form.Control
             type="tel"
             placeholder="Teléfono"
             value={telephone}
@@ -87,12 +99,12 @@ const EditProfile = () => {
             className={styles.inputTel}
             required
           />
-        </>
-        <button type="submit" className={styles.submitButton}>
+        </Form.Group>
+        <Button type="submit" className={styles.submitButton}>
           Guardar cambios
-        </button>
-      </form>
-    </div>
+        </Button>
+      </Form>
+    </Container>
   );
 };
 
