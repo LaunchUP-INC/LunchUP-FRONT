@@ -31,7 +31,7 @@ import {
   UPDATE_RATING,
   PUT_CHILD,
   DELETE_CHILD,
-
+  GET_RATING,
 
 } from "./actions";
 
@@ -48,6 +48,7 @@ const initialState = {
   newreviews: [],
   orders: [],
   rating: [],
+  ratingView: null,
   token: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   userId: null,
@@ -264,6 +265,11 @@ const rootReducer = (state = initialState, action) => {
             }
             : order
         ),
+      };
+      case GET_RATING:
+      return {
+        ...state,
+        ratingView: action.payload,
       };
 
     default:

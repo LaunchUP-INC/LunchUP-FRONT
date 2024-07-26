@@ -50,7 +50,7 @@ const Card = (props) => {
       onClick={handleOnClick}
     >
       <img src={images[0]} alt={name} className={styles.cardImage} />
-      <Rating />
+      <Rating dish={id} />
       <div className={styles.cardContent}>
         <p className={styles.cardTitle}>{name}</p>
         <p className={styles.cardDescription}>$ {price}</p>
