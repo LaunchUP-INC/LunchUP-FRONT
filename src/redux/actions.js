@@ -87,6 +87,8 @@ export const fetchProducts = () => {
           `${URLD}/dishes/${allDishes[i].id}/stock`
         );
         allDishes[i].stock = data.stock;
+        const response = await axios.get(`${URLD}/rating/${allDishes[i].id}`);
+        allDishes[i].rating = response.data.rating;
       }
 
       // const products = await axios.get(`${URLD}/dishes`);
@@ -538,7 +540,7 @@ export const fetchrating = (dish) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/rating/${dish}`);
-      console.log(response.data);
+      // console.log(response.data);
       dispatch({
         type: GET_RATING,
         payload: response.data,

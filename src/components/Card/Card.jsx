@@ -10,7 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
 
 const Card = (props) => {
-  const { id, name, images, price, stock } = props;
+  const { id, name, images, price, stock, rating } = props;
   const { isAuthenticated } = useAuth0();
   let isAuth = isAuthenticated;
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const Card = (props) => {
       onClick={handleOnClick}
     >
       <img src={images[0]} alt={name} className={styles.cardImage} />
-      <Rating dish={id} />
+      <Rating rating={rating} />
       <div className={styles.cardContent}>
         <p className={styles.cardTitle}>{name}</p>
         <p className={styles.cardDescription}>$ {price}</p>
