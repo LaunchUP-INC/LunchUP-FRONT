@@ -121,7 +121,7 @@ export const fetchUsers = () => {
         payload: users,
       });
     } catch (error) {
-      console.error("Error fetching data: ", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -137,7 +137,6 @@ export const fetchUserData = (userData) => {
       const cartrsponse = await axios.get(
         `${URLD}/cart/${response.data.users.id}`
       );
-      console.log(cartrsponse.data.cart.items);
       localStorage.setItem(
         "shoppingCart",
         JSON.stringify(cartrsponse.data.cart.items)
@@ -151,7 +150,7 @@ export const fetchUserData = (userData) => {
         payload: cartrsponse.data.cart.items,
       });
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -215,7 +214,6 @@ export const setUserAdminBan = (id, user) => {
 
       return "success";
     } catch (error) {
-      console.error(error);
       return "error";
     }
   };
@@ -231,7 +229,7 @@ export const getMealType = () => {
         payload: response.data.mealTypes,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -269,7 +267,6 @@ export const filterProducts = (name, type, order) => {
         payload: response.data.allDishes,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
       dispatch(handleError(error));
     }
   };
@@ -329,7 +326,6 @@ export const updateDish = (id, dish) => {
       dish.Meal_Types.forEach((mealType) => {
         formData.append("Meal_Types", mealType);
       });
-      // console.log("llega");
       const response = await axios.put(`${URLD}/dishes/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -359,7 +355,7 @@ export const updateStock = (id, quantity) => {
       dispatch(fetchProducts());
       return data.stock;
     } catch (error) {
-      console.error(error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -418,7 +414,6 @@ export const saveShoppingCart = () => {
         userId,
         cartItems: shoppingCart,
       });
-      console.log(response);
       if (response.status === 200) {
         localStorage.removeItem("shoppingCart");
         dispatch({
@@ -427,7 +422,6 @@ export const saveShoppingCart = () => {
         });
       }
     } catch (error) {
-      console.log(error);
       dispatch(handleError(error));
     }
   };
@@ -498,7 +492,7 @@ export const searchProduct = (search) => {
         payload: response.data.allDishes,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -513,7 +507,7 @@ export const fetchReviews = () => {
         payload: response.data.reviews,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -524,7 +518,6 @@ export const postReviews = (review) => {
       const userString = localStorage.getItem("user");
       const user = userString ? JSON.parse(userString) : null;
       const userId = user.id;
-      console.log(userId);
       const response = await axios.post(
         `${URLD}/user/${userId}/reviews/`,
         review
@@ -534,7 +527,7 @@ export const postReviews = (review) => {
         payload: response.data,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -547,7 +540,7 @@ export const fetchOrders = (id) => {
         payload: response.data.orders,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -568,25 +561,22 @@ export const updateRating = (orderId, itemId, score) => {
         },
       });
 
-      console.log("Rating actualizado exitosamente:", response.data);
     } catch (error) {
-      console.error("Error al actualizar el rating:", error);
+      dispatch(handleError(error));
     }
   };
 };
 export const fetchrating = (dish) => {
-  console.log(dish);
 
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/rating/${dish}`);
-      // console.log(response.data);
       dispatch({
         type: GET_RATING,
         payload: response.data,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -599,7 +589,6 @@ export const getSchools = () => {
         payload: response.data.schools,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
       dispatch(handleError(error));
     }
   };
@@ -634,7 +623,6 @@ export const postChild = (child) => {
         payload: response.data.child,
       });
     } catch (error) {
-      console.log(error);
       dispatch(handleError(error));
     }
   };
@@ -650,14 +638,13 @@ export const putChild = (child) => {
         SchoolId: child.schoolId, // Verifica que esto coincida con el backend
       });
 
-      console.log(response.data);
 
       return dispatch({
         type: PUT_CHILD,
         payload: response.data.child,
       });
     } catch (error) {
-      console.log(error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -666,13 +653,12 @@ export const deleteChild = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.delete(`${URLD}/user/child/${id}`);
-      console.log(response.data);
       return dispatch({
         type: DELETE_CHILD,
         payload: id,
       });
     } catch (error) {
-      console.log(error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -681,10 +667,9 @@ export const selectChild = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/user/child/${id}`);
-      console.log(response.data);
       dispatch({ type: SELECT_CHILD, payload: response.data });
     } catch (error) {
-      console.log(error);
+      dispatch(handleError(error));
     }
   };
 };
