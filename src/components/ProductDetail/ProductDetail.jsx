@@ -17,14 +17,32 @@ import { addToShoppingCart } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 const ProductDetail = (props) => {
   const dispatch = useDispatch();
+  const shoppingCart = useSelector((state) => state.shoppingCart);
 
-  const { name, images, description, price, Meal_Types } = props.productDetail;
+  const { id, name, images, description, price, Meal_Types, stock } = props.productDetail;
 
-  const handleAddToCart = () => {
-    dispatch(addToShoppingCart(props.productDetail));
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    const productToAdd = shoppingCart.find((prod) => prod.id === id);
+    
+    if (stock) {
+      if (productToAdd) {
+        if (productToAdd.quantity < stock) {
+          dispatch(addToShoppingCart(props.productDetail));
+        } else {
+          toast.error("Máximo de stock alcanzado.");
+        }
+      } else {
+        dispatch(addToShoppingCart(props.productDetail)); // Si el producto no está en el carrito, lo agrega
+      }
+    } else {
+      toast.error("No hay stock disponible de momento");
+    }
+
   };
 
   const handleMealType = (type) => {

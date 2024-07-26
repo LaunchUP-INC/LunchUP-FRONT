@@ -28,14 +28,21 @@ const Card = (props) => {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     const productToAdd = shoppingCart.find((prod) => prod.id === id);
-    if ((isAuthenticated || user) && stock) {
-      if(productToAdd.quantity < stock){
-        dispatch(addToShoppingCart(props));
-      }else{
-        toast.error("Máximo de stock alcanzado.");
+  
+    if (isAuthenticated || user) {
+      if (stock) {
+        if (productToAdd) {
+          if (productToAdd.quantity < stock) {
+            dispatch(addToShoppingCart(props));
+          } else {
+            toast.error("Máximo de stock alcanzado.");
+          }
+        } else {
+          dispatch(addToShoppingCart(props)); // Si el producto no está en el carrito, lo agrega
+        }
+      } else {
+        toast.error("No hay stock disponible de momento");
       }
-    } else if (!stock) {
-      toast.error("No hay stock disponible de momento");
     } else {
       toast.error("Por favor, inicia sesión para comprar.");
     }
