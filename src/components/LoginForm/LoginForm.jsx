@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
 import { checkUser, fetchUserData, loginUser } from "../../redux/actions";
 
 const LoginForm = ({ errorValidation }) => {
