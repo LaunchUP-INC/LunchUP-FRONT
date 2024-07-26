@@ -31,7 +31,7 @@ export const POST_CHILD = "POST_CHILD";
 export const UPDATE_RATING = "UPDATE_RATING";
 export const GET_ORDERS = "GET_ORDERS";
 export const GET_RATING = "GET_RATING";
-
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const PUT_CHILD = "PUT_CHILD";
 export const DELETE_CHILD = "DELETE_CHILD";
 
@@ -76,6 +76,17 @@ export const registerUser = (userData) => {
   };
 };
 
+export const updateProfile = (updatedProfile, id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`${URLD}/user/${id}`, updatedProfile);
+      dispatch({ type: 'UPDATE_PROFILE', 
+        payload: response.data });
+    } catch (error) {
+      dispatch(handleError(error));
+    }
+  };
+}
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
