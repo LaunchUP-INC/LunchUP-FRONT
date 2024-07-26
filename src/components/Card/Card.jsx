@@ -28,9 +28,9 @@ const Card = (props) => {
     e.stopPropagation();
     if ((isAuthenticated || user) && stock) {
       dispatch(addToShoppingCart(props));
-    } else if(!stock){
-      toast.error("No hay stock disponible de momento")
-    }else{
+    } else if (!stock) {
+      toast.error("No hay stock disponible de momento");
+    } else {
       toast.error("Por favor, inicia sesión para comprar.");
     }
   };
@@ -39,9 +39,9 @@ const Card = (props) => {
     setIsActive(!isActive);
   };
 
-  useEffect(()=>{
-    setDisabled(!isAuth && !user || !stock);
-  },[])
+  useEffect(() => {
+    setDisabled((!isAuth && !user) || !stock);
+  }, []);
 
   return (
     <div
@@ -54,17 +54,29 @@ const Card = (props) => {
       <div className={styles.cardContent}>
         <p className={styles.cardTitle}>{name}</p>
         <p className={styles.cardDescription}>$ {price}</p>
-        <button
-          className={styles.cardButton}
-          onClick={handleAddToCart}
-          // disabled={disabled}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "start",
+            gap: "5px",
+            alignItems: "end",
+          }}
         >
-          <FontAwesomeIcon icon={faCartPlus} />
-        </button>
-        {!isAuthenticated && !user ? 
-          <p className={styles.loginPrompt}>Inicie sesion para poder comprar</p> :
-          <p>Disponibles: {stock ? stock : "Sin stock"}</p>
-        }
+          <button
+            className={styles.cardButton}
+            onClick={handleAddToCart}
+            // disabled={disabled}
+          >
+            <FontAwesomeIcon icon={faCartPlus} />
+          </button>
+          {!isAuthenticated && !user ? (
+            <p className={styles.loginPrompt}>
+              Inicie sesion para poder comprar
+            </p>
+          ) : (
+            <p>Disponibles: {stock ? stock : "Sin stock"}</p>
+          )}
+        </div>
       </div>
     </div>
   );
