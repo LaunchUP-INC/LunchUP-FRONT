@@ -15,9 +15,7 @@
   font-weight: bold;
   color: var(--color-font);
 }
-.navbar-toggler {
-  background-color: #198754;
-}
+
 
 .navbar-light .navbar-nav .nav-link {
   color: var(--color-font) !important;
@@ -45,6 +43,9 @@
 
 .nav-link {
   margin-right: 30px;
+  background-color: var(--color-input);
+  padding: 5px;
+  font-size: 18px;
 }
 .nav-link:hover {
   background-color: rgb(189, 189, 189) !important;
