@@ -1,109 +1,110 @@
 :root {
-  --color-Body: #add8e6;          
-  --color-font: #333333;          
-  --color-border: #ffb6c1;        
-  --color-input: #90ee90;        
-  --color-secundary: #000080;     
-  --color-white: #ffffff;         
-  --border-color: rgb(0, 107, 57); 
-  --shadow-color: rgb(9, 98, 70); 
+  --color-Body: #add8e6;
+  --color-font: #333333;
+  --color-border: #ffb6c1;
+  --color-input: #90ee90;
+  --color-secundary: #000080;
+  --color-white: #ffffff;
+  --border-color: rgb(0, 107, 57);
+  --shadow-color: rgb(9, 98, 70);
 }
 
 .mainContainer {
-display: flex;
-flex-direction: column;
-align-items: center;
-max-width: 800px;
-margin: 25px auto;
-background-color: var(--color-Body);
-border: 1px solid var(--border-color);
-border-radius: 25px;
-box-shadow: 7px 7px 1px var(--shadow-color);
-padding: 25px;
-transition: all 0.3s ease-in-out;
-cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  margin: 25px auto;
+  background-color: var(--color-Body);
+  border: 1px solid var(--border-color);
+  border-radius: 25px;
+  box-shadow: 7px 7px 1px var(--shadow-color);
+  padding: 25px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
 }
 
 .mainContainer:hover {
-transform: scale(1.05);
-box-shadow: 0px 0px 15px var(--shadow-color);
+  transform: scale(1.05);
+  box-shadow: 0px 0px 15px var(--shadow-color);
 }
 
 .mealName {
-font-size: 2em;
-color: var(--color-font);
-font-weight: bold;
-margin-bottom: 10px;
+  font-size: 2em;
+  color: var(--color-font);
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .imageContainer {
-width: 100%;
-display: flex;
-justify-content: center;
-margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
 .dishImage {
-width: 90%;
-height: auto;
-border-radius: 20px;
-border: 3px solid var(--border-color);
+  width: 90%;
+  height: 400px;
+  border-radius: 20px;
+  border: 2px solid rgb(61, 61, 61);
 }
 
 .dishInfo {
-display: flex;
-flex-direction: column;
-width: 100%;
-justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .iconsContainer {
-display: flex;
-justify-content: space-evenly;
-gap: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
 }
 
 .mealTypeContainer {
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 100px;
-font-size: 0.8em;
-text-align: center;
-color: var(--color-font);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  font-size: 0.8em;
+  text-align: center;
+  color: var(--color-font);
 }
 
 .foodTypeIcon {
-width: 40px;
-height: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .separator {
-width: 95%;
-border-top: 1px solid var(--color-border);
-margin: 20px 0;
+  width: 95%;
+  border-top: 1px solid var(--color-border);
+  margin: 20px 0;
 }
 
 h3 {
-color: var(--color-font);
-font-weight: bold;
+  color: var(--color-font);
+  font-weight: bold;
 }
 
 p {
-color: var(--color-font);
-font-size: 1rem;
+  color: var(--color-font);
+  font-size: 1rem;
 }
 
-
-button, a {
-background-color: var(--color-input);
-color: var(--color-white);
-padding: 10px;
-border-radius: 10px;
-text-decoration: none;
-transition: background-color 0.2s;
+button,
+a {
+  background-color: var(--color-input);
+  color: var(--color-white);
+  padding: 10px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: background-color 0.2s;
 }
 
-button:hover, a:hover {
-background-color: var(--color-secundary);
+button:hover,
+a:hover {
+  background-color: var(--color-secundary);
 }
