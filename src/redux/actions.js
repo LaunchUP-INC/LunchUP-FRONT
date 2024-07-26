@@ -28,9 +28,9 @@ export const CLEAR_ERROR = "CLEAR_ERROR";
 export const FETCH_USER_DATA = "FETCH_USER_DATA";
 export const GET_CHILD = "GET_CHILD";
 export const POST_CHILD = "POST_CHILD";
-
-export const GET_ORDERS = "GET_ORDERS";
 export const UPDATE_RATING = "UPDATE_RATING";
+export const GET_ORDERS = "GET_ORDERS";
+export const GET_RATING = "GET_RATING";
 
 export const PUT_CHILD = "PUT_CHILD";
 export const DELETE_CHILD = "DELETE_CHILD";
@@ -520,7 +520,7 @@ export const updateRating = (orderId, itemId, score) => {
 
       // Si la solicitud es exitosa, despacha la acción para actualizar el estado en Redux
       dispatch({
-        type: "UPDATE_RATING",
+        type: UPDATE_RATING,
         payload: {
           orderId,
           itemId,
@@ -534,6 +534,22 @@ export const updateRating = (orderId, itemId, score) => {
     }
   };
 };
+export const fetchrating = (dish) => {
+  console.log(dish);
+  
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/rating/${dish}`);
+      console.log(response.data);
+      dispatch({
+        type: GET_RATING,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+}
 export const getSchools = () => {
   return async (dispatch) => {
     try {

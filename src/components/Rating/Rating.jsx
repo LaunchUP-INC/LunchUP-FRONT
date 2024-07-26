@@ -1,70 +1,52 @@
 import styles from "./Rating.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchrating } from "../../redux/actions";
 
-const Rating = () => {
+const Rating = ({ dish }) => {
+    console.log(dish);
     const [stars, setStars] = useState(0);
+    const dispatch = useDispatch();
+
+    const rating = useSelector((state) => state.ratingView);
+    console.log(rating);
+    useEffect(() => {
+        if (dish !== undefined) {
+            dispatch(fetchrating(dish));
+        }
+    }, [dish, dispatch]);
+
+    useEffect(() => {
+        if (dish !== undefined && rating) {
+            setStars(rating.rating !== null && rating.rating !== undefined ? rating.rating : 0);
+        }
+    }, [rating, dish]);
 
     const handleClick = (e) => {
-        setStars(e.target.value);
+        setStars(Number(e.target.value));
+        // Aquí puedes despachar una acción para actualizar el rating en el servidor si es necesario
     };
 
     return (
         <div className={styles.rating}>
-            <label className={styles.label} htmlFor="star5">
-                <input
-                    className={styles.input}
-                    value={5}
-                    name="rating"
-                    id="star5"
-                    type="radio"
-                    onClick={handleClick}
-                />
-                
-            </label>
-            <label className={styles.label} htmlFor="star4">
-                <input
-                    className={styles.input}
-                    value={4}
-                    name="rating"
-                    id="star4"
-                    type="radio"
-                    onClick={handleClick}
-                />
-                
-            </label>
-            <label className={styles.label} htmlFor="star3">
-                <input
-                    className={styles.input}
-                    value={3}
-                    name="rating"
-                    id="star3"
-                    type="radio"
-                    onClick={handleClick}
-                />
-                
-            </label>
-            <label className={styles.label} htmlFor="star2">
-                <input
-                    className={styles.input}
-                    value={2}
-                    name="rating"
-                    id="star2"
-                    type="radio"
-                    onClick={handleClick}
-                />
-                
-            </label>
-            <label className={styles.label} htmlFor="star1">
-                <input
-                    className={styles.input}
-                    value={1}
-                    name="rating"
-                    id="star1"
-                    type="radio"
-                    onClick={handleClick}
-                />
-                
-            </label>
+            {[5, 4, 3, 2, 1].map((value) => (
+                <label
+                    key={value}
+                    className={`${styles.label} ${value <= stars ? styles.filledStar : styles.emptyStar}`}
+                    htmlFor={`star${value}`}
+                >
+                    <input
+                        className={styles.input}
+                        value={value}
+                        name="rating"
+                        id={`star${value}`}
+                        type="radio"
+                        checked={stars === value}
+                        onChange={handleClick}
+                    />
+                    <span>&#9733;</span>
+                </label>
+            ))}
         </div>
     );
 };
