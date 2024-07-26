@@ -22,10 +22,11 @@ const AddComensalModal = ({
   const [newChild, setNewChild] = useState({
     firstname: "",
     lastname: "",
-    schoolId: "",
+    SchoolId: "",
     gradeLevel: "",
   });
 
+  console.log(newChild);
   useEffect(() => {
     dispatch(getSchools());
   }, [dispatch]);
@@ -50,14 +51,14 @@ const AddComensalModal = ({
     if (
       newChild.firstname.trim() !== "" &&
       newChild.lastname.trim() !== "" &&
-      newChild.schoolId.trim() !== "" &&
+      newChild.SchoolId.trim() !== "" &&
       newChild.gradeLevel.trim() !== ""
     ) {
       handleAddChild(newChild);
       setNewChild({
         firstname: "",
         lastname: "",
-        schoolId: "",
+        SchoolId: "",
         gradeLevel: "",
       });
 
@@ -110,8 +111,8 @@ const AddComensalModal = ({
             <Form.Label>Escuela</Form.Label>
             <Form.Control
               as="select"
-              name="schoolId"
-              value={newChild.schoolId}
+              name="SchoolId"
+              value={newChild.SchoolId}
               onChange={handleNewChildChange}
               isInvalid={!!errors.childSchool}
             >
