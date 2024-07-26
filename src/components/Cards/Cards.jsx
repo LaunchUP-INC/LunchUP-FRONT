@@ -41,6 +41,7 @@ const Cards = (props) => {
           description={dish.description}
           price={dish.price}
           stock={dish.stock}
+          rating={dish.rating}
         />
       ))}
     </div>

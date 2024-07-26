@@ -3,24 +3,13 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchrating } from "../../redux/actions";
 
-const Rating = ({ dish }) => {
-    console.log(dish);
+const Rating = ({ rating }) => {
     const [stars, setStars] = useState(0);
     const dispatch = useDispatch();
 
-    const rating = useSelector((state) => state.ratingView);
-    console.log(rating);
     useEffect(() => {
-        if (dish !== undefined) {
-            dispatch(fetchrating(dish));
-        }
-    }, [dish, dispatch]);
-
-    useEffect(() => {
-        if (dish !== undefined && rating) {
-            setStars(rating.rating !== null && rating.rating !== undefined ? rating.rating : 0);
-        }
-    }, [rating, dish]);
+        setStars(rating)
+    }, [rating]);
 
     const handleClick = (e) => {
         setStars(Number(e.target.value));
