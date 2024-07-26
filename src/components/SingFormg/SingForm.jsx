@@ -204,7 +204,11 @@ const SingForm = () => {
           </Button>
         </div>
 
-        <Button className="btn-success w-100" type="submit">
+        <Button
+          disabled={savedComensalsCount === 0 && true}
+          className="btn-success w-100"
+          type="submit"
+        >
           Registrarse
         </Button>
       </Form>
