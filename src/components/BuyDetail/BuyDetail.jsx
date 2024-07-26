@@ -31,8 +31,6 @@ const BuyDetail = () => {
 
   const handleId = (id) => {
     const child = JSON.parse(localStorage.getItem("selectedChild"));
-    console.log(child);
-    console.log(id);
     if (child.id === id) {
       return `${child.firstname} ${child.lastname}`;
     }
