@@ -10,7 +10,7 @@ export const ProtectedRoute = ({ children }) => {
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
 
-    // console.log(isAuthenticated);
+
     useEffect(() => {
         if (!authLoading) {
             setIsLoading(false);

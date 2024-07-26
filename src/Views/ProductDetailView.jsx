@@ -25,7 +25,7 @@ const ProductDetailView = () => {
       }, [dispatch, id]);
 
       const error = useSelector((state) => state.error);
-        console.log(error)
+        
         useEffect(() => {
             if (error) {
             toast.error(error);

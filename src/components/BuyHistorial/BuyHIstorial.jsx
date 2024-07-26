@@ -15,7 +15,6 @@ const BuyHistorial = () => {
     dispatch(fetchOrders(user.id));
   }, [dispatch]);
 
-  console.log(orders);
 
   return (
     <div className={styles.container}>

@@ -32,9 +32,9 @@ const Products = (props) => {
   };
 
   const handleActiveProduct = async (item) => {
-    console.log(item);
+    
     const response = await dispatch(deleteDish(item.id));
-    console.log(response);
+    
 
     if (response === "success") {
       Swal.fire({

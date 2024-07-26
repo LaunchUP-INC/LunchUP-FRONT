@@ -17,7 +17,7 @@ const EditProfile = () => {
   const [lastname, setLastname] = useState(profile?.lastName || "");
   const userID = localStorage.getItem('user'); // Asegúrate de que 'userId' es la clave correcta en localStorage
  
- console.log(userID)
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
