@@ -34,11 +34,11 @@ export const GET_RATING = "GET_RATING";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const PUT_CHILD = "PUT_CHILD";
 export const DELETE_CHILD = "DELETE_CHILD";
-
+export const SELECT_CHILD = "SELECT_CHILD";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 export const URLD = "https://lunchup-back.onrender.com";
-// export const URLD = "http://localhost:3001"; 
+// export const URLD = "http://localhost:3001";
 
 export const handleError = (error) => {
   const errorMessage = error.response?.data?.message;
@@ -79,13 +79,12 @@ export const updateProfile = (updatedProfile, id) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(`${URLD}/user/${id}`, updatedProfile);
-      dispatch({ type: 'UPDATE_PROFILE', 
-        payload: response.data });
+      dispatch({ type: "UPDATE_PROFILE", payload: response.data });
     } catch (error) {
       dispatch(handleError(error));
     }
   };
-}
+};
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
@@ -106,7 +105,6 @@ export const fetchProducts = () => {
         payload: allDishes,
       });
     } catch (error) {
-      
       dispatch(handleError(error));
     }
   };
@@ -136,9 +134,14 @@ export const fetchUserData = (userData) => {
         headers: { Authorization: `Bearer ${token.token}` },
       });
       localStorage.setItem("user", JSON.stringify(response.data.users));
-      const cartrsponse = await axios.get(`${URLD}/cart/${response.data.users.id}`);
+      const cartrsponse = await axios.get(
+        `${URLD}/cart/${response.data.users.id}`
+      );
       console.log(cartrsponse.data.cart.items);
-      localStorage.setItem("shoppingCart", JSON.stringify(cartrsponse.data.cart.items)) || [];
+      localStorage.setItem(
+        "shoppingCart",
+        JSON.stringify(cartrsponse.data.cart.items)
+      ) || [];
       dispatch({
         type: FETCH_USER_DATA,
         payload: response.data.users,
@@ -166,14 +169,14 @@ export const loginUser = (loginData) => {
             token: response.data.token,
           },
         });
-        return response.data; 
+        return response.data;
       } else {
         alert("Contraseña o email incorrectos");
-        return false; 
+        return false;
       }
     } catch (error) {
       dispatch(handleError(error));
-      return false; 
+      return false;
     }
   };
 };
@@ -181,10 +184,9 @@ export const loginUser = (loginData) => {
 export const checkUser = (checkUser) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        `${URLD}/register/check`,
-        { email: checkUser.email }
-      );
+      const response = await axios.post(`${URLD}/register/check`, {
+        email: checkUser.email,
+      });
       if (response.data.isRegistered.access) {
         localStorage.setItem("token", response.data.isRegistered.token);
         dispatch({
@@ -195,7 +197,7 @@ export const checkUser = (checkUser) => {
           },
         });
         return response.data.isRegistered; // Retorna true si el inicio de sesión es exitoso
-      }else{
+      } else {
         return response.data.isRegistered;
       }
     } catch (error) {
@@ -385,34 +387,39 @@ export const resetDeleteDishStatus = () => ({
   type: "RESET_DELETE_DISH_STATUS",
 });
 
-export const setShoppingCart = (cart = []) => async (dispatch, getState) => {
-  let shoppingCart = getState().shoppingCart;
+export const setShoppingCart =
+  (cart = []) =>
+  async (dispatch, getState) => {
+    let shoppingCart = getState().shoppingCart;
 
-  if (!Array.isArray(shoppingCart)) {
-    try {
-      shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
-    } catch (error) {
-      shoppingCart = [];
+    if (!Array.isArray(shoppingCart)) {
+      try {
+        shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
+      } catch (error) {
+        shoppingCart = [];
+      }
     }
-  }
 
-  localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+    localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
-  dispatch({
-    type: SET_SHOPPINGCART,
-    payload: shoppingCart,
-  });
-};
+    dispatch({
+      type: SET_SHOPPINGCART,
+      payload: shoppingCart,
+    });
+  };
 
-export const saveShoppingCart = () =>{
-  return async (dispatch, getState) =>{
+export const saveShoppingCart = () => {
+  return async (dispatch, getState) => {
     let userId = getState().user.id;
     let shoppingCart = getState().shoppingCart;
 
     try {
-      const response = await axios.put(`${URLD}/cart`, {userId, cartItems: shoppingCart })
+      const response = await axios.put(`${URLD}/cart`, {
+        userId,
+        cartItems: shoppingCart,
+      });
       console.log(response);
-      if(response.status === 200){
+      if (response.status === 200) {
         localStorage.removeItem("shoppingCart");
         dispatch({
           type: SET_SHOPPINGCART,
@@ -423,10 +430,8 @@ export const saveShoppingCart = () =>{
       console.log(error);
       dispatch(handleError(error));
     }
-
-  }
-
-}
+  };
+};
 
 export const addToShoppingCart = (productAdd) => async (dispatch, getState) => {
   let shoppingCart = [...getState().shoppingCart];
@@ -502,7 +507,7 @@ export const fetchReviews = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/reviews`);
-     
+
       dispatch({
         type: FETCH_REVIEWS,
         payload: response.data.reviews,
@@ -534,7 +539,6 @@ export const postReviews = (review) => {
   };
 };
 export const fetchOrders = (id) => {
-  
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/user/${id}/orders`);
@@ -546,11 +550,11 @@ export const fetchOrders = (id) => {
       console.error("Error fetching data:", error);
     }
   };
-}
+};
 export const updateRating = (orderId, itemId, score) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URLD}/dishes/${ itemId }`, {
+      const response = await axios.post(`${URLD}/dishes/${itemId}`, {
         score,
       });
 
@@ -572,7 +576,7 @@ export const updateRating = (orderId, itemId, score) => {
 };
 export const fetchrating = (dish) => {
   console.log(dish);
-  
+
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/rating/${dish}`);
@@ -585,7 +589,7 @@ export const fetchrating = (dish) => {
       console.error("Error fetching data:", error);
     }
   };
-}
+};
 export const getSchools = () => {
   return async (dispatch) => {
     try {
@@ -667,6 +671,18 @@ export const deleteChild = (id) => {
         type: DELETE_CHILD,
         payload: id,
       });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const selectChild = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/user/child/${id}`);
+      console.log(response.data);
+      dispatch({ type: SELECT_CHILD, payload: response.data });
     } catch (error) {
       console.log(error);
     }

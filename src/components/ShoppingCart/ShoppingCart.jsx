@@ -13,6 +13,7 @@ import axios from "axios";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { Container, Col, Row, Card, Button, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
+import WhichChild from "../WhichChild/WichChild";
 
 const ShoppingCart = () => {
   const shoppingCart = useSelector((state) => state.shoppingCart);
@@ -22,6 +23,8 @@ const ShoppingCart = () => {
   const [preferenceId, setPrefereceId] = useState(null);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  const childSelected = useSelector((state) => state.isSelected);
 
   useEffect(() => {
     initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6", {
@@ -34,6 +37,11 @@ const ShoppingCart = () => {
     calculateTotalPrice(shoppingCart);
     calculateTotalProducts(shoppingCart);
   }, [dispatch, shoppingCart]);
+
+  useEffect(() => {
+    // Mostrar el modal cuando el componente se monte
+    setShowModal(true);
+  }, []);
 
   const calculateTotalPrice = (items) => {
     const total = items.reduce(
@@ -66,6 +74,9 @@ const ShoppingCart = () => {
     dispatch(removeFromShoppingCart(productToRemove));
   };
 
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
+
   const handleCheckout = async () => {
     const items = shoppingCart.map((item) => ({
       id: item.id,
@@ -79,6 +90,7 @@ const ShoppingCart = () => {
       const response = await axios.post(`${URLD}/user/${userId}/payment`, {
         items,
         totalAmount: totalPrice,
+        childId: childSelected.id,
       });
       const { id } = response.data;
       return id;
@@ -88,10 +100,12 @@ const ShoppingCart = () => {
   };
 
   const handleBuy = async () => {
-    setLoading(true);
-    const id = await handleCheckout();
-    if (id) setPrefereceId(id);
-    setLoading(false);
+    if (!preferenceId) {
+      setLoading(true);
+      const id = await handleCheckout();
+      if (id) setPrefereceId(id);
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,6 +120,7 @@ const ShoppingCart = () => {
         width: "100%",
       }}
     >
+      <WhichChild show={showModal} handleClose={handleCloseModal} />
       <Row
         style={{
           padding: "20px",
