@@ -98,7 +98,7 @@ export const fetchProducts = () => {
         );
         allDishes[i].stock = data.stock;
         const response = await axios.get(`${URLD}/rating/${allDishes[i].id}`);
-        allDishes[i].rating = response.data.rating;
+        allDishes[i].rating = response.data.rating || 0;
       }
 
       dispatch({
@@ -136,9 +136,16 @@ export const fetchUserData = (userData) => {
         headers: { Authorization: `Bearer ${token.token}` },
       });
       localStorage.setItem("user", JSON.stringify(response.data.users));
+      const cartrsponse = await axios.get(`${URLD}/cart/${response.data.users.id}`);
+      console.log(cartrsponse.data.cart.items);
+      localStorage.setItem("shoppingCart", JSON.stringify(cartrsponse.data.cart.items)) || [];
       dispatch({
         type: FETCH_USER_DATA,
         payload: response.data.users,
+      });
+      dispatch({
+        type: SET_SHOPPINGCART,
+        payload: cartrsponse.data.cart.items,
       });
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -378,7 +385,7 @@ export const resetDeleteDishStatus = () => ({
   type: "RESET_DELETE_DISH_STATUS",
 });
 
-export const setShoppingCart = () => async (dispatch, getState) => {
+export const setShoppingCart = (cart = []) => async (dispatch, getState) => {
   let shoppingCart = getState().shoppingCart;
 
   if (!Array.isArray(shoppingCart)) {
@@ -396,6 +403,30 @@ export const setShoppingCart = () => async (dispatch, getState) => {
     payload: shoppingCart,
   });
 };
+
+export const saveShoppingCart = () =>{
+  return async (dispatch, getState) =>{
+    let userId = getState().user.id;
+    let shoppingCart = getState().shoppingCart;
+
+    try {
+      const response = await axios.put(`${URLD}/cart`, {userId, cartItems: shoppingCart })
+      console.log(response);
+      if(response.status === 200){
+        localStorage.removeItem("shoppingCart");
+        dispatch({
+          type: SET_SHOPPINGCART,
+          payload: [],
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(handleError(error));
+    }
+
+  }
+
+}
 
 export const addToShoppingCart = (productAdd) => async (dispatch, getState) => {
   let shoppingCart = [...getState().shoppingCart];
