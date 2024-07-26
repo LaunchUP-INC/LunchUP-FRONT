@@ -61,7 +61,7 @@ const initialState = {
   succesDishDelete: null,
   errorDishDelete: null,
   error: null,
-  shoppingCart: JSON.parse(localStorage.getItem("shoppingCart")) || [],
+  shoppingCart: localStorage.getItem("shoppingCart") !== 'undefined' ? JSON.parse(localStorage.getItem("shoppingCart")) : []
 };
 
 const rootReducer = (state = initialState, action) => {
