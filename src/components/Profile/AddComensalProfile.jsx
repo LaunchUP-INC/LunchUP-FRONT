@@ -2,9 +2,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getSchools } from "../../redux/actions";
+import { clearError } from "../../redux/actions";
 
 const AddComensal = ({
   modalIsOpen,
@@ -22,8 +24,10 @@ const AddComensal = ({
   }, [dispatch]);
 
 
+
+
   const handleSave = () => {
-    const newChild = children; // Obtener el último hijo añadido
+    const newChild = children; 
 
     if (
       errors.childName ||
@@ -31,7 +35,8 @@ const AddComensal = ({
       errors.childSchool ||
       errors.childGrade
     ) {
-      alert("Por favor, corrija los errores antes de guardar.");
+      
+      toast.error('Debe rellenar todos los campos')
       return;
     }
 

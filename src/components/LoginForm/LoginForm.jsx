@@ -20,9 +20,8 @@ const LoginForm = ({ errorValidation }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(loginData); // Agrega esto para verificar los datos
     const access = await dispatch(loginUser(loginData));
-    // console.log(access);
+    
 
     if (access.access) {
       await dispatch(fetchUserData(loginData));

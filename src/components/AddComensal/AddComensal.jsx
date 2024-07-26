@@ -37,7 +37,6 @@ const AddComensalModal = ({
   };
 
   const handleSave = () => {
-    // Validar cada hijo antes de guardar
     if (
       errors.childName ||
       errors.childLastName ||
