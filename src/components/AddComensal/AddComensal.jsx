@@ -26,7 +26,7 @@ const AddComensalModal = ({
     gradeLevel: "",
   });
 
-  console.log(newChild);
+ 
   useEffect(() => {
     dispatch(getSchools());
   }, [dispatch]);

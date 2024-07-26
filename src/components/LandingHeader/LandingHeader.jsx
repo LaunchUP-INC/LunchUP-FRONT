@@ -18,8 +18,6 @@ const LandingHeader = () => {
   const { isAuthenticated } = useAuth0();
   const [isLoged, setIsLoged] = useState(false);
 
-  console.log(isLoged);
-
   useEffect(() => {
     if (!isAuthenticated) {
       if (user) {

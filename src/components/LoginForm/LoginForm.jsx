@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import axios from "axios";
 import { checkUser, fetchUserData, loginUser } from "../../redux/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const LoginForm = ({ errorValidation }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
   const { loginWithRedirect, isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -69,15 +71,20 @@ const LoginForm = ({ errorValidation }) => {
           className="form-control mb-3"
           style={{ backgroundColor: "#E5D4FF" }}
         />
-        <Form.Control
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-          value={loginData.password}
-          onChange={handleChange}
-          className="form-control mb-3"
-          style={{ backgroundColor: "#E5D4FF" }}
-        />
+        <InputGroup className="mb-3">
+          <Form.Control
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Contraseña"
+            value={loginData.password}
+            onChange={handleChange}
+            className="form-control"
+            style={{ backgroundColor: "#E5D4FF" }}
+          />
+          <InputGroup.Text onClick={() => setShowPassword(!showPassword)}>
+            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+          </InputGroup.Text>
+        </InputGroup>
         <Button
           type="submit"
           variant="primary"

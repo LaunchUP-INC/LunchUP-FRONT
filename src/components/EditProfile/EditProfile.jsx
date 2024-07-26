@@ -20,9 +20,7 @@ const EditProfile = () => {
   const [lastname, setLastname] = useState(profile?.lastName || "");
   const userID = localStorage.getItem('user');
   const storeUser =  JSON.parse(userID);
-
-   // Asegúrate de que 'userId' es la clave correcta en localStorage
- console.log(storeUser.id);
+  
  const id = storeUser.id;
  useEffect(() => {
    if(error){

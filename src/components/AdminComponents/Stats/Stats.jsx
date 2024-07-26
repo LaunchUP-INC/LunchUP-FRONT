@@ -1,76 +1,81 @@
 import { useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
-
+import { useSelector } from "react-redux";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const Stats = () => {
+  const allProducts = useSelector((state) => state.allProducts);
+  const ratingProducts = [...allProducts].sort((a, b) => b.rating - a.rating);
+  const [disabledProducts, setDisabledProducts] = useState([]);
 
-    const [disabledProducts, setDisabledProducts] = useState([]);
+  const handleToggleProduct = (productName) => {
+    setDisabledProducts((prev) =>
+      prev.includes(productName)
+        ? prev.filter((name) => name !== productName)
+        : [...prev, productName]
+    );
+  };
 
-    // const salesData = [];
-    //array de ejemplo
-    const salesData = [
-        { month: 'January', productA: 4000, productB: 2400, productC: 2400 },
-        { month: 'February', productA: 3000, productB: 1398, productC: 2210 },
-        { month: 'March', productA: 2000, productB: 9800, productC: 2290 },
-        { month: 'April', productA: 2780, productB: 3908, productC: 2000 },
-        { month: 'May', productA: 1890, productB: 4800, productC: 2181 },
-        { month: 'June', productA: 2390, productB: 3800, productC: 2500 },
-        { month: 'July', productA: 3490, productB: 4300, productC: 2100 },
-      ];
+  // Preparar datos para el gráfico de barras
+  const barChartData = ratingProducts.map((product) => ({
+    name: product.name,
+    rating: product.rating,
+  }));
 
-    const handleToggleProduct = (productName) => {
-        setDisabledProducts((prev) =>
-            prev.includes(productName)
-                ? prev.filter((name) => name !== productName)
-                : [...prev, productName]
-        );
-    };
+  // Filtrar productos deshabilitados
+  const filteredBarChartData = barChartData.filter(
+    (product) => !disabledProducts.includes(product.name)
+  );
 
+  // Formatear etiquetas del eje Y para incluir una estrella
+  const tickFormatter = (value) => `${value} ★`;
 
-    const productKeys = Object.keys(salesData[0]).filter(key => key !== 'month');
-
-    return (
-        <Container>
+  return (
+    <Container>
       <Row>
         <Col md={8}>
-          <h2>Ventas de Productos por Mes</h2>
-          <LineChart
+          <h2>Calificaciones de Productos</h2>
+          <BarChart
             width={700}
-            height={400}
-            data={salesData}
+            height={500}
+            data={filteredBarChartData}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="month" />
-            <YAxis />
+            <XAxis 
+              dataKey="name" 
+              angle={-25} 
+              textAnchor="end" 
+              height={80} // Ajusta la altura para que haya espacio para las etiquetas inclinadas
+              interval={0} // Mostrar todas las etiquetas
+            />
+            <YAxis 
+              domain={[1,2,3,4,5]} // Asegurar que el dominio del eje Y sea de 1 a 5
+              tickFormatter={tickFormatter}
+            />
             <Tooltip />
-            <Legend />
-            {productKeys.map((key) => (
-              !disabledProducts.includes(key) && (
-                <Line key={key} type="monotone" dataKey={key} name={key.replace('product', 'Product ')} stroke="#8884d8" />
-              )
-            ))}
-          </LineChart>
+            <Bar dataKey="rating" fill="#8884d8" />
+          </BarChart>
         </Col>
         <Col md={4}>
           <h2>Habilitar/Deshabilitar Productos</h2>
           <Form>
-            {productKeys.map((key) => (
+            {ratingProducts.map((product) => (
               <Form.Check
-                key={key}
+                key={product.name}
                 type="checkbox"
-                label={key.replace('product', 'Product ')}
-                checked={!disabledProducts.includes(key)}
-                onChange={() => handleToggleProduct(key)}
+                label={product.name}
+                checked={!disabledProducts.includes(product.name)}
+                onChange={() => handleToggleProduct(product.name)}
               />
             ))}
           </Form>
         </Col>
       </Row>
     </Container>
-    )
-
-}
+  );
+};
 
 export default Stats;
