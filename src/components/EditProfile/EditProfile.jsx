@@ -1,13 +1,16 @@
 import styles from "./EditProfile.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../redux/actions";
-
+import { toast } from "react-toastify";
+import { clearError } from "../../redux/actions";
 const EditProfile = () => {
   const { user, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
+  const  error  = useSelector((state) => state.error);
+
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.user);
   const [firstname, setFirstname] = useState(profile?.name || "");
@@ -15,10 +18,19 @@ const EditProfile = () => {
   const [password, setPassword] = useState("");
   const [telephone, setTelephone] = useState(profile?.phone || "");
   const [lastname, setLastname] = useState(profile?.lastName || "");
-  const userID = localStorage.getItem('user'); // Asegúrate de que 'userId' es la clave correcta en localStorage
- 
- console.log(userID)
+  const userID = localStorage.getItem('user');
+  const storeUser =  JSON.parse(userID);
 
+   // Asegúrate de que 'userId' es la clave correcta en localStorage
+ console.log(storeUser.id);
+ const id = storeUser.id;
+ useEffect(() => {
+   if(error){
+     toast.error(error)
+     dispatch(clearError())
+   }
+   
+ },[error])
   const handleSubmit = (e) => {
     e.preventDefault();
     const updatedProfile = {
@@ -29,7 +41,7 @@ const EditProfile = () => {
       password,
     };
     dispatch(updateProfile(updatedProfile, id));
-    navigate("/profile");
+    toast.success("Modificacion exitosa")
   };
 
   return (
