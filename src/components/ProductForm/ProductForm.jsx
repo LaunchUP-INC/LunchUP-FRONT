@@ -127,7 +127,7 @@ const ProductForm = () => {
             images: [],
             Meal_Types: []
           });
-          navigate("/dashboard");
+          navigate("/admin");
         }
       } catch (error) {
         Swal.fire({
