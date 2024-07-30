@@ -136,6 +136,7 @@ const ProductForm = () => {
             Meal_Types: []
           });
           navigate("/admin/products");
+        }
       } catch (error) {
         setLoading(false);
         Swal.fire({
