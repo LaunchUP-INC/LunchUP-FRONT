@@ -44,7 +44,7 @@ const Dashboard = () => {
             <Card>
               <Card.Img variant="top" src={item.images[0]} style= {{width: "100%", height: "250px"}} />
               <CardBody>
-                <Card.Text><h4>{item.name}</h4></Card.Text>
+                <h5>{item.name}</h5>
                 <Rating rating={item.rating}/>
               </CardBody>
             </Card>
