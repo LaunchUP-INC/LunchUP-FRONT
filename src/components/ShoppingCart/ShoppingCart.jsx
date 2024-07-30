@@ -1,203 +1,319 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setShoppingCart, removeFromShoppingCart, clearShoppingCart, addToShoppingCart, URLD } from "../../redux/actions";
-import styles from "./ShoppingCart.module.css";
+import {
+  setShoppingCart,
+  removeFromShoppingCart,
+  clearShoppingCart,
+  addToShoppingCart,
+  URLD,
+} from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
-import {Container, Col, Row, Card, Button, Spinner} from 'react-bootstrap';
-import Swal from "sweetalert2";
-
-
-
+import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
+import { Container, Col, Row, Card, Button, Spinner } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const ShoppingCart = () => {
-    const shoppingCart = useSelector(state => state.shoppingCart);
-    const [totalPrice, setTotalPrice] = useState(0);
-    const [totalProducts, setTotalProducts] = useState(0);
-    const [preferenceId, setPrefereceId] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
-    
+  const shoppingCart = useSelector((state) => state.shoppingCart);
+  const userId = useSelector((state) => state.user.id);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [preferenceId, setPrefereceId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
-    useEffect(()=>{
-        initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6",{locale:"es-AR"});
-    },[]);
+  useEffect(() => {
+    initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6", {
+      locale: "es-AR",
+    });
+  }, []);
 
-    useEffect(() => {
-        dispatch(setShoppingCart);
-        calculateTotalPrice(shoppingCart);
-        calculateTotalProducts(shoppingCart);
-    }, [dispatch, shoppingCart]);
+  useEffect(() => {
+    dispatch(setShoppingCart);
+    calculateTotalPrice(shoppingCart);
+    calculateTotalProducts(shoppingCart);
+  }, [dispatch, shoppingCart]);
 
-    //Funcion que calcula el precio total
-    const calculateTotalPrice = (items) => {
-        const total = items.reduce(
-            (acc, item) => acc + item.price * item.quantity,
-            0
-        );
-        setTotalPrice(total);
-    };
+  const calculateTotalPrice = (items) => {
+    const total = items.reduce(
+      (acc, item) => acc + item.price * item.quantity,
+      0
+    );
+    setTotalPrice(total);
+  };
 
-    //Funcion que calcula la cantidad total de productos
-    const calculateTotalProducts = (items) => {
-        const total = items.reduce(
-            (acc, item) => acc + item.quantity,
-            0
-        );
-        setTotalProducts(total);
+  const calculateTotalProducts = (items) => {
+    const total = items.reduce((acc, item) => acc + item.quantity, 0);
+    setTotalProducts(total);
+  };
+
+  const handleRemoveProduct = (productId) => {
+    dispatch(removeFromShoppingCart(productId));
+  };
+
+  const handleClearCart = () => {
+    dispatch(clearShoppingCart());
+  };
+
+  const addOneProduct = (id) => {
+    const productToAdd = shoppingCart.find((prod) => prod.id === id);
+    dispatch(addToShoppingCart(productToAdd));
+  };
+
+  const removeOneProduct = (id) => {
+    const productToRemove = shoppingCart.find((prod) => prod.id === id);
+    dispatch(removeFromShoppingCart(productToRemove));
+  };
+
+  const handleCheckout = async () => {
+    const items = shoppingCart.map((item) => ({
+      id: item.id,
+      stock: item.stock,
+      title: item.name,
+      unit_price: item.price,
+      quantity: item.quantity,
+    }));
+
+    try {
+      const response = await axios.post(`${URLD}/user/${userId}/payment`, {
+        items,
+        totalAmount: totalPrice,
+      });
+      const { id } = response.data;
+      return id;
+    } catch (error) {
+      console.error("Error al crear la preferencia", error);
     }
+  };
 
+  const handleBuy = async () => {
+    setLoading(true);
+    const id = await handleCheckout();
+    if (id) setPrefereceId(id);
+    setLoading(false);
+  };
 
-    //Funcion para quitar un producto del carrito
-    const handleRemoveProduct = (productId) => {
-        dispatch(removeFromShoppingCart(productId));
-    };
+  return (
+    <Container
+      className="mt-5"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        gap: "20px",
+        alignItems: "start",
+        height: "85vh",
+        width: "100%",
+      }}
+    >
+      <Row
+        style={{
+          padding: "20px",
 
+          width: "100%",
+        }}
+      >
+        <Col
+          lg={8}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "start",
+            flexDirection: "column",
+          }}
+        >
+          <h3>Carrito de compras</h3>
+          {shoppingCart.length === 0 ? (
+            <div
+              style={{
+                backgroundColor: "#FFEEA9",
+                padding: "10px",
+                borderRadius: "10px",
+                border: "2px solid #FFC94A",
+              }}
+            >
+              <h5>No hay productos en el carrito aun</h5>
+            </div>
+          ) : (
+            <Container
+              style={{
+                maxWidth: "800px",
+                borderRadius: "10px",
+                backgroundColor: "white",
+                padding: "20px",
+                boxShadow: "0 0 10px 0 rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              {shoppingCart.map((item) => (
+                <Card
+                  key={item.id}
+                  className="mb-3"
+                  style={{
+                    border: "none",
+                    borderBottom: "2px solid #ccc",
+                    borderRadius: "0",
+                    backgroundColor: "#f8f9fa",
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "10px",
+                  }}
+                >
+                  <Row
+                    className="w-100"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Col md={3} className="d-flex align-items-center">
+                      <Card.Img
+                        variant="top"
+                        src={item.images[0]}
+                        alt={item.name}
+                        style={{
+                          width: "90px",
+                          height: "70px",
+                          borderRadius: "0",
+                        }}
+                      />
+                    </Col>
+                    <Col
+                      md={3}
+                      className="d-flex align-items-start flex-column"
+                    >
+                      <Card.Title>{item.name}</Card.Title>
+                      <Card.Text>$ {item.price}</Card.Text>
+                    </Col>
+                    <Col md={2} className="d-flex align-items-center">
+                      <Button
+                        variant="secondary"
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        value={item.id}
+                        onClick={() => {
+                          if (item.quantity > 1) {
+                            removeOneProduct(item.id);
+                          }
+                        }}
+                      >
+                        -
+                      </Button>
+                      <h3 className="mx-3">{item.quantity}</h3>
+                      <Button
+                        variant="secondary"
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        value={item.id}
+                        onClick={() => {
+                          if (item.quantity < item.stock) {
+                            addOneProduct(item.id);
+                          } else {
+                            toast.error("Máximo de stock alcanzado.");
+                          }
+                        }}
+                      >
+                        +
+                      </Button>
+                    </Col>
+                    <Col
+                      md={2}
+                      className="d-flex align-items-center justify-content-end"
+                    >
+                      <Button
+                        variant="outline-danger"
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                        onClick={() => handleRemoveProduct(item.id)}
+                      >
+                        <FontAwesomeIcon icon={faX} />
+                      </Button>
+                    </Col>
+                  </Row>
+                </Card>
+              ))}
+            </Container>
+          )}
+        </Col>
 
-    //Funcion para quitar todos los productos del carrito
-    const handleClearCart = () => {
-        dispatch(clearShoppingCart());
-    };
-
-
-    //Funcion para agregar 1 a la cantidad que se quiere comprar de un producto
-    const addOneProduct = (e) => {
-        const { value } = e.target;
-        const productToAdd = shoppingCart.find(prod => prod.id === Number(value));
-
-        dispatch(addToShoppingCart(productToAdd));
-    }
-
-    //Funcion para quitar 1 a la cantidad que se quiere comprar de un producto
-    const removeOneProduct = (id) => {
-        const productToRemove = shoppingCart.find(prod => prod.id === id);
-        dispatch(removeFromShoppingCart(productToRemove));
-    }
-
-
-    //Funcion que crea la orden de compra pasando por el back
-    const handleCheckout = async () => {
-        const items = shoppingCart.map(item => ({
-            title: item.name,
-            unit_price: item.price,
-            quantity: item.quantity,
-        }));
-
-        try {
-            const response = await axios.post(`${URLD}/payment`, items);
-            const { id } = response.data;
-            
-            return id;
-
-        } catch (error) {
-            console.error("Error al crear la preferencia", error);
-        }
-    }
-
-
-    //Funcion que ejecuta handleCheckout y setea el id de compra para el boton de MP
-    const handleBuy = async () =>{
-        setLoading(true);
-        const id = await handleCheckout();
-
-        if(id) setPrefereceId(id);
-        setLoading(false);
-    }
-
-    //Funcion que indica pago exitoso y limpia el carrito
-    const handlePaymentSuccess = () => {
-        Swal.fire({
-            icon: "success",
-            title: "Pago exitoso",
-            text: "El pago se ha realizado con éxito",
-        });
-        dispatch(clearShoppingCart());
-    };
-
-    //Funcion que indica que hubo un problema con el pago
-    const handlePaymentError = () => {
-        Swal.fire({
-            icon: "error",
-            title: "Error en el pago",
-            text: "Hubo un problema con el pago. Inténtalo de nuevo.",
-        });
-    };
-
-
-    return (
-
-        <Container className="mt-5">
-            <Row>
-                <Col lg={9}>
-                    <h2>Carrito de compras</h2>
-                    {shoppingCart.length === 0
-                        ? <div>
-                            <h2>No hay productos en el carrito</h2>
-                        </div>
-                        : shoppingCart.map((item) => {
-                            return (
-                                <Card key={item.id} className="mb-3">
-                                    <Row noGutters>
-                                        <Col md={2}>
-                                            <Card.Img variant="top" src={item.images[0]} alt={item.name} />
-                                        </Col>
-                                        <Col md={8}>
-                                            <Card.Body className="d-flex justify-content-between align-items-center">
-                                                <Card.Title>{item.name}</Card.Title>
-                                                <div className="d-flex align-items-center mb-2">
-                                                    <Button variant="secondary" value={item.id} onClick={() => {
-                                                        if (item.quantity > 1) {
-                                                            removeOneProduct(item.id)
-                                                        }
-                                                    }}>-</Button>
-                                                    <h3 className="mx-3">{item.quantity}</h3>
-                                                    <Button variant="secondary" value={item.id} onClick={addOneProduct}>+</Button>
-                                                </div>
-                                                <Card.Text>$&nbsp;{item.price}</Card.Text>
-                                                <Button variant="danger" className="ml-auto" onClick={() => handleRemoveProduct(item.id)}>
-                                                    <FontAwesomeIcon icon={faX} />
-                                                </Button>
-                                                
-                                            </Card.Body>
-                                        </Col>
-                                    </Row>
-                                </Card>
-                            );
-                        })}
-                </Col>
-            
-                <Col lg={3}>
-                    <h2>Resumen de compra</h2>
-                    {shoppingCart.length === 0
-                        ? <div>
-                            <p>Aquí podrás ver el resumen cuando agregues algo al carrito</p>
-                        </div>
-                        : <div>
-                            <p>Productos({totalProducts})</p>
-                            <h3>Total:&nbsp;${totalPrice}</h3>
-                            <div className="d-flex justify-content-between">
-                                <Button variant="primary" onClick={handleBuy} disabled={loading}>
-                                    {loading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : "Comprar"}
-                                </Button>
-                                <Button variant="warning" onClick={handleClearCart}>Limpiar carrito</Button>
-                            </div>
-                            <div className="mt-3">
-                                {preferenceId && (
-                                    <Wallet 
-                                    initialization={{ preferenceId, redirectMode: "blank" }}                                     
-                                    onSubmit={handlePaymentSuccess} 
-                                    onError={handlePaymentError}
-                                    />)}
-                            </div>
-                        </div>}
-                </Col>
-            </Row>
-        </Container>        
-    )
-
-}
-
+        <Col
+          lg={4}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "start",
+            flexDirection: "column",
+          }}
+        >
+          <h3>Resumen de compra</h3>
+          {shoppingCart.length === 0 ? (
+            <div>
+              <p>Aquí podrás ver el resumen cuando agregues algo al carrito</p>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "start",
+                gap: "10px",
+              }}
+            >
+              <p>Productos({totalProducts})</p>
+              <h3>Total: $ {totalPrice}</h3>
+              <div className="d-flex justify-content-between">
+                <Button
+                  variant="primary"
+                  onClick={handleBuy}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                  ) : (
+                    "Comprar"
+                  )}
+                </Button>
+                <Button variant="warning" onClick={handleClearCart}>
+                  Limpiar carrito
+                </Button>
+              </div>
+              <div className="mt-3">
+                {preferenceId && (
+                  <Wallet
+                    initialization={{ preferenceId, redirectMode: "modal" }}
+                  />
+                )}
+              </div>
+            </div>
+          )}
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 export default ShoppingCart;

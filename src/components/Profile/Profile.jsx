@@ -1,148 +1,170 @@
 import styles from "./Profile.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useState } from "react";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import Card from 'react-bootstrap/Card';
+import { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 import Loader from "../Loader/Loader";
-import Image from 'react-bootstrap/Image';
-import Table from 'react-bootstrap/Table';
-import { useNavigate } from "react-router-dom";
+import Image from "react-bootstrap/Image";
+import Table from "react-bootstrap/Table";
 import ReviewAlert from "../ReviewAlert/ReviewAlert";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
+import { getChild, postChild } from "../../redux/actions";
+import ProfileActions from "./ProfileActions";
+import { validate } from "./validate";
+import AddComensal from "./AddComensalProfile";
+import PlusIcon from "../Icons/PlusIcon";
+import { useNavigate } from "react-router-dom";
+
 const Profile = () => {
-    const { user, isAuthenticated, isLoading, logout } = useAuth0();
-    const [show, setShow] = useState(false);
-    const handleClosed = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const [comensal, setComensal] = useState({
-        nombre: "",
-        apellido: "",
-        curso: "",
-        escuela: "",
-    });
-    const navigate = useNavigate();
-    console.log(comensal);
-    const handleChange = (event) => {
-        setComensal({
-            ...comensal,
-            [event.target.name]: event.target.value,
-        });
-    };
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const children = useSelector((state) => state.children);
+  const dispatch = useDispatch();
+  const manualUser = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
-    if (isLoading) {
-        return <Loader />;
-    }
+ 
+  const [errors, setErrors] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [newChildren, setNewChildren] = useState({
+      firstname: "",
+      lastname: "",
+      schoolId: "",
+      gradeLevel: "",
+  });
 
-    const handleShowModal = () => {
-        setShow(true);
-    };
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
 
-    const handleClose = () => {
-        setShow(false);
-    };
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
-    return (
-        isAuthenticated && (
-            <div className={styles.container}>
-                <Card style={{ width: '15rem' }} bg="secondary" border="dark">
-                    <Image src={user.picture} alt={user.name} roundedCircle />
-                    <Card.Body>
-                        <Card.Title>{user.name}</Card.Title>
-                        <Card.Text>
-                            {user.email}.
-                        </Card.Text>
-                    </Card.Body>
-                    <Button variant="success" onClick={handleShow} className={styles.btn}>
-                        Agregar comensal
-                    </Button>
-                </Card>
-                <div>
+  const handleChildChange = (event) => {
+    const { name, value } = event.target;
+    let updatedChildren = {...newChildren, [name]: value};
+    setNewChildren(updatedChildren);
 
-                    <Modal show={show} onHide={handleClose} animation={true}>
-                        <Modal.Header closeButton closeVariant="dark">
-                            <Modal.Title>Nuevo Comensal</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label>Nombre y Apellido</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Pepito Honguito"
-                                        autoFocus
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label>Curso</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        placeholder="1"
-                                        min={1}
-                                        max={6}
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label>Nombre de la escuela</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        placeholder="Escuela"
+    // Actualizar los errores específicos para este campo
+    const updatedErrors = validate(updatedChildren);
+    console.log(updatedErrors);
+    setErrors(updatedErrors);
+  };
 
-                                    />
-                                </Form.Group>
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="danger" onClick={handleClosed}>
-                                Cancelar
-                            </Button>
-                            <Button variant="success" onClick={handleClose}>
-                                Añadir
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
-                </div>
-                <div>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Nombre completo</th>
-                                <th>Curso</th>
-                                <th>Escuela</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Mark Zuckerberg</td>
-                                <td>6 A</td>
-                                <td>Escuela Ejemplo</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Elon Musk</td>
-                                <td>5 B</td>
-                                <td>Escuela Ejemplo</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td >Bill Gates</td>
-                                <td>4 C</td>
-                                <td>Escuela Ejemplo</td>
-                            </tr>
-                        </tbody>
-                    </Table>
-                </div>
-                <div className={styles.btnContainer}>
-                    <Button variant="info" className={styles.btn} onClick={() => navigate("/profile/edit")}>Edit Profile</Button>
-                    <Button variant="danger" onClick={() => logout()} className={styles.btn}>Logout</Button>
-                    <Button variant="primary" onClick={() => navigate("/admin")} className={styles.btn}>Mis publicaciones</Button>
-                </div>
-                <ReviewAlert />
-            </div>
-        )
-    );
+  const handleSaveComensal = (comensal) => {
+    dispatch(postChild(comensal));
+    setNewChildren({
+      firstname: "",
+      lastname: "",
+      schoolId: "",
+      gradeLevel: "",
+  })
+    closeModal();
+  };
+
+  useEffect(() => {
+    dispatch(getChild());
+  }, [dispatch]);
+
+  
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
+    <div className={styles.container}>
+      <Card
+        style={{
+          width: "26rem",
+          textAlign: "center",
+          boxShadow: "0 0 0 5px #4d4d4d",
+          marginBottom: "2rem",
+          backgroundColor: "white",
+        }}
+      >
+        <Image
+          src={
+            isAuthenticated
+              ? user.picture
+              : manualUser.picture
+              ? manualUser.picture
+              : "/no-avatar.png"
+          }
+          alt={
+            isAuthenticated
+              ? user.name
+              : `${manualUser.firstname} ${manualUser.lastname}`
+          }
+          style={{ width: "15rem", height: "15rem", margin: "0 auto" }}
+          roundedCircle
+        />
+        <Card.Body>
+          <Card.Title>
+            {isAuthenticated
+              ? user.name
+              : `${manualUser.firstname} ${manualUser.lastname}`}
+          </Card.Title>
+          <Card.Text>
+            {isAuthenticated ? user.email : manualUser.email}
+          </Card.Text>
+        </Card.Body>
+        <ProfileActions />
+      </Card>
+      <AddComensal
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        children={newChildren}
+        handleChildChange={handleChildChange}
+        errors={errors}
+        handleSaveComensal={handleSaveComensal}
+      />
+      <div className={styles.table}>
+        <h4>Comensales</h4>{" "}
+        <Table
+          striped
+          bordered
+          hover
+          style={{ width: "26rem", border: "1px solid #45474B" }}
+        >
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {children.map((child, index) => (
+              <tr key={index}>
+                <td>{child.firstname}</td>
+                <td>{child.lastname}</td>
+                <td>
+                  <Button
+                    style={{ width: "100%" }}
+                    className="d-flex align-items-center justify-content-center gap-1"
+                    variant="outline-primary"
+                    onClick={() => navigate(`/profile/children`)}
+                  >
+                    Ver detalles <PlusIcon />
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <Button
+          className="d-flex align-items-center justify-content-center gap-1 mt-3"
+          variant="success"
+          onClick={openModal}
+        >
+          Agregar comensal <PlusIcon />
+        </Button>
+      </div>
+
+      <ReviewAlert user={isAuthenticated ? user.sub : manualUser.id} />
+    </div>
+  );
 };
 
 export default Profile;

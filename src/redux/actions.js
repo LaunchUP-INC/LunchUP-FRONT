@@ -4,6 +4,7 @@ export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const FETCH_PRODUCTS_ERROR = "FETCH_PRODUCTS_ERROR";
 export const FETCH_ALL_USERS = "FETCH_ALL_USERS";
 export const GET_PRODUCT_DETAIL = "GET_PRODUCT_DETAIL";
+export const GET_PRODUCT_DETAIL_ERROR = "GET_PRODUCT_DETAIL_ERROR";
 export const GET_MEAL_TYPE = "GET_MEAL_TYPE";
 export const FILTERS_TYPE = "FILTERS_TYPE";
 export const REGISTER = "REGISTER";
@@ -19,14 +20,72 @@ export const CLEAR_SHOPPINGCART = "CLEAR_SHOPPINGCART";
 export const SEARCH = "SEARCH";
 export const FETCH_REVIEWS = "FETCH_REVIEWS";
 export const POST_REVIEWS = "POST_REVIEWS";
+export const HANDLE_ERROR = "HANDLE_ERROR";
+export const LOGIN = "LOGIN";
+export const GET_SCHOOLS = "GET_SCHOOLS";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const CLEAR_ERROR = "CLEAR_ERROR";
+export const FETCH_USER_DATA = "FETCH_USER_DATA";
+export const GET_CHILD = "GET_CHILD";
+export const POST_CHILD = "POST_CHILD";
+export const UPDATE_RATING = "UPDATE_RATING";
+export const GET_ORDERS = "GET_ORDERS";
+export const GET_RATING = "GET_RATING";
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
+export const PUT_CHILD = "PUT_CHILD";
+export const DELETE_CHILD = "DELETE_CHILD";
+
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
+export const URLD = "https://lunchup-back.onrender.com";
+// export const URLD = "http://localhost:3001"; 
 
+export const handleError = (error) => {
+  const errorMessage = error.response?.data?.message;
+  return {
+    type: HANDLE_ERROR,
+    payload: errorMessage,
+  };
+};
 
-// export const URLD = "https://lunchup-back.onrender.com";
-export const URLD = "http://localhost:3001"; 
+export const clearError = () => {
+  return {
+    type: CLEAR_ERROR,
+  };
+};
 
+export const registerUser = (userData) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URLD}/register`, {
+        firstname: userData.name,
+        lastname: userData.lastName,
+        telephone: userData.phone,
+        email: userData.email,
+        password: userData.password,
+        children: userData.children,
+      });
 
+      dispatch({ type: REGISTER_SUCCESS, payload: response.data });
+      localStorage.setItem("userId", response.data.newId);
+      return true;
+    } catch (error) {
+      dispatch(handleError(error));
+    }
+  };
+};
+
+export const updateProfile = (updatedProfile, id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`${URLD}/user/${id}`, updatedProfile);
+      dispatch({ type: 'UPDATE_PROFILE', 
+        payload: response.data });
+    } catch (error) {
+      dispatch(handleError(error));
+    }
+  };
+}
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
@@ -38,57 +97,120 @@ export const fetchProducts = () => {
           `${URLD}/dishes/${allDishes[i].id}/stock`
         );
         allDishes[i].stock = data.stock;
+        const response = await axios.get(`${URLD}/rating/${allDishes[i].id}`);
+        allDishes[i].rating = response.data.rating;
       }
-
-      // const products = await axios.get(`${URLD}/dishes`);
 
       dispatch({
         type: FETCH_PRODUCTS,
         payload: allDishes,
       });
     } catch (error) {
-      dispatch({
-        type: FETCH_PRODUCTS_ERROR,
-        payload: error.message,
-      });
+      
+      dispatch(handleError(error));
     }
   };
 };
 
-export const fetchUsers = () =>{
-  return async (dispatch) =>{
+export const fetchUsers = () => {
+  return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/user`);
-      const {users} = response.data;
-      console.log(users);
+      const { users } = response.data;
 
       dispatch({
-        type:FETCH_ALL_USERS,
+        type: FETCH_ALL_USERS,
         payload: users,
-      })
-      
+      });
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
-  }
-
+  };
 };
 
-export const setUserAdminBan = (id, user) =>{
-  return async (dispatch) =>{
+export const fetchUserData = (userData) => {
+  return async (dispatch, getState) => {
+    const token = getState().token;
+    try {
+      const response = await axios.get(`${URLD}/user/${userData.email}`, {
+        headers: { Authorization: `Bearer ${token.token}` },
+      });
+      localStorage.setItem("user", JSON.stringify(response.data.users));
+      dispatch({
+        type: FETCH_USER_DATA,
+        payload: response.data.users,
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+};
+
+export const loginUser = (loginData) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URLD}/login`, loginData);
+      if (response.data.access) {
+        localStorage.setItem("token", response.data.token);
+        dispatch({
+          type: LOGIN,
+          payload: {
+            access: response.data.access,
+            token: response.data.token,
+          },
+        });
+        return response.data; 
+      } else {
+        alert("Contraseña o email incorrectos");
+        return false; 
+      }
+    } catch (error) {
+      dispatch(handleError(error));
+      return false; 
+    }
+  };
+};
+
+export const checkUser = (checkUser) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(
+        `${URLD}/register/check`,
+        { email: checkUser.email }
+      );
+      if (response.data.isRegistered.access) {
+        localStorage.setItem("token", response.data.isRegistered.token);
+        dispatch({
+          type: LOGIN,
+          payload: {
+            access: response.data.isRegistered.access,
+            token: response.data.isRegistered.token,
+          },
+        });
+        return response.data.isRegistered; // Retorna true si el inicio de sesión es exitoso
+      }else{
+        return response.data.isRegistered;
+      }
+    } catch (error) {
+      dispatch(handleError(error));
+      return false;
+    }
+  };
+};
+
+export const setUserAdminBan = (id, user) => {
+  return async (dispatch) => {
     try {
       const response = await axios.put(`${URLD}/user/${id}`, user);
-      console.log(response);
       dispatch(fetchUsers());
 
       return "success";
-
     } catch (error) {
       console.error(error);
       return "error";
     }
-  }
-}
+  };
+};
 
 export const getMealType = () => {
   return async (dispatch) => {
@@ -115,7 +237,7 @@ export const getProductDetail = (id) => {
         payload: productDetail.data.dishDetail,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -130,12 +252,7 @@ export const filterProducts = (name, type, order) => {
       if (type) params.push(`filterMealTypeBy=${encodeURIComponent(type)}`);
       if (order) params.push(`orderBy=${encodeURIComponent(order)}`);
 
-      // Uniendo todos los parámetros con '&' y agregándolos a la URL base
       url += params.join("&");
-
-      // const response = await axios.get(
-      //   `http://localhost:3001/dishes?filterMealTypeBy=${type}&orderBy=${order}`
-      // );
 
       const response = await axios.get(url);
       dispatch({
@@ -144,14 +261,8 @@ export const filterProducts = (name, type, order) => {
       });
     } catch (error) {
       console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
-  };
-};
-
-export const register = (email, password) => {
-  return {
-    type: REGISTER,
-    payload: { email, password },
   };
 };
 
@@ -235,35 +346,36 @@ export const updateDish = (id, dish) => {
   };
 };
 
-
-export const updateStock = (id, quantity) =>{
-  return async (dispatch)=>{
+export const updateStock = (id, quantity) => {
+  return async (dispatch) => {
     try {
-      const {data} = await axios.put(`${URLD}/dishes/${id}/stock`, {"quantity": Number(quantity)});
+      const { data } = await axios.put(`${URLD}/dishes/${id}/stock`, {
+        quantity: Number(quantity),
+      });
       dispatch(fetchProducts());
       return data.stock;
-      
     } catch (error) {
-      console.error(error); 
+      console.error(error);
     }
-  }
-}
-
+  };
+};
 
 export const deleteDish = (id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.delete(`${URLD}/dishes/${id}`);
-
+      const response = await axios.put(`${URLD}/dishes/${id}/logical`);
       dispatch({
         type: DELETE_DISH_SUCCESS,
         payload: response.data,
       });
+      dispatch(fetchProducts());
+      return "success";
     } catch (error) {
       dispatch({
         type: DELETE_DISH_ERROR,
         payload: error.message,
       });
+      return "error";
     }
   };
 };
@@ -364,7 +476,7 @@ export const fetchReviews = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/reviews`);
-      console.log(response.data);
+     
       dispatch({
         type: FETCH_REVIEWS,
         payload: response.data.reviews,
@@ -376,16 +488,161 @@ export const fetchReviews = () => {
 };
 
 export const postReviews = (review) => {
-  console.log(review);
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URLD}/reviews`, review);
+      const userString = localStorage.getItem("user");
+      const user = userString ? JSON.parse(userString) : null;
+      const userId = user.id;
+      console.log(userId);
+      const response = await axios.post(
+        `${URLD}/user/${userId}/reviews/`,
+        review
+      );
       dispatch({
         type: POST_REVIEWS,
         payload: response.data,
       });
     } catch (error) {
       console.error("Error fetching data:", error);
+    }
+  };
+};
+export const fetchOrders = (id) => {
+  
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/user/${id}/orders`);
+      dispatch({
+        type: GET_ORDERS,
+        payload: response.data.orders,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+}
+export const updateRating = (orderId, itemId, score) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post(`${URLD}/dishes/${ itemId }`, {
+        score,
+      });
+
+      // Si la solicitud es exitosa, despacha la acción para actualizar el estado en Redux
+      dispatch({
+        type: UPDATE_RATING,
+        payload: {
+          orderId,
+          itemId,
+          score,
+        },
+      });
+
+      console.log("Rating actualizado exitosamente:", response.data);
+    } catch (error) {
+      console.error("Error al actualizar el rating:", error);
+    }
+  };
+};
+export const fetchrating = (dish) => {
+  console.log(dish);
+  
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/rating/${dish}`);
+      // console.log(response.data);
+      dispatch({
+        type: GET_RATING,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+}
+export const getSchools = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/school`);
+      dispatch({
+        type: GET_SCHOOLS,
+        payload: response.data.schools,
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
+    }
+  };
+};
+export const getChild = () => {
+  return async (dispatch, getState) => {
+    const { id } = getState().user;
+    try {
+      const response = await axios.get(`${URLD}/user/${id}/child`);
+      return dispatch({
+        type: GET_CHILD,
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch(handleError(error));
+    }
+  };
+};
+export const postChild = (child) => {
+  return async (dispatch, getState) => {
+    const { id } = getState().user;
+    try {
+      const response = await axios.post(`${URLD}/user/${id}/child`, {
+        firstname: child.firstname,
+        lastname: child.lastname,
+        gradeLevel: child.gradeLevel,
+        SchoolId: child.schoolId,
+      });
+
+      return dispatch({
+        type: POST_CHILD,
+        payload: response.data.child,
+      });
+    } catch (error) {
+      console.log(error);
+      dispatch(handleError(error));
+    }
+  };
+};
+
+export const putChild = (child) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.put(`${URLD}/user/child/${child.id}`, {
+        firstname: child.firstname,
+        lastname: child.lastname,
+        gradeLevel: child.gradeLevel,
+        SchoolId: child.schoolId, // Verifica que esto coincida con el backend
+      });
+
+      console.log(response.data);
+
+      return dispatch({
+        type: PUT_CHILD,
+        payload: response.data.child,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const deleteChild = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.delete(`${URLD}/user/child/${id}`);
+      console.log(response.data);
+      return dispatch({
+        type: DELETE_CHILD,
+        payload: id,
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 };

@@ -5,19 +5,30 @@ import Loader from '../Loader/Loader';
 
 const Cards = (props) => {
   const {dishes} = props;
-  console.log(dishes);
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    if (dishes.length === 0) {
+      setLoader(true);
+    } else {
       setLoader(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  }, [dishes]);
 
   if (loader) {
-    return <Loader />
+    return <Loader />;
   }
+
+  if (!dishes || dishes.length === 0) {
+    return (
+      <Container className="mt-4">
+        <Alert variant="warning" className="text-center">
+          No se encontraron platos.
+        </Alert>
+      </Container>
+    );
+  }
+
 
   return (
     <div className={style.container}>
@@ -29,6 +40,8 @@ const Cards = (props) => {
           images={dish.images}
           description={dish.description}
           price={dish.price}
+          stock={dish.stock}
+          rating={dish.rating}
         />
       ))}
     </div>

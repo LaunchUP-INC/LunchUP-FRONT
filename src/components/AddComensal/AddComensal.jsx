@@ -1,77 +1,156 @@
-/* eslint-disable react/prop-types */
-import Modal from "react-modal";
-import styles from "./AddComensal.module.css";
-Modal.setAppElement("#root");
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import { Form } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { getSchools } from "../../redux/actions";
+import { validate } from "../ChildDetail/validate";
+import { toast } from "react-toastify";
 
 const AddComensalModal = ({
   modalIsOpen,
   closeModal,
-  childrens,
   handleAddChild,
-  handleChildChange,
   errors,
+  setErrors,
+  setSavedComensalsCount,
+  savedComensalsCount,
 }) => {
+  const dispatch = useDispatch();
+  const schools = useSelector((state) => state.schools);
+  const [newChild, setNewChild] = useState({
+    firstname: "",
+    lastname: "",
+    SchoolId: "",
+    gradeLevel: "",
+  });
+
+  console.log(newChild);
+  useEffect(() => {
+    dispatch(getSchools());
+  }, [dispatch]);
+
+  const handleNewChildChange = (event) => {
+    const { name, value } = event.target;
+    setNewChild((prevNewChild) => ({ ...prevNewChild, [name]: value }));
+    setErrors(validate({ ...newChild, [name]: value }));
+  };
+
+  const handleSave = () => {
+    if (
+      errors.childName ||
+      errors.childLastName ||
+      errors.childSchool ||
+      errors.childGrade
+    ) {
+      toast.error("Por favor, corrija los errores antes de guardar.")
+      return;
+    }
+    if (
+      newChild.firstname.trim() !== "" &&
+      newChild.lastname.trim() !== "" &&
+      newChild.SchoolId.trim() !== "" &&
+      newChild.gradeLevel.trim() !== ""
+    ) {
+      handleAddChild(newChild);
+      setNewChild({
+        firstname: "",
+        lastname: "",
+        SchoolId: "",
+        gradeLevel: "",
+      });
+
+      setSavedComensalsCount(savedComensalsCount + 1);
+
+      closeModal();
+    } else {
+      toast.error("Por favor, complete todos los campos antes de guardar.")
+    }
+  };
+
   return (
-    <Modal
-      isOpen={modalIsOpen}
-      onRequestClose={closeModal}
-      contentLabel="Añadir Comensal"
-      className={styles.modal}
-      overlayClassName={styles.overlay}
-    >
-      <h2>Añadir Comensal</h2>
-      {childrens.map((child, index) => (
-        <div key={index} className={styles.childContainer}>
-          <span>Nombre del Hijo/a</span>
+    <Modal show={modalIsOpen} onHide={closeModal} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Añadir Comensal</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group controlId="childName">
+            <Form.Label>Nombre</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Nombre del comensal"
+              name="firstname"
+              value={newChild.firstname}
+              onChange={handleNewChildChange}
+              isInvalid={!!errors.childName}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.childName}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          <input
-            type="text"
-            name="name"
-            className={styles.input}
-            placeholder="Nombre del hijo/a"
-            value={child.name || ""}
-            onChange={(event) => handleChildChange(index, event)}
-          />
-          <span className={styles.error}>{errors && errors.childName}</span>
-          <span>Edad del Hijo/a</span>
-          <input
-            type="number"
-            name="age"
-            className={styles.input}
-            placeholder="Edad del hijo/a"
-            value={child.age || ""}
-            onChange={(event) => handleChildChange(index, event)}
-          />
-          <span className={styles.error}>{errors && errors.childAge}</span>
-          <span>Escuela</span>
-          <input
-            type="text"
-            name="school"
-            className={styles.input}
-            placeholder="Escuela"
-            value={child.school || ""}
-            onChange={(event) => handleChildChange(index, event)}
-          />
-          <span className={styles.error}>{errors && errors.childSchool}</span>
+          <Form.Group controlId="childLastName">
+            <Form.Label>Apellido</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Apellido del comensal"
+              name="lastname"
+              value={newChild.lastname}
+              onChange={handleNewChildChange}
+              isInvalid={!!errors.childLastName}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.childLastName}
+            </Form.Control.Feedback>
+          </Form.Group>
 
-          <span>Grado/Año</span>
-          <input
-            type="number"
-            name="grade"
-            className={styles.input}
-            placeholder="Grado o Año"
-            value={child.grade || ""}
-            onChange={(event) => handleChildChange(index, event)}
-          />
-          <span className={styles.error}>{errors && errors.childGrade}</span>
-        </div>
-      ))}
-      <button onClick={handleAddChild} className={styles.btn}>
-        Añadir Comensal
-      </button>
-      <button onClick={closeModal} className={styles.btn}>
-        Cerrar
-      </button>
+          <Form.Group controlId="childSchool">
+            <Form.Label>Escuela</Form.Label>
+            <Form.Control
+              as="select"
+              name="SchoolId"
+              value={newChild.SchoolId}
+              onChange={handleNewChildChange}
+              isInvalid={!!errors.childSchool}
+            >
+              <option value="">Selecciona una escuela</option>
+              {schools.map((school) => (
+                <option key={school.id} value={school.id}>
+                  {school.name}
+                </option>
+              ))}
+            </Form.Control>
+            <Form.Control.Feedback type="invalid">
+              {errors.childSchool}
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group controlId="childGrade">
+            <Form.Label>Grado</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Grado del comensal"
+              name="gradeLevel"
+              value={newChild.gradeLevel}
+              onChange={handleNewChildChange}
+              isInvalid={!!errors.childGrade}
+            />
+            <Form.Control.Feedback type="invalid">
+              {errors.childGrade}
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={closeModal}>
+          Cancelar
+        </Button>
+        <Button variant="primary" onClick={handleSave}>
+          Guardar Comensal
+        </Button>
+      </Modal.Footer>
     </Modal>
   );
 };

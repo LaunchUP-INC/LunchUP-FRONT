@@ -1,77 +1,79 @@
-import { Container,Row,Col,Card,Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowsRotate, faLock, faUnlock, faUsers} from "@fortawesome/free-solid-svg-icons";
+import { faArrowsRotate, faLock, faUnlock, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch } from "react-redux";
 import { setUserAdminBan } from "../../../redux/actions";
 import Swal from "sweetalert2";
 
 
-const Users = (props) =>{
-    const { users } = props;
+const Users = (props) => {
+  const { users } = props;
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
 
-    
-    const userAdminHandler = async (user) =>{
-        const id = user.id;
-        const updatedUser = {...user, isAdmin : !user.isAdmin};
-        
-        console.log(user);
-        const response = await dispatch(setUserAdminBan(id, updatedUser));
 
-        if(response === "success"){
-            Swal.fire({
-                icon: "success",
-                title: "Admin",
-                text:`${updatedUser.isAdmin ? "El usuario ahora es admin" : "El usuario ya no es admin"}`,
-            })
-        }else{
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Ha ocurrido un error",
-            })
-        }
+  const userAdminHandler = async (user) => {
+    const id = user.id;
+    const updatedUser = { ...user, isAdmin: !user.isAdmin };
+
+    const response = await dispatch(setUserAdminBan(id, updatedUser));
+
+    if (response === "success") {
+      Swal.fire({
+        icon: "success",
+        title: "Admin",
+        text: `${updatedUser.isAdmin ? 
+          `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ahora es admin` : 
+          `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ya no es admin`}`,
+      })
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ha ocurrido un error",
+      })
     }
+  }
 
-    const userBanHandler = async (user) =>{
-        const id = user.id;
-        const updatedUser = {...user, banned : !user.banned};
-        
-        console.log(user);
-        const response = await dispatch(setUserAdminBan(id, updatedUser));
+  const userBanHandler = async (user) => {
+    const id = user.id;
+    const updatedUser = { ...user, banned: !user.banned };
 
-        if(response === "success"){
-            Swal.fire({
-                icon: "success",
-                title: "Admin",
-                text:`${updatedUser.isAdmin ? "El usuario ahora es admin" : "El usuario ya no es admin"}`,
-            })
-        }else{
-            Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Ha ocurrido un error",
-            })
-        }
+    const response = await dispatch(setUserAdminBan(id, updatedUser));
+
+    if (response === "success") {
+      Swal.fire({
+        icon: "success",
+        title: "Admin",
+        text: `${updatedUser.banned ?
+          `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ahora esta baneado` : 
+          `El usuario "${updatedUser.firstname} ${updatedUser.lastname}" ya no esta baneado`}`,
+      })
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ha ocurrido un error",
+      })
     }
+  }
 
-    return(
-        <Container>
-            <Row>
-                <h2>Usuarios <FontAwesomeIcon icon={faUsers} /> </h2>
-            </Row>
+  return (
+    <Container>
+      <Row>
+        <h2>Usuarios <FontAwesomeIcon icon={faUsers} /> </h2>
+      </Row>
 
-            <Row>
-                <Col style={{ fontSize: "18px" }}>Nombre</Col>
-                <Col style={{ fontSize: "18px" }}>Email</Col>
-                <Col style={{ fontSize: "18px" }}>N° Telefono</Col>
-                <Col style={{ textAlign: "center", fontSize: "18px" }}>Acciones</Col>
-            </Row>
+      <Row>
+        <Col style={{ fontSize: "18px" }}>Nombre</Col>
+        <Col style={{ fontSize: "18px" }}>Email</Col>
+        <Col style={{ fontSize: "18px" }}>N° Telefono</Col>
+        <Col style={{ textAlign: "center", fontSize: "18px" }}>Acciones</Col>
+      </Row>
 
-            <Row className="mb-1 bg-light" style={{ border: "1px solid black" }}>
-            {users.map((user) => {
+      <Row className="mb-1 bg-light" style={{ border: "1px solid black" }}>
+        {users.map((user) => {
           return (
             <Card
               key={user.id}
@@ -95,16 +97,16 @@ const Users = (props) =>{
                   }}
                 >
                   <Button
-                    variant={user.isAdmin ? "danger" : "success" }
+                    variant={user.isAdmin ? "danger" : "success"}
                     onClick={() => userAdminHandler(user)}
-                    style={{ height: "35px", fontSize: "15px" }}
+                    style={{ height: "35px", fontSize: "15px", width: "170px" }}
                   >
-                    <FontAwesomeIcon icon={faArrowsRotate} /> {user.isAdmin ? "Quitar admin" : "Dar admin"} 
+                    <FontAwesomeIcon icon={faArrowsRotate} /> {user.isAdmin ? "Quitar admin" : "Dar admin"}
                   </Button>
                   <Button
-                    variant={user.banned ? "success" : "danger" }
+                    variant={user.banned ? "success" : "danger"}
                     onClick={() => userBanHandler(user)}
-                    style={{ height: "35px", fontSize: "15px" }}
+                    style={{ height: "35px", fontSize: "15px", width: "180px" }}
                   >
                     <FontAwesomeIcon
                       icon={user.banned ? faUnlock : faLock}
@@ -117,9 +119,9 @@ const Users = (props) =>{
             </Card>
           );
         })}
-            </Row>
-        </Container>
-    )
+      </Row>
+    </Container>
+  )
 
 }
 

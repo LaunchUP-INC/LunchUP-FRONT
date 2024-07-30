@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import styles from "./LoginForm.module.css";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Form, Button } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
+import { checkUser, fetchUserData, loginUser } from "../../redux/actions";
 
-const LoginForm = () => {
+const LoginForm = ({ errorValidation }) => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const { loginWithRedirect, getAccessTokenSilently, isAuthenticated } =
-    useAuth0();
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,97 +20,84 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:3001/login", {
-        email: loginData.email,
-        password: loginData.password,
-      });
+    const access = await dispatch(loginUser(loginData));
+    
 
-      if (response.data.access) {
-        alert("Bienvenido a LunchUp");
-        navigate("/home");
-      } else {
-        alert("Contraseña o mail incorrectos");
-      }
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      alert("Contraseña o mail incorrectos");
+    if (access.access) {
+      await dispatch(fetchUserData(loginData));
+      navigate("/home");
     }
+    errorValidation();
   };
 
   const handleLoginWithGmail = async () => {
-    await loginWithRedirect();
+    await loginWithRedirect({
+      redirectUri: `${window.location.origin}/login`,
+    });
   };
 
   useEffect(() => {
     const checkRegistration = async () => {
-      if (isAuthenticated) {
-        try {
-          const token = await getAccessTokenSilently({
-            audience: "YOUR_API_IDENTIFIER", // Asegúrate de que esto esté configurado
-            scope: "read:users", // Ajusta los scopes según tu API
-          });
-          console.log("Token recibido desde Auth0:", token);
+      if (isAuthenticated && user) {
+        const access = await dispatch(checkUser(user));
 
-          const response = await axios.post(
-            "http://localhost:3001/register/check",
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-
-          if (response.status === 200) {
-            const isRegistered = response.data.isRegistered;
-            navigate(isRegistered ? "/home" : "/register");
-          } else {
-            alert("Error en la verificación.");
-          }
-        } catch (error) {
-          console.error("Error al verificar el usuario:", error);
+        if (access.access) {
+          await dispatch(fetchUserData(user));
+          navigate("/home");
+        }else{
+          navigate("/signup");
         }
       }
     };
 
     checkRegistration();
-  }, [isAuthenticated, navigate, getAccessTokenSilently]);
+  }, [isAuthenticated, user, navigate]);
 
   return (
-    <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input
+    <div className="container d-flex justify-content-center align-items-center vh-100 flex-column gap-5">
+      <Form
+        className="form bg-white box-shadow p-5 rounded"
+        style={{ boxShadow: "7px 7px 1px rgb(9, 98, 70)" }}
+        onSubmit={handleSubmit}
+      >
+        <Form.Control
           type="text"
           name="email"
-          placeholder="Email"
+          placeholder="Mail"
           value={loginData.email}
           onChange={handleChange}
-          className={styles.inputForm}
+          className="form-control mb-3"
+          style={{ backgroundColor: "#E5D4FF" }}
         />
-        <input
+        <Form.Control
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Contraseña"
           value={loginData.password}
           onChange={handleChange}
-          className={styles.inputForm}
+          className="form-control mb-3"
+          style={{ backgroundColor: "#E5D4FF" }}
         />
-        <button type="submit" className={styles.btn}>
-          Login
-        </button>
-        <button
+        <Button
+          type="submit"
+          variant="primary"
+          className="btn btn-primary mb-3 w-100"
+        >
+          Ingresar
+        </Button>
+        <Button
           type="button"
-          className={styles.btn}
+          variant="danger"
+          className="btn btn-danger mb-3 w-100"
           onClick={handleLoginWithGmail}
         >
-          Login with Google
-        </button>
-      </form>
+          Ingresar con Google
+        </Button>
+      </Form>
 
       <p>
         ¿No tienes una cuenta?{" "}
-        <Link to="/signup" className={styles.link}>
+        <Link to="/signup" className="link">
           Registrarse
         </Link>
       </p>

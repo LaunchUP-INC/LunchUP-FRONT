@@ -1,73 +1,84 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: start;
+  align-items: center;
+  padding: 25px;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
 }
 .picture {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
 }
 .name {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 .btn {
-    margin-top: 20px;
+  margin-top: 15px;
 }
-.disabled, .disabled:hover, .disabled:active {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background-color: grey;
+.disabled,
+.disabled:hover,
+.disabled:active {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: grey;
 }
 .comensal {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 25px;
-    gap: 10px;
-    background-color: #e9fff7;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #252525;
-    font-size: 1.2rem;
-    z-index: 2;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+  gap: 10px;
+  background-color: #e9fff7;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #252525;
+  font-size: 1.2rem;
+  z-index: 2;
 }
 .comensal.open {
-    display: flex;
+  display: flex;
 }
 .btnClose {
-    position: relative;
-    background-color: rgb(255, 0, 0, 0.6);
-    color: #e9fff7;
-    border-radius: 5px;
-    border: none;
-    padding: 10px;
-    font-size: 1.2rem;
-    width: 50px;
-    left: 130px;
-    bottom: 25px;
+  position: relative;
+  background-color: rgb(255, 0, 0, 0.6);
+  color: #e9fff7;
+  border-radius: 5px;
+  border: none;
+  padding: 10px;
+  font-size: 1.2rem;
+  width: 50px;
+  left: 130px;
+  bottom: 25px;
 }
 .btnClose:hover {
-    cursor: pointer;
+  cursor: pointer;
 
-    background-color: red;
-    color: #333333;
+  background-color: red;
+  color: #333333;
 }
 .form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .btnContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }

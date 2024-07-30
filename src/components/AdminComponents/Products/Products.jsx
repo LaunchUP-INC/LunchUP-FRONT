@@ -10,14 +10,17 @@ import BasketIcon from "../../Icons/BasketIcon";
 import styles from "./Products.module.css";
 import { useState } from "react";
 import EditStockModal from "./EditStockModal";
-
+import { useDispatch } from "react-redux";
+import { deleteDish } from "../../../redux/actions";
+import Swal from "sweetalert2";
 
 const Products = (props) => {
   const { products } = props;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  
+
   const handleShowModal = (product) => {
     setSelectedProduct(product);
     setShowModal(true);
@@ -28,6 +31,26 @@ const Products = (props) => {
     setSelectedProduct(null);
   };
 
+  const handleActiveProduct = async (item) => {
+    console.log(item);
+    const response = await dispatch(deleteDish(item.id));
+    console.log(response);
+
+    if (response === "success") {
+      Swal.fire({
+        icon: "success",
+        title: `${item.isDeleted ? "Publicacion activada" : "Publicacion desactivada"}`,
+        text: `${item.isDeleted ? `Los usuarios podran comprar "${item.name}"` : `Los usuarios ya no podran comprar "${item.name}"`}`,
+      })
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ha ocurrido un error",
+      })
+    }
+
+  };
 
   return (
     <Container>
@@ -42,10 +65,10 @@ const Products = (props) => {
         </div>
       </Row>
       <Row className="mb-2">
-        <Col style={{ fontSize: "18px" }}>Nombre</Col>
-        <Col style={{ fontSize: "18px" }}>Precio</Col>
-        <Col style={{ fontSize: "18px" }}>Stock</Col>
-        <Col style={{ textAlign: "center", fontSize: "18px" }}>Acciones</Col>
+        <Col lg={6} style={{ fontSize: "18px" }}>Nombre</Col>
+        <Col lg={2} style={{ fontSize: "18px" }}>Precio</Col>
+        <Col lg={1} style={{ fontSize: "18px" }}>Stock</Col>
+        <Col lg={3} style={{ textAlign: "center", fontSize: "18px" }}>Acciones</Col>
       </Row>
       <Row className="mb-1 bg-light" style={{ border: "1px solid black" }}>
         {products.map((item) => {
@@ -61,9 +84,9 @@ const Products = (props) => {
               }}
             >
               <Row className="align-items-center">
-                <Col>{item.name}</Col>
-                <Col>$ {item.price}</Col>
-                <Col>
+                <Col lg={6}>{item.name}</Col>
+                <Col lg={2}>$ {item.price}</Col>
+                <Col lg={1}>
                   {item.stock}{" "}
                   <Button
                     variant="link"
@@ -73,6 +96,7 @@ const Products = (props) => {
                     <FontAwesomeIcon icon={faPenToSquare} />
                   </Button></Col>
                 <Col
+                  lg={3}
                   style={{
                     display: "flex",
                     gap: "10px",
@@ -82,19 +106,20 @@ const Products = (props) => {
                   <Button
                     variant="success"
                     onClick={() => navigate(`/admin/product/modify/${item.id}`)}
-                    style={{ height: "35px", fontSize: "15px" }}
+                    style={{ height: "35px", fontSize: "15px", width: "100px" }}
                   >
                     <FontAwesomeIcon icon={faPenToSquare} /> Editar
                   </Button>
                   <Button
-                    variant="danger"
-                    style={{ height: "35px", fontSize: "15px" }}
+                    variant={item.isDeleted ? "success" : "danger"}
+                    style={{ height: "35px", fontSize: "15px", width: "150px" }}
+                    onClick={() => handleActiveProduct(item)}
                   >
                     <FontAwesomeIcon
                       icon={faArrowsRotate}
                       style={{ fontSize: "12px", marginRight: "3px" }}
                     />
-                    Desactivar
+                    {item.isDeleted ? "activar" : "Desactivar"}
                   </Button>
                 </Col>
               </Row>

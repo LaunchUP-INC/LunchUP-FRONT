@@ -90,6 +90,11 @@
   cursor: pointer;
   transition: background-color 0.3s;
 }
+.cardButton.disabled {
+  background-color: #2e2b2b;
+  color: var(--color-Body);
+  cursor: not-allowed;
+}
 
 .cardButton:hover {
   background-color: #2eb832;

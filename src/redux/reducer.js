@@ -2,6 +2,7 @@
 import {
   FETCH_PRODUCTS,
   FETCH_PRODUCTS_ERROR,
+  HANDLE_ERROR,
   GET_PRODUCT_DETAIL,
   GET_MEAL_TYPE,
   FILTERS_TYPE,
@@ -19,9 +20,23 @@ import {
   FETCH_REVIEWS,
   POST_REVIEWS,
   FETCH_ALL_USERS,
+  LOGIN,
+  GET_SCHOOLS,
+  REGISTER_SUCCESS,
+  FETCH_USER_DATA,
+  CLEAR_ERROR,
+  GET_CHILD,
+  POST_CHILD,
+  GET_ORDERS,
+  UPDATE_RATING,
+  PUT_CHILD,
+  DELETE_CHILD,
+  GET_RATING,
+  UPDATE_PROFILE,
+
 } from "./actions";
 
-const initialState = { 
+const initialState = {
   isAdmin: false,
   allUsers: [],
   allProducts: [],
@@ -29,17 +44,38 @@ const initialState = {
   productDetail: [],
   mealTypes: [],
   reviews: [],
+  schools: [],
+  children: [],
   newreviews: [],
-  user: {},
+  orders: [],
+  rating: [],
+  updateUser: [],
+  ratingView: null,
+  token: null,
+  user: JSON.parse(localStorage.getItem("user")) || null,
+  userId: null,
   newDishId: null,
   postDishError: null,
   succesDishDelete: null,
   errorDishDelete: null,
+  error: null,
   shoppingCart: JSON.parse(localStorage.getItem("shoppingCart")) || [],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null,
+      };
+
     case FETCH_PRODUCTS:
       return {
         ...state,
@@ -56,15 +92,21 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case FETCH_PRODUCTS_ERROR:
-        return {
-          ...state,
-          error: action.payload,
-        };
+      return {
+        ...state,
+        error: action.payload,
+      };
 
     case GET_PRODUCT_DETAIL:
       return {
         ...state,
         productDetail: action.payload,
+      };
+
+    case HANDLE_ERROR:
+      return {
+        ...state,
+        error: action.payload,
       };
 
     case GET_MEAL_TYPE:
@@ -85,12 +127,26 @@ const rootReducer = (state = initialState, action) => {
         user: action.payload,
       };
 
+    case LOGIN:
+      return {
+        ...state,
+        token: action.payload,
+        userId: action.payload.userId,
+      };
+
+    case FETCH_USER_DATA:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
     case POST_DISH_SUCCESS:
       return {
         ...state,
         newDishId: action.payload,
         postDishError: null,
       };
+
     case POST_DISH_ERROR:
       return {
         ...state,
@@ -156,7 +212,66 @@ const rootReducer = (state = initialState, action) => {
     case POST_REVIEWS:
       return {
         ...state,
-        newreviews: [...state.newreviews, action.payload],
+        newreviews: action.payload,
+      };
+
+    case GET_SCHOOLS:
+      return {
+        ...state,
+        schools: action.payload,
+      };
+
+    case GET_CHILD:
+      return {
+        ...state,
+        children: action.payload,
+      };
+
+    case POST_CHILD:
+      return {
+        ...state,
+        children: [...state.children, action.payload],
+      };
+    case PUT_CHILD:
+      return {
+        ...state,
+        children: state.children.map((child) =>
+          child.id === action.payload.id ? action.payload : child
+        ),
+      };
+    case DELETE_CHILD:
+      return {
+        ...state,
+        children: [
+          ...state.children.filter((child) => child.id !== action.payload),
+        ],
+      };
+
+    case GET_ORDERS:
+      return {
+        ...state,
+        orders: action.payload,
+      };
+    case UPDATE_RATING:
+      return {
+        ...state,
+        orders: state.orders.map((order) =>
+          order.id === action.payload.orderId
+            ? {
+              ...order,
+              items: order.items.map((item) =>
+                item.id === action.payload.itemId
+                  ? { ...item, rating: action.payload.rating }
+                  : item
+              ),
+            }
+            : order
+        ),
+      };
+    case GET_RATING:
+      return {
+        ...state,
+        ratingView: action.payload,
       };
 
     default:

@@ -7,6 +7,8 @@ import { postReviews } from '../../redux/actions';
 import { useParams } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
+Modal.setAppElement('#root');
+
 const customStyles = {
   content: {
     top: '50%',
@@ -18,21 +20,21 @@ const customStyles = {
   },
 };
 
-const ReviewModal = ({ isOpen, onRequestClose }) => {
+const ReviewModal = ({ isOpen, onRequestClose, userId }) => {
   const [comment, setComment] = useState('');
   const [score, setScore] = useState(0);
   const dispatch = useDispatch();
+  const review = {comment, score};
 
 const { user } = useAuth0();
   const handleSubmit = (event) => {
     event.preventDefault();
-    const review = { comment, score };
+    
     dispatch(postReviews(review));
-    /* localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado */
+    localStorage.setItem('hasReviewed', 'true'); // Marcar como reseñado
     onRequestClose(); // Cierra el modal después de enviar la reseña
   };
-  const id = user.name;
-  console.log(user);
+  
   const handleTextChange = (event) => {
     setComment(event.target.value);
   };
@@ -46,6 +48,8 @@ const { user } = useAuth0();
     >
       <h2>Deja tu Reseña</h2>
       <form onSubmit={handleSubmit}>
+        <h3>Puntua con una calificación de 1 a 5.
+          Cuentanos como fue tu experienca con nuestra plataforma. </h3>
         <RatingModal rating={score} setRating={setScore} />
         <textarea
           className={styles.textarea}
