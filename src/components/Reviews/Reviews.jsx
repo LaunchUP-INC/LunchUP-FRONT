@@ -34,9 +34,6 @@ const Reviews = () => {
   };
 
   const usersReviews = compare();
-  console.log("users", users);
-  console.log(reviews);
-  console.log(usersReviews);
 
   return (
     <div>

@@ -34,11 +34,12 @@ export const GET_RATING = "GET_RATING";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const PUT_CHILD = "PUT_CHILD";
 export const DELETE_CHILD = "DELETE_CHILD";
-
+export const SELECT_CHILD = "SELECT_CHILD";
+export const CLEAR_SELECTED_CHILD = "CLEAR_SELECTED_CHILD";
 
 //constantes para trabajar de manera local y para deployar, comentar y descomentar segun el caso.
 export const URLD = "https://lunchup-back.onrender.com";
-// export const URLD = "http://localhost:3001"; 
+// export const URLD = "http://localhost:3001";
 
 export const handleError = (error) => {
   const errorMessage = error.response?.data?.message;
@@ -79,13 +80,12 @@ export const updateProfile = (updatedProfile, id) => {
   return async (dispatch) => {
     try {
       const response = await axios.put(`${URLD}/user/${id}`, updatedProfile);
-      dispatch({ type: 'UPDATE_PROFILE', 
-        payload: response.data });
+      dispatch({ type: "UPDATE_PROFILE", payload: response.data });
     } catch (error) {
       dispatch(handleError(error));
     }
   };
-}
+};
 export const fetchProducts = () => {
   return async (dispatch) => {
     try {
@@ -98,7 +98,7 @@ export const fetchProducts = () => {
         );
         allDishes[i].stock = data.stock;
         const response = await axios.get(`${URLD}/rating/${allDishes[i].id}`);
-        allDishes[i].rating = response.data.rating;
+        allDishes[i].rating = response.data.rating || 0;
       }
 
       dispatch({
@@ -106,7 +106,6 @@ export const fetchProducts = () => {
         payload: allDishes,
       });
     } catch (error) {
-      
       dispatch(handleError(error));
     }
   };
@@ -123,7 +122,7 @@ export const fetchUsers = () => {
         payload: users,
       });
     } catch (error) {
-      console.error("Error fetching data: ", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -136,12 +135,23 @@ export const fetchUserData = (userData) => {
         headers: { Authorization: `Bearer ${token.token}` },
       });
       localStorage.setItem("user", JSON.stringify(response.data.users));
+      const cartrsponse = await axios.get(
+        `${URLD}/cart/${response.data.users.id}`
+      );
+      localStorage.setItem(
+        "shoppingCart",
+        JSON.stringify(cartrsponse.data.cart.items)
+      ) || [];
       dispatch({
         type: FETCH_USER_DATA,
         payload: response.data.users,
       });
+      dispatch({
+        type: SET_SHOPPINGCART,
+        payload: cartrsponse.data.cart.items,
+      });
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -159,14 +169,14 @@ export const loginUser = (loginData) => {
             token: response.data.token,
           },
         });
-        return response.data; 
+        return response.data;
       } else {
         alert("Contraseña o email incorrectos");
-        return false; 
+        return false;
       }
     } catch (error) {
       dispatch(handleError(error));
-      return false; 
+      return false;
     }
   };
 };
@@ -174,10 +184,9 @@ export const loginUser = (loginData) => {
 export const checkUser = (checkUser) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(
-        `${URLD}/register/check`,
-        { email: checkUser.email }
-      );
+      const response = await axios.post(`${URLD}/register/check`, {
+        email: checkUser.email,
+      });
       if (response.data.isRegistered.access) {
         localStorage.setItem("token", response.data.isRegistered.token);
         dispatch({
@@ -188,7 +197,7 @@ export const checkUser = (checkUser) => {
           },
         });
         return response.data.isRegistered; // Retorna true si el inicio de sesión es exitoso
-      }else{
+      } else {
         return response.data.isRegistered;
       }
     } catch (error) {
@@ -206,7 +215,6 @@ export const setUserAdminBan = (id, user) => {
 
       return "success";
     } catch (error) {
-      console.error(error);
       return "error";
     }
   };
@@ -222,7 +230,7 @@ export const getMealType = () => {
         payload: response.data.mealTypes,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -260,7 +268,6 @@ export const filterProducts = (name, type, order) => {
         payload: response.data.allDishes,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
       dispatch(handleError(error));
     }
   };
@@ -324,7 +331,6 @@ export const updateDish = (id, dish) => {
       dish.Meal_Types.forEach((mealType) => {
         formData.append("Meal_Types", mealType);
       });
-      // console.log("llega");
       const response = await axios.put(`${URLD}/dishes/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -355,7 +361,7 @@ export const updateStock = (id, quantity) => {
       dispatch(fetchProducts());
       return data.stock;
     } catch (error) {
-      console.error(error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -383,23 +389,48 @@ export const resetDeleteDishStatus = () => ({
   type: "RESET_DELETE_DISH_STATUS",
 });
 
-export const setShoppingCart = () => async (dispatch, getState) => {
-  let shoppingCart = getState().shoppingCart;
+export const setShoppingCart =
+  (cart = []) =>
+  async (dispatch, getState) => {
+    let shoppingCart = getState().shoppingCart;
 
-  if (!Array.isArray(shoppingCart)) {
-    try {
-      shoppingCart = JSON.parse(localStorage.getItem("shoppingCart")) || [];
-    } catch (error) {
-      shoppingCart = [];
+    if (!Array.isArray(shoppingCart)) {
+      try {
+        shoppingCart = localStorage.getItem("shoppingCart") !== 'undefined' ? JSON.parse(localStorage.getItem("shoppingCart")) : []
+      } catch (error) {
+        shoppingCart = [];
+      }
     }
-  }
 
-  localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+    localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
 
-  dispatch({
-    type: SET_SHOPPINGCART,
-    payload: shoppingCart,
-  });
+    dispatch({
+      type: SET_SHOPPINGCART,
+      payload: shoppingCart,
+    });
+  };
+
+export const saveShoppingCart = () => {
+  return async (dispatch, getState) => {
+    let userId = getState().user.id;
+    let shoppingCart = getState().shoppingCart;
+
+    try {
+      const response = await axios.put(`${URLD}/cart`, {
+        userId,
+        cartItems: shoppingCart,
+      });
+      if (response.status === 200) {
+        localStorage.removeItem("shoppingCart");
+        dispatch({
+          type: SET_SHOPPINGCART,
+          payload: [],
+        });
+      }
+    } catch (error) {
+      dispatch(handleError(error));
+    }
+  };
 };
 
 export const addToShoppingCart = (productAdd) => async (dispatch, getState) => {
@@ -467,7 +498,7 @@ export const searchProduct = (search) => {
         payload: response.data.allDishes,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -476,13 +507,13 @@ export const fetchReviews = () => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/reviews`);
-     
+
       dispatch({
         type: FETCH_REVIEWS,
         payload: response.data.reviews,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -493,7 +524,6 @@ export const postReviews = (review) => {
       const userString = localStorage.getItem("user");
       const user = userString ? JSON.parse(userString) : null;
       const userId = user.id;
-      console.log(userId);
       const response = await axios.post(
         `${URLD}/user/${userId}/reviews/`,
         review
@@ -503,12 +533,11 @@ export const postReviews = (review) => {
         payload: response.data,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
 };
 export const fetchOrders = (id) => {
-  
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/user/${id}/orders`);
@@ -517,14 +546,14 @@ export const fetchOrders = (id) => {
         payload: response.data.orders,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
-}
+};
 export const updateRating = (orderId, itemId, score) => {
   return async (dispatch) => {
     try {
-      const response = await axios.post(`${URLD}/dishes/${ itemId }`, {
+      const response = await axios.post(`${URLD}/dishes/${itemId}`, {
         score,
       });
 
@@ -538,28 +567,25 @@ export const updateRating = (orderId, itemId, score) => {
         },
       });
 
-      console.log("Rating actualizado exitosamente:", response.data);
     } catch (error) {
-      console.error("Error al actualizar el rating:", error);
+      dispatch(handleError(error));
     }
   };
 };
 export const fetchrating = (dish) => {
-  console.log(dish);
-  
+
   return async (dispatch) => {
     try {
       const response = await axios.get(`${URLD}/rating/${dish}`);
-      // console.log(response.data);
       dispatch({
         type: GET_RATING,
         payload: response.data,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
+      dispatch(handleError(error));
     }
   };
-}
+};
 export const getSchools = () => {
   return async (dispatch) => {
     try {
@@ -569,7 +595,6 @@ export const getSchools = () => {
         payload: response.data.schools,
       });
     } catch (error) {
-      console.error("Error fetching data:", error);
       dispatch(handleError(error));
     }
   };
@@ -604,7 +629,6 @@ export const postChild = (child) => {
         payload: response.data.child,
       });
     } catch (error) {
-      console.log(error);
       dispatch(handleError(error));
     }
   };
@@ -620,14 +644,13 @@ export const putChild = (child) => {
         SchoolId: child.schoolId, // Verifica que esto coincida con el backend
       });
 
-      console.log(response.data);
 
       return dispatch({
         type: PUT_CHILD,
         payload: response.data.child,
       });
     } catch (error) {
-      console.log(error);
+      dispatch(handleError(error));
     }
   };
 };
@@ -636,13 +659,31 @@ export const deleteChild = (id) => {
   return async (dispatch) => {
     try {
       const response = await axios.delete(`${URLD}/user/child/${id}`);
-      console.log(response.data);
       return dispatch({
         type: DELETE_CHILD,
         payload: id,
       });
     } catch (error) {
-      console.log(error);
+      dispatch(handleError(error));
     }
   };
 };
+
+export const selectChild = (id) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get(`${URLD}/user/child/${id}`);
+      dispatch({ type: SELECT_CHILD, payload: response.data });
+    } catch (error) {
+      dispatch(handleError(error));
+    }
+  };
+};
+
+export const clearSelectedChild = () =>{
+  return async (dispatch) =>{
+    dispatch({
+      type: CLEAR_SELECTED_CHILD,      
+    })
+  }
+}

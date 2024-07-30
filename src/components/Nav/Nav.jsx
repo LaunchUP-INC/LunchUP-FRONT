@@ -25,7 +25,9 @@ const NavigationBar = () => {
   };
 
   useEffect(() => {
-    calculateTotalProducts(shoppingCart);
+    if(shoppingCart){
+      calculateTotalProducts(shoppingCart);
+    }
   }, [shoppingCart]);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const NavigationBar = () => {
                   icon={faShoppingCart}
                   className={`me-1 ${styles["navbar-icon"]}`}
                 />
-                {shoppingCart.length > 0 && (
+                {shoppingCart && shoppingCart.length > 0 && (
                   <Badge bg="secondary" className={styles["navbar-badge"]}>
                     {totalProducts}
                   </Badge>

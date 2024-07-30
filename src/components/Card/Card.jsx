@@ -18,6 +18,7 @@ const Card = (props) => {
   const [isActive, setIsActive] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const user = useSelector((state) => state.user);
+  const shoppingCart = useSelector((state) => state.shoppingCart);
 
   const handleOnClick = () => {
     dispatch(getProductDetail(id));
@@ -26,10 +27,22 @@ const Card = (props) => {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    if ((isAuthenticated || user) && stock) {
-      dispatch(addToShoppingCart(props));
-    } else if (!stock) {
-      toast.error("No hay stock disponible de momento");
+    const productToAdd = shoppingCart.find((prod) => prod.id === id);
+  
+    if (isAuthenticated || user) {
+      if (stock) {
+        if (productToAdd) {
+          if (productToAdd.quantity < stock) {
+            dispatch(addToShoppingCart(props));
+          } else {
+            toast.error("Máximo de stock alcanzado.");
+          }
+        } else {
+          dispatch(addToShoppingCart(props)); // Si el producto no está en el carrito, lo agrega
+        }
+      } else {
+        toast.error("No hay stock disponible de momento");
+      }
     } else {
       toast.error("Por favor, inicia sesión para comprar.");
     }
@@ -65,7 +78,6 @@ const Card = (props) => {
           <button
             className={styles.cardButton}
             onClick={handleAddToCart}
-            // disabled={disabled}
           >
             <FontAwesomeIcon icon={faCartPlus} />
           </button>

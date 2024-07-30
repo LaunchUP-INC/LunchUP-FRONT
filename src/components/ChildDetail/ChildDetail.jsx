@@ -21,7 +21,7 @@ const ChildDetail = () => {
   useEffect(() => {
     dispatch(getChild());
     dispatch(getSchools());
-    console.log(children);
+    
   }, [dispatch]);
 
   const handleEdit = (child) => {

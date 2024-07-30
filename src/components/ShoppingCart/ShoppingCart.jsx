@@ -6,6 +6,7 @@ import {
   clearShoppingCart,
   addToShoppingCart,
   URLD,
+  clearSelectedChild,
 } from "../../redux/actions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +14,8 @@ import axios from "axios";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import { Container, Col, Row, Card, Button, Spinner } from "react-bootstrap";
 import { toast } from "react-toastify";
+import WhichChild from "../WhichChild/WichChild";
+import { useLocation } from "react-router-dom";
 
 const ShoppingCart = () => {
   const shoppingCart = useSelector((state) => state.shoppingCart);
@@ -22,6 +25,9 @@ const ShoppingCart = () => {
   const [preferenceId, setPrefereceId] = useState(null);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+  const childSelected = useSelector((state) => state.isSelected);
+  const location = useLocation();
 
   useEffect(() => {
     initMercadoPago("APP_USR-78efa39f-0e9d-4fcd-9d8d-f98870bbfeb6", {
@@ -34,6 +40,15 @@ const ShoppingCart = () => {
     calculateTotalPrice(shoppingCart);
     calculateTotalProducts(shoppingCart);
   }, [dispatch, shoppingCart]);
+
+  useEffect(() => {
+    // Mostrar el modal cuando el componente se monte
+    setShowModal(true);
+  }, []);
+
+  useEffect(()=>{
+    dispatch(clearSelectedChild());
+  },[location, dispatch]);
 
   const calculateTotalPrice = (items) => {
     const total = items.reduce(
@@ -66,6 +81,12 @@ const ShoppingCart = () => {
     dispatch(removeFromShoppingCart(productToRemove));
   };
 
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => {
+    setShowModal(false);
+    toast.error("Para poder avanzar con la compra debe seleccionar un comensal.");
+  }
+
   const handleCheckout = async () => {
     const items = shoppingCart.map((item) => ({
       id: item.id,
@@ -79,6 +100,7 @@ const ShoppingCart = () => {
       const response = await axios.post(`${URLD}/user/${userId}/payment`, {
         items,
         totalAmount: totalPrice,
+        childId: childSelected.id,
       });
       const { id } = response.data;
       return id;
@@ -88,10 +110,12 @@ const ShoppingCart = () => {
   };
 
   const handleBuy = async () => {
-    setLoading(true);
-    const id = await handleCheckout();
-    if (id) setPrefereceId(id);
-    setLoading(false);
+    if (!preferenceId) {
+      setLoading(true);
+      const id = await handleCheckout();
+      if (id) setPrefereceId(id);
+      setLoading(false);
+    }
   };
 
   return (
@@ -106,6 +130,7 @@ const ShoppingCart = () => {
         width: "100%",
       }}
     >
+      <WhichChild show={showModal} handleClose={handleCloseModal} />
       <Row
         style={{
           padding: "20px",
@@ -282,7 +307,7 @@ const ShoppingCart = () => {
               <div className="d-flex justify-content-between">
                 <Button
                   variant="primary"
-                  onClick={handleBuy}
+                  onClick={childSelected ? handleBuy : handleShowModal}
                   disabled={loading}
                 >
                   {loading ? (

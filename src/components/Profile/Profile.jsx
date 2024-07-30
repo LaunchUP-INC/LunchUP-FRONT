@@ -48,7 +48,7 @@ const Profile = () => {
 
     // Actualizar los errores específicos para este campo
     const updatedErrors = validate(updatedChildren);
-    console.log(updatedErrors);
+   
     setErrors(updatedErrors);
   };
 

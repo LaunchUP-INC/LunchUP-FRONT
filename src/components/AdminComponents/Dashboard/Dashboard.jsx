@@ -16,7 +16,6 @@ const Dashboard = () => {
   const allUsers = useSelector((state) => state.allUsers);
 
   const ratingProducts = [...allProducts].sort((a, b) => b.rating - a.rating).slice(0, 3);
-  console.log(ratingProducts);
 
   return (
     <Container className="mt-5">

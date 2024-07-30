@@ -33,7 +33,8 @@ import {
   DELETE_CHILD,
   GET_RATING,
   UPDATE_PROFILE,
-
+  SELECT_CHILD,
+  CLEAR_SELECTED_CHILD,
 } from "./actions";
 
 const initialState = {
@@ -51,6 +52,7 @@ const initialState = {
   rating: [],
   updateUser: [],
   ratingView: null,
+  isSelected: false,
   token: null,
   user: JSON.parse(localStorage.getItem("user")) || null,
   userId: null,
@@ -59,7 +61,7 @@ const initialState = {
   succesDishDelete: null,
   errorDishDelete: null,
   error: null,
-  shoppingCart: JSON.parse(localStorage.getItem("shoppingCart")) || [],
+  shoppingCart: localStorage.getItem("shoppingCart") !== 'undefined' ? JSON.parse(localStorage.getItem("shoppingCart")) : []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -258,13 +260,13 @@ const rootReducer = (state = initialState, action) => {
         orders: state.orders.map((order) =>
           order.id === action.payload.orderId
             ? {
-              ...order,
-              items: order.items.map((item) =>
-                item.id === action.payload.itemId
-                  ? { ...item, rating: action.payload.rating }
-                  : item
-              ),
-            }
+                ...order,
+                items: order.items.map((item) =>
+                  item.id === action.payload.itemId
+                    ? { ...item, rating: action.payload.rating }
+                    : item
+                ),
+              }
             : order
         ),
       };
@@ -273,6 +275,20 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         ratingView: action.payload,
       };
+
+    case SELECT_CHILD: {
+      return {
+        ...state,
+        isSelected: action.payload,
+      };
+    }
+
+    case CLEAR_SELECTED_CHILD: {
+      return{
+        ...state,
+        isSelected: false,
+      }
+    }
 
     default:
       return state;

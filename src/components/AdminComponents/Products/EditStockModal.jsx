@@ -8,7 +8,7 @@ const EditStockModal = ({ show, handleClose, product }) => {
   const [newStock, setNewStock] = useState(product.quantity);
   const dispatch = useDispatch();
 
-  console.log(product);
+  
   const handleSave = async () => {
     const item = await dispatch(updateStock(product.id, newStock));
     
