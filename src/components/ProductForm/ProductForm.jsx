@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { URLD, getMealType, postDish, updateDish } from "../../redux/actions";
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Spinner } from 'react-bootstrap';
 import veganIcon from "../../utils/foodTypesIcons/vegan-icon.png";
 import vegetarianIcon from "../../utils/foodTypesIcons/vegetarian-icon.png";
 import glutenFreeIcon from "../../utils/foodTypesIcons/gluten-free.png";
@@ -18,6 +18,7 @@ const ProductForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {id} = useParams();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getMealType());
@@ -92,6 +93,7 @@ const ProductForm = () => {
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const errorName = validateName(dish.name);
     const errorPrice = validatePrice(dish.price);
@@ -102,6 +104,9 @@ const ProductForm = () => {
       try {
         if(id){
           await dispatch(updateDish(id, dish));
+          
+          setLoading(false);
+          
           Swal.fire({
             icon: "success",
             title: "Modificacion exitosa",
@@ -117,6 +122,9 @@ const ProductForm = () => {
           navigate("/admin/products");
         }else{
           await dispatch(postDish(dish));
+          
+          setLoading(false);
+           
           Swal.fire({
             icon: "success",
             title: "Creación exitosa",
@@ -129,9 +137,10 @@ const ProductForm = () => {
             images: [],
             Meal_Types: []
           });
-          navigate("/dashboard");
+          navigate("/admin/products");
         }
       } catch (error) {
+        setLoading(false);
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -227,7 +236,7 @@ const ProductForm = () => {
         </Form.Group>
 
 
-        <Button type="submit" variant="primary" className={styles.btnCustom}>{id ? "Modificar plato" : "Añadir plato"}</Button>
+        <Button type="submit" variant="primary" className={styles.btnCustom}>{loading ? (<Spinner/>) : id ? "Modificar plato" : "Añadir plato"}</Button>
       </Form>
     </Container>
   );

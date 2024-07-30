@@ -169,7 +169,7 @@ export const postDish = (dish) => {
       });
 
       // Añadir tipos de comida al formData
-      dish.mealTypes.forEach((mealType) => {
+      dish.Meal_Types.forEach((mealType) => {
         formData.append("mealTypes", mealType);
       });
 
@@ -178,12 +178,16 @@ export const postDish = (dish) => {
           "Content-Type": "multipart/form-data",
         },
       });
+      console.log(response);
 
       dispatch({
         type: POST_DISH_SUCCESS,
         payload: response.data.newId,
       });
+      dispatch(fetchProducts());
+      return true;
     } catch (error) {
+      console.log(error);
       dispatch({
         type: POST_DISH_ERROR,
         payload: error.message,
@@ -221,6 +225,7 @@ export const updateDish = (id, dish) => {
         payload: response.data.dish,
       });
       dispatch(fetchProducts());
+      return true;
     } catch (error) {
       dispatch({
         type: POST_DISH_ERROR,

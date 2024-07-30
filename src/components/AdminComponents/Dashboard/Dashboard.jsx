@@ -35,7 +35,17 @@ const Dashboard = () => {
         </Col>
       </Row>
       <Row>
-        Aqui pueden ir unas estadisticas 
+        {ratingProducts.map((item) => (
+          <Col key={item.id}>
+            <Card>
+              <Card.Img variant="top" src={item.images[0]} style= {{width: "100%", height: "250px"}} />
+              <CardBody>
+                <h5>{item.name}</h5>
+                <Rating rating={item.rating}/>
+              </CardBody>
+            </Card>
+          </Col>
+        ))}
       </Row>
     </Container>
   );
