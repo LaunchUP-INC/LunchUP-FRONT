@@ -46,9 +46,9 @@ const ShoppingCart = () => {
     setShowModal(true);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(clearSelectedChild());
-  },[location, dispatch]);
+  }, [location, dispatch]);
 
   const calculateTotalPrice = (items) => {
     const total = items.reduce(
@@ -84,8 +84,7 @@ const ShoppingCart = () => {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => {
     setShowModal(false);
-    toast.error("Para poder avanzar con la compra debe seleccionar un comensal.");
-  }
+  };
 
   const handleCheckout = async () => {
     const items = shoppingCart.map((item) => ({

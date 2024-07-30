@@ -25,13 +25,7 @@ const WhichChild = ({ show, handleClose }) => {
       dispatch(selectChild(selectedChild));
       setIsConfirmed(true); // Marca como confirmado
       handleClose();
-    } else {
-      toast.error("Por favor, selecciona un comensal")
     }
-  };
-
-  const handleCancel = () => {   
-    handleClose(); // Solo cierra el modal si se ha confirmado    
   };
 
   return (
@@ -40,7 +34,7 @@ const WhichChild = ({ show, handleClose }) => {
       aria-labelledby="contained-modal-title-vcenter"
       centered
       show={show}
-      onHide={handleCancel} // Usa handleCancel para el botón de cerrar
+      // Usa handleCancel para el botón de cerrar
     >
       <Modal.Header>
         <Modal.Title>A cual comensal quieres comprarle?</Modal.Title>
@@ -51,24 +45,28 @@ const WhichChild = ({ show, handleClose }) => {
           <div
             key={child.id}
             style={{
-              borderBottom: "1px solid #ccc",
-
+              border: "1px solid #ccc",
               display: "flex",
-              alignItems: "start",
+              alignItems: "center", // Changed to center for better alignment
               padding: "10px",
               justifyContent: "space-between",
               height: "50px",
+              backgroundColor:
+                selectedChild === child.id ? "#e0f7fa" : "transparent", // Highlight selected child
+              borderRadius: "5px",
+              transition: "background-color 0.3s ease",
             }}
           >
-            <p>
+            <p style={{ margin: 0 }}>
               {child.firstname} {child.lastname}
             </p>
             <Form.Check
               type="radio"
               name="selectedChild"
-              style={{ marginRight: "20px" }}
+              style={{ marginRight: "20px", transform: "scale(1.5)" }} // Increased size for better visibility
               id={`check-${child.id}`}
               onChange={() => setSelectedChild(child.id)}
+              checked={selectedChild === child.id}
             />
           </div>
         ))}
@@ -76,9 +74,6 @@ const WhichChild = ({ show, handleClose }) => {
       <Modal.Footer>
         <Button variant="primary" onClick={handleConfirm}>
           Confirmar
-        </Button>
-        <Button variant="outline-secondary" onClick={handleCancel}>
-          Cancelar
         </Button>
       </Modal.Footer>
     </Modal>
