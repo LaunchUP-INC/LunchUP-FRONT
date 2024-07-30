@@ -25,7 +25,7 @@ const NavigationBar = () => {
   };
 
   useEffect(() => {
-    if(shoppingCart){
+    if (shoppingCart) {
       calculateTotalProducts(shoppingCart);
     }
   }, [shoppingCart]);
@@ -55,12 +55,6 @@ const NavigationBar = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             <Nav.Link
-              onClick={() => navigate("/home")}
-              className={styles["nav-link"]}
-            >
-              Inicio
-            </Nav.Link>
-            <Nav.Link
               onClick={() => navigate("/shopping")}
               className={styles["nav-link"]}
             >
@@ -76,6 +70,13 @@ const NavigationBar = () => {
                 )}
               </div>
             </Nav.Link>
+            <Nav.Link
+              onClick={() => navigate("/home")}
+              className={styles["nav-link"]}
+            >
+              Inicio
+            </Nav.Link>
+
             {isAuthenticated || isLoged ? (
               <Nav.Link
                 onClick={() => navigate("/profile")}
