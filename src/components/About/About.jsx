@@ -25,16 +25,18 @@ const About = () => {
     "Soy Tomás Toledo, un Desarrollador Web Full Stack con una base sólida tanto en tecnologías frontend como backend. Mi formación en SoyHenry y la Universidad Abierta Interamericana (UAI) me ha dotado de habilidades de pensamiento crítico y una mentalidad proactiva necesarias para resolver desafíos complejos de software.";
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Sobre Nosotros</h1>
-      <p className={styles.text}>
-        Somos un grupo de Desarrolladores Web Full Stack que nos conocimos
-        durante nuestra formación. Decidimos seguir creciendo juntos y adquirir
-        experiencia a través de nuevos proyectos.
-      </p>
+      <div className={styles.textContainer}>
+        <h1 className={styles.title}>Sobre Nosotros</h1>
+        <p className={styles.text}>
+          Somos un grupo de Desarrolladores Web Full Stack que nos conocimos
+          durante nuestra formación. Decidimos seguir creciendo juntos y
+          adquirir experiencia a través de nuevos proyectos.
+        </p>
+      </div>
+
       <div>
-        <h2>Creadores</h2>
         <div className={styles.creatorsCards}>
-          <h3>Team Frontend</h3>
+          <h2 className={styles.subtitle}>Frontend</h2>
           <div className={styles.creators}>
             <CardAbout
               img={Guille}
@@ -57,7 +59,7 @@ const About = () => {
               description={LucasDesc}
             />
           </div>
-          <h3>Team Backend</h3>
+          <h2 className={styles.subtitle}>Backend</h2>
           <div className={styles.creators}>
             <CardAbout img={Tomi} name="Tomás Toledo" description={TomiDesc} />
             <CardAbout
