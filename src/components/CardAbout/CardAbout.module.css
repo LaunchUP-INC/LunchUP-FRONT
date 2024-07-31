@@ -104,3 +104,39 @@
     transform: rotateY(180deg);
   }
   
+  /* Media Queries */
+@media (max-width: 768px) {
+    .flipCard {
+        width: 450px;
+        height: 500px;
+    }
+    .image, .pfp {
+        width: 200px;
+        height: 200px;
+    }
+    .name {
+        font-size: 20px;
+    }
+    .description {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .flipCard {
+        width: 355px;
+        height: 400px;
+        padding-bottom: 12px;
+    }
+    .image, .pfp {
+        width: 150px;
+        height: 150px;
+    }
+    .name {
+        font-size: 18px;
+    }
+    .description {
+        font-size: 11.5px;
+        
+    }
+}
