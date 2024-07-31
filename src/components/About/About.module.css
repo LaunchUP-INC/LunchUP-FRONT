@@ -1,11 +1,11 @@
 .container {
-  padding: 20px;
-  margin: 0 auto;
-  margin-top: 70px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #99f3d2;
+    
+    padding: 20px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #99f3d2;
 }
 
 .creators {
@@ -16,8 +16,6 @@
   gap: 20px;
   height: 100%;
   width: 100%;
-  border: 1px solid black;
-  box-shadow: 4px 8px 4px 8px rgba(0, 0, 0, 0.516);
 }
 .creatorsCards {
   display: flex;
