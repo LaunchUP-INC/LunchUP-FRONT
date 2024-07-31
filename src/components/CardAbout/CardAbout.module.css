@@ -4,6 +4,7 @@
     height: 450px;
     perspective: 1000px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
   }
   .image {
     width: 250px;
@@ -26,6 +27,8 @@
     padding: 5px;
     border-radius: 2em;
     backface-visibility: hidden;
+    border: 1px solid black;
+    box-shadow: 4px 8px 4px 8px rgba(0, 0, 0, 0.516);
   }
   
   .flipCardFront {
