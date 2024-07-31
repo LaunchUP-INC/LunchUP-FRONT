@@ -1,14 +1,15 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import styles from "./Footer.module.css";
-
+import { useNavigate } from "react-router-dom";
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className={styles.footer}>
       <Container>
         <Row className="text-center">
           <Col md={4}>
-            <h5 className={`${styles.boldHeader}`}>Sobre Nosotros</h5>
+            <h5 className={`${styles.boldHeader}`}><button onClick={() => navigate("/about")}>Sobre Nosotros</button></h5>
             <p>Somos una empresa dedicada a mejorar la alimentación escolar.</p>
           </Col>
           <Col md={4}>
