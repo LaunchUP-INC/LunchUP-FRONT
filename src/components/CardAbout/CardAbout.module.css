@@ -31,6 +31,8 @@
   .flipCardFront {
     background-color: #240d29;
     border: 4px solid #c143da;
+    display: flex;
+    justify-content: center;
   }
   
   .profileImage {
@@ -40,7 +42,6 @@
     border-radius: 5em;
     width: 250px;
     height: 220px;
-    margin-left: 50px;
   }
   
   .pfp {
