@@ -1,11 +1,10 @@
 .container {
-    
-    padding: 20px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #99f3d2;
+  padding: 100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #99f3d2;
 }
 
 .creators {
@@ -16,6 +15,7 @@
   gap: 20px;
   height: 100%;
   width: 100%;
+  padding-bottom: 50px;
 }
 .creatorsCards {
   display: flex;
@@ -23,4 +23,47 @@
   align-items: center;
   gap: 20px;
   justify-content: center;
+}
+
+.text {
+  max-width: 700px;
+  font-size: 1.5rem;
+}
+
+.textContainer {
+  padding-bottom: 100px;
+  padding-top: 50px;
+}
+
+.title {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .creators {
+    flex-direction: column; /* Cambiar a columna para dispositivos móviles */
+    gap: 10px;
+  }
+
+  .text {
+    font-size: 1.2rem; /* Ajustar tamaño de fuente para dispositivos más pequeños */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .creators {
+    gap: 5px;
+  }
+
+  .text {
+    font-size: 1rem; /* Ajustar tamaño de fuente para dispositivos muy pequeños */
+  }
 }
