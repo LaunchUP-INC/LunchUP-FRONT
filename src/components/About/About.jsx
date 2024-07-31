@@ -32,7 +32,6 @@ const About = () => {
         experiencia a través de nuevos proyectos.
       </p>
       <div>
-        <h2>Creadores</h2>
         <div className={styles.creatorsCards}>
           <h3>Team Frontend</h3>
           <div className={styles.creators}>
